@@ -7,6 +7,7 @@ import {
   Text,
   StatusBar,
   ImageBackground,
+  Image,
 } from 'react-native';
 
 export default class App extends Component {
@@ -16,7 +17,7 @@ export default class App extends Component {
       
       // <View> 
         <ImageBackground 
-          source={ require('../monopolyMobileApp/img/backgroundImg.png')}
+        source={require('../monopolyMobileApp/img/backgroundImg.png')}
         style = {styles.image}>
 
         </ImageBackground>
@@ -24,6 +25,7 @@ export default class App extends Component {
     )
   }
 }
+
 
 const styles = StyleSheet.create({
   main_container: {
