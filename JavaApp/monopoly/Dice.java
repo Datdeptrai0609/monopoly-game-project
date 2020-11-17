@@ -11,9 +11,9 @@ public class Dice {
 	}
 
 	public void roll() {
-		int randA = rand.nextInt(6) + 1;
+		int randA = rand.nextInt(5) + 2;
 
-		int randB = rand.nextInt(6) + 1;
+		int randB = rand.nextInt(5) + 2;
 
     val = randA + randB;
     is_double = randA == randB;
