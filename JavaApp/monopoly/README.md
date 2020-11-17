@@ -1,6 +1,4 @@
-# JAVA GAME
-This is a Monopoly game. Our game depends on the diagram which you can find in pdf file above. Wiki for this diagram is also provided in docx file
-## USAGE (Command Line)
+# USAGE (Command Line)
 
 Firstly, let Java compiler creates Java class files by: 
 ```bash
