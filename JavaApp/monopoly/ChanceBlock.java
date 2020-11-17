@@ -1,7 +1,7 @@
 package monopoly;
 
 public class ChanceBlock implements Block {
-	private final int DECK_SIZE = 16; //16 cards in either type of deck
+	private final int DECK_SIZE = 16; //16 cards in a deck
 	private final Deck deck; //store deck of cards
 	private String name = "chance";
 	private int pos;
