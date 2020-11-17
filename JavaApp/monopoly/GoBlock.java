@@ -1,10 +1,10 @@
 package monopoly;
 
-public class InactiveBlock implements Block {
+public class GoBlock implements Block {
 	private final int pos;
 	private final String name = "Go";
 
-	public InactiveBlock(int pos) {
+	public GoBlock(int pos) {
 		this.pos = pos;
 	}
 

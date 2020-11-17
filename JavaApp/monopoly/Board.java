@@ -181,7 +181,7 @@ class Board {
 	}
 
 	private Block go(int pos) {
-		return new InactiveBlock(pos);
+		return new GoBlock(pos);
 	}
 
   private Block festival(int pos) {
@@ -189,7 +189,7 @@ class Board {
   }
 
   private Block bus(int pos) {
-    return new InactiveBlock(pos);
+    return new BusBlock(pos);
   }
 
 	private Block CaMau(int pos) {
