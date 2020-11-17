@@ -227,14 +227,28 @@ class Monopoly {
 
   private void drawCard(Player player, ChanceBlock cards) {
     Card card = cards.draw();
-    String string = card.text();
-    System.out.println(string);
+    System.out.println(card.text());
 
     int initialPos = player.position();
 
     switch (card.action()) {
       case BANK_MONEY:
-        player.excMoney(card.value());
+        if (card.value() >= 0) {
+          player.excMoney(card.value());
+        } else {
+          int cost = -1 * card.value();
+          if (player.getMoney() < cost) {
+            while (true) {
+              cost = additionMoney(player, cost);
+              if (cost == Integer.MIN_VALUE) {
+                return;
+              } else if (cost <= 0) {
+                player.excMoney(cost * -1);
+                break;
+              }
+            }
+          }
+        }
         break;
       case MOVE_TO:
         player.moveTo(card.travelTo());
