@@ -126,8 +126,9 @@ class Monopoly {
       Block bl = propsSelect(player);
       // x2 rent price here
       bl.setFestival(true);
+    } else {
+      System.out.println("You don't have any properties to organize Festival");
     }
-    System.out.println("You don't have any properties to organize Festival");
   }
 
   private void payTax(Player player, TaxBlock block) {
