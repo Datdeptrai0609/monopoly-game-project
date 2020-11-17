@@ -1,0 +1,375 @@
+package monopoly;
+
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Random;
+
+class Monopoly {
+  private final Dice dice;
+  //private final Deck chance;
+  private State state;
+  private boolean lost = false;
+
+  private Monopoly() {
+    state = new State();
+    state.players = new LinkedList<>();
+    state.current = null;
+    Input input = new Input();
+    dice = new Dice();
+    //chance = new Deck();
+    state.board = new Board();
+    initialize(input);
+  }
+
+  public static void main(String[] args) {
+    Monopoly monopoly = new Monopoly();
+    monopoly.run();
+  }
+
+  private void run() {
+    while (state.players.size() > 1) {
+      try {
+        state.current = state.players.remove(); // Current is player who is playing
+        turn();
+        if (!lost)
+          state.players.add(state.current); // End turn. Add current to the end of queue
+        lost = false;
+      } catch (NoSuchElementException e) {
+        System.out.println("ERROR!");
+        return;
+      } finally {
+        printState();
+      }
+    }
+    Player winner = state.players.remove();
+    System.out.println("Winner is: " + winner.name());
+  }
+
+  private void turn() {
+    System.out.println("It's " + state.current.name() + "'s turn");
+    int double_count = 0;
+    while (true) {
+
+      if (state.current.inJail()) {
+        System.out.println("Would you like to get out of jail using cash?");
+        if (state.current.inputBool()) {
+          state.current.excMoney(-50);
+          state.current.leaveJail();
+        }
+      }
+      System.out.println("Are you ready to dice?");
+      if (state.current.inputBool()) {
+        // Start dice
+        dice.roll();
+        if (dice.getDouble())
+          double_count++;
+
+        if (state.current.inJail()) {
+          if (dice.getDouble()) {
+            state.current.leaveJail();
+            dice.setDouble();
+          } else {
+            System.out.println("You did not roll a double dice");
+            break;
+          }
+        }
+
+        if (double_count == 3) {
+          state.current.toJail();
+          break;
+        }
+
+        Block[] block = state.board.getBoard();
+        System.out.print("You roll a " + dice.getVal());
+        System.out.println(" and land on " + block[(state.current.position() + dice.getVal()) % block.length].name());
+        state.current.move(dice.getVal());
+        // Handle action at destination
+        handleBlock(state.current, block[state.current.position()]);
+
+        // If not roll double or player in jail -> END TURN
+        if (!dice.getDouble() || state.current.inJail()) {
+          break;
+        } else {
+          System.out.println("Your dice is double. So, You can go in the next turn");
+        }
+      }
+    }
+  }
+
+  private void handleBlock(Player player, Block block) {
+    boolean owned = block.isOwned();
+    boolean ownable = block.isOwnable();
+
+    if (!owned && ownable)
+      buyBlock(player, block);
+    else if (ownable)
+      rentBlock(player, block);
+    else if (block instanceof ChanceBlock)
+      drawCard(player, (ChanceBlock) block);
+    else if (block instanceof TaxBlock)
+      payTax(player, (TaxBlock) block);
+    else if (block instanceof JailBlock)
+      state.current.toJail();
+    else if (block instanceof FestivalBlock)
+      organizeFestival(player);
+    else if (block instanceof BusBlock)
+      busGo(player);
+  }
+
+  private void organizeFestival(Player player) {
+    Block bl = blockSelect(player);
+    // x2 rent price here
+    bl.setFestival(true);
+  }
+
+  private void busGo(Player player) {
+    
+  }
+
+  private void payTax(Player player, TaxBlock block) {
+    int cost = block.tax(player.getAssets());
+    if (player.getMoney() < cost) {
+      while (true) {
+        cost = additionMoney(player, cost);
+        if (cost == Integer.MIN_VALUE) {
+          return;
+        } else if (cost <= 0) {
+          player.excMoney(cost * -1);
+          break;
+        }
+      }
+    } else
+      player.excMoney(cost * -1);
+  }
+
+  private void buyBlock(Player player, Block block) {
+    int cost = block.cost();
+    System.out.println("Would you like to purchase " + block.name() + " for " + cost + " (Yes/No)?");
+    if (player.inputBool()) {
+      if (player.getMoney() >= cost) {
+        player.excMoney(cost * -1);
+        purchase(player, block);
+      } else {
+        System.out.println("You don't have enough money!");
+      }
+    }
+  }
+
+  private void rentBlock(Player player, Block block) {
+    int cost = block.rent();
+    Player owner = block.owner();
+    if (player.name().equals(owner.name())) {
+      // Handle build House here
+      if (block instanceof PropertyBlock) {
+        PropertyBlock propsBlock = (PropertyBlock) block;
+        System.out.println("Your " + propsBlock.name() + " block is having " + propsBlock.numHouses() + " house(s)");
+        System.out.println("Would you like to build houses here?");
+        if (player.inputBool()) {
+          switch (propsBlock.numHouses()) {
+            case 0:
+            case 1:
+              System.out.println("You can only build up to 2 houses now. How many houses would you like to build?");
+              while (true) {
+                int houseInput = player.inputInt(state);
+                if (propsBlock.numHouses() + houseInput >= 0 && propsBlock.numHouses() + houseInput <= 2) {
+                  if (player.getMoney() < propsBlock.houseCost() * houseInput) {
+                    System.out.println("You don't have enough money!");
+                    continue;
+                  }
+                  propsBlock.build(houseInput);
+                  player.excMoney(propsBlock.houseCost() * houseInput * -1);
+                  break;
+                }
+              }
+              break;
+            case 2:
+            case 3:
+            case 4:
+              if (player.getMoney() < propsBlock.houseCost()) {
+                System.out.println("You don't have enough money!");
+              } else {
+                System.out.println("You can only build a house per building time!");
+                propsBlock.build(1);
+                player.excMoney(propsBlock.houseCost() * -1);
+              }
+              break;
+            default:
+              System.out.println("You cannot build houses in this property anymore!");
+          }
+        }
+      }
+      return;
+    } 
+    System.out.println("You have landed on " + block.name() + " and must pay " + cost + " in rent.");
+    if (player.getMoney() >= cost) {
+      player.excMoney(cost * -1);
+      owner.excMoney(cost);
+    } else {
+      while (true) {
+        cost = additionMoney(player, cost);
+        if (cost == Integer.MIN_VALUE)
+          return;
+        else if (cost <= 0) {
+          player.excMoney(cost * -1);
+          break;
+        }
+      }
+    }
+
+    // Set the festival price to normal price when have any player go in
+    if (block.getFestival()) 
+      block.setFestival(false);
+  }
+
+  private void drawCard(Player player, ChanceBlock cards) {
+    Card card = cards.draw();
+    String string = card.text();
+    System.out.println(string);
+
+    int initialPos = player.position();
+
+    switch (card.action()) {
+      case BANK_MONEY:
+        player.excMoney(card.value());
+        break;
+      case MOVE_TO:
+        player.moveTo(card.travelTo());
+        break;
+      default:
+        break;
+    }
+
+    // Handle action at destination for MOVE_TO card action
+    if (initialPos == player.position())
+      return;
+
+    Block bl = state.board.block(player.position());
+    handleBlock(player, bl);
+  }
+
+  private int additionMoney(Player player, int cost) {
+    Queue<Block> props = availableAssets(player);
+    int availableAssets = sellVal(props) + player.getMoney();
+
+    if (availableAssets < cost) {
+      lose(player);
+      return Integer.MIN_VALUE;
+    } else if (cost < player.getMoney()) {
+      player.excMoney(cost * -1);
+      return 0;
+    } else {
+      // Chose sell house to continue the game
+      System.out.println("You need additional funds!");
+
+      System.out.println("Which property would you like to sell?");
+      System.out.println("Please enter number.");
+      Block bl = blockSelect(player);
+
+      player.sellProp(bl);
+      cost -= bl.cost();
+      return cost;
+    }
+  }
+
+  private Queue<Block> availableAssets(Player player) {
+    Iterable<Block> props = player.properties();
+    Queue<Block> avail = new LinkedList<>();
+    for (Block bl : props)
+      avail.add(bl);
+    return avail;
+  }
+
+  private int sellVal(Queue<Block> props) {
+    int totalMoney = 0;
+    for (Block bl : props) {
+      totalMoney += bl.cost();
+      if (bl instanceof PropertyBlock) {
+        PropertyBlock prop = (PropertyBlock) bl;
+        totalMoney += prop.numHouses() * prop.houseCost() / 2;
+      }
+    }
+    return totalMoney;
+  }
+
+  private void lose(Player player) {
+    lost = true;
+    System.out.println(player.name() + "has lost!");
+  }
+
+  private Block blockSelect(Player player) {
+    System.out.println("You own the following properties:");
+    Iterable<Block> props = player.properties();
+
+    int counter = 1;
+    for (Block bl : props)
+      System.out.println(counter++ + ") " + bl.name());
+
+    while (true) {
+      int propNum = player.inputInt(state);
+      int propState = 1;
+
+      for (Block bl : props) {
+        if (propState++ == propNum)
+          return bl;
+      }
+
+      System.out.println("Please select a valid property.");
+    }
+  }
+
+  private void purchase(Player player, Block block) {
+    player.addProperty(block);
+    block.purchase(player);
+  }
+
+  private void initialize(Input input) {
+    for (int i = 0; i < 4; ++i) {
+      System.out.println("Player " + (i + 1) + " name?");
+      state.players.add(input.inputPlayer(state));
+    }
+    // Find the person who go first
+    int first = new Random().nextInt(2) + 1;
+
+    // Swap the first person to the first queue
+    for (int i = 0; i < first; i++)
+      state.players.add(state.players.remove());
+
+    printState();
+  }
+
+  private void printState() {
+    int counter = 1;
+    for (Player player : state.players) {
+      System.out.println("--------------------------------------------------");
+      System.out.println("Player " + counter++);
+      System.out.printf("%-10s%40s%n", "Name", player.name());
+      System.out.printf("%-10s%40s%n", "Money", player.getMoney());
+      System.out.printf("%-10s%40s%n", "Position", player.position());
+      System.out.printf("%-10s", "Properties");
+      Iterable<Block> owned = player.properties();
+
+      boolean first = true;
+      for (Block s : owned) {
+        if (first)
+          System.out.printf("%40s%n", s);
+        else
+          System.out.printf("%50s%n", s);
+        first = false;
+      }
+
+      if (first)
+        System.out.printf("%40s%n", "none");
+
+      if (player.inJail())
+        System.out.println("In jail");
+      System.out.println("--------------------------------------------------");
+    }
+  }
+
+  public class State {
+    public Queue<Player> players;
+    public Board board; // game board
+    public Player current;
+  }
+}
