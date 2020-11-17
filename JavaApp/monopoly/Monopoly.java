@@ -383,6 +383,9 @@ class Monopoly {
 
       if (player.inJail())
         System.out.println("In jail");
+      else if (player.position() == state.board.busPos()) {
+        System.out.println("In Bus Block");
+      }
       System.out.println("--------------------------------------------------");
     }
   }
