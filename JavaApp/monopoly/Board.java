@@ -3,6 +3,7 @@ package monopoly;
 class Board {
 	private final int N = 32; //number of blocks in a board
 	private final Block[] board; //representation of board
+  private int BUS_BLOCK;
 
 	//constructor for a new board of squares
 	public Board() {
@@ -189,6 +190,7 @@ class Board {
   }
 
   private Block bus(int pos) {
+    BUS_BLOCK = pos;
     return new BusBlock(pos);
   }
 
@@ -371,4 +373,8 @@ class Board {
 		int houses = 200;
 		return new PropertyBlock("Ha Noi", pos, rent, oneH, twoH, threeH, fourH, hotel, cost, houses);
 	}
+
+  public int busPos() {
+    return BUS_BLOCK;
+  }
 }

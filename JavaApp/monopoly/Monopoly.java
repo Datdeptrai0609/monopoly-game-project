@@ -7,7 +7,6 @@ import java.util.Random;
 
 class Monopoly {
   private final Dice dice;
-  //private final Deck chance;
   private State state;
   private boolean lost = false;
 
@@ -17,7 +16,6 @@ class Monopoly {
     state.current = null;
     Input input = new Input();
     dice = new Dice();
-    //chance = new Deck();
     state.board = new Board();
     initialize(input);
   }
@@ -49,9 +47,17 @@ class Monopoly {
   private void turn() {
     System.out.println("It's " + state.current.name() + "'s turn");
     int double_count = 0;
+    Block[] block = state.board.getBoard();
     while (true) {
-
-      if (state.current.inJail()) {
+      // Check player's previous turn is in BusBlock or not
+      if (state.current.position() == state.board.busPos()) {
+        int busNum = busSelect(state.current);
+        state.current.moveTo(busNum);
+        handleBlock(state.current, block[state.current.position()]);
+        break;
+      }
+      // Check player is in JailBlock or not
+      else if (state.current.inJail()) {
         System.out.println("Would you like to get out of jail using cash?");
         if (state.current.inputBool()) {
           state.current.excMoney(-50);
@@ -80,9 +86,8 @@ class Monopoly {
           break;
         }
 
-        Block[] block = state.board.getBoard();
-        System.out.print("You roll a " + dice.getVal());
-        System.out.println(" and land on " + block[(state.current.position() + dice.getVal()) % block.length].name());
+        System.out.println("You roll a " + dice.getVal());
+        //System.out.println(" and land on " + block[(state.current.position() + dice.getVal()) % block.length].name());
         state.current.move(dice.getVal());
         // Handle action at destination
         handleBlock(state.current, block[state.current.position()]);
@@ -98,6 +103,7 @@ class Monopoly {
   }
 
   private void handleBlock(Player player, Block block) {
+    System.out.println("You land on " + state.board.getBoard()[player.position()].name());
     boolean owned = block.isOwned();
     boolean ownable = block.isOwnable();
 
@@ -113,18 +119,12 @@ class Monopoly {
       state.current.toJail();
     else if (block instanceof FestivalBlock)
       organizeFestival(player);
-    else if (block instanceof BusBlock)
-      busGo(player);
   }
 
   private void organizeFestival(Player player) {
-    Block bl = blockSelect(player);
+    Block bl = propsSelect(player);
     // x2 rent price here
     bl.setFestival(true);
-  }
-
-  private void busGo(Player player) {
-    
   }
 
   private void payTax(Player player, TaxBlock block) {
@@ -171,7 +171,7 @@ class Monopoly {
             case 1:
               System.out.println("You can only build up to 2 houses now. How many houses would you like to build?");
               while (true) {
-                int houseInput = player.inputInt(state);
+                int houseInput = player.inputInt();
                 if (propsBlock.numHouses() + houseInput >= 0 && propsBlock.numHouses() + houseInput <= 2) {
                   if (player.getMoney() < propsBlock.houseCost() * houseInput) {
                     System.out.println("You don't have enough money!");
@@ -264,7 +264,7 @@ class Monopoly {
 
       System.out.println("Which property would you like to sell?");
       System.out.println("Please enter number.");
-      Block bl = blockSelect(player);
+      Block bl = propsSelect(player);
 
       player.sellProp(bl);
       cost -= bl.cost();
@@ -297,7 +297,7 @@ class Monopoly {
     System.out.println(player.name() + "has lost!");
   }
 
-  private Block blockSelect(Player player) {
+  private Block propsSelect(Player player) {
     System.out.println("You own the following properties:");
     Iterable<Block> props = player.properties();
 
@@ -306,7 +306,7 @@ class Monopoly {
       System.out.println(counter++ + ") " + bl.name());
 
     while (true) {
-      int propNum = player.inputInt(state);
+      int propNum = player.inputInt();
       int propState = 1;
 
       for (Block bl : props) {
@@ -316,6 +316,26 @@ class Monopoly {
 
       System.out.println("Please select a valid property.");
     }
+  }
+
+  private int busSelect(Player player) {
+    int busNum;
+    System.out.println("You can choose one block in this list:"); 
+    for (Block bl : state.board.getBoard()) {
+      if (bl instanceof BusBlock)
+        continue;
+      System.out.println(bl.position() + ") " + bl.name());
+    }
+
+    while (true) {
+      busNum = player.inputInt();
+      if (busNum >= 0 && busNum < state.board.size() && busNum != state.board.busPos()) {
+        break;
+      } else {
+        System.out.println("Please select valid block");
+      }
+    }
+    return busNum;
   }
 
   private void purchase(Player player, Block block) {

@@ -108,7 +108,7 @@ public class Player {
     return input.inputBool();
   }
 
-  public int inputInt(Monopoly.State state) {
+  public int inputInt() {
     return input.inputInt();
   }
 }
