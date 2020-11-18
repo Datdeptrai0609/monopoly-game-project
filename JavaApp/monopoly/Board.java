@@ -4,6 +4,7 @@ class Board {
 	private final int N = 32; //number of blocks in a board
 	private final Block[] board; //representation of board
   private int BUS_BLOCK;
+  private int JAIL_BLOCK;
 
 	//constructor for a new board of squares
 	public Board() {
@@ -138,6 +139,7 @@ class Board {
 	}
 
 	private Block jail(int pos) {
+    JAIL_BLOCK = pos;
 		return new JailBlock(pos);
 	}
 
@@ -376,5 +378,9 @@ class Board {
 
   public int busPos() {
     return BUS_BLOCK;
+  }
+
+  public int jailPos() {
+    return JAIL_BLOCK;
   }
 }

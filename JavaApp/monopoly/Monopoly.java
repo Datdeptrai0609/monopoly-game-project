@@ -52,7 +52,7 @@ class Monopoly {
       // Check player's previous turn is in BusBlock or not
       if (state.current.position() == state.board.busPos()) {
         int busNum = busSelect(state.current);
-        state.current.moveTo(busNum);
+        state.current.moveTo(busNum, state.board);
         handleBlock(state.current, block[state.current.position()]);
         break;
       }
@@ -82,13 +82,13 @@ class Monopoly {
         }
 
         if (double_count == 3) {
-          state.current.toJail();
+          state.current.toJail(state.board);
           break;
         }
 
         System.out.println("You roll a " + dice.getVal());
         //System.out.println(" and land on " + block[(state.current.position() + dice.getVal()) % block.length].name());
-        state.current.move(dice.getVal());
+        state.current.move(dice.getVal(), state.board);
         // Handle action at destination
         handleBlock(state.current, block[state.current.position()]);
 
@@ -116,7 +116,7 @@ class Monopoly {
     else if (block instanceof TaxBlock)
       payTax(player, (TaxBlock) block);
     else if (block instanceof JailBlock)
-      state.current.toJail();
+      state.current.toJail(state.board);
     else if (block instanceof FestivalBlock)
       organizeFestival(player);
   }
@@ -252,7 +252,7 @@ class Monopoly {
         }
         break;
       case MOVE_TO:
-        player.moveTo(card.travelTo());
+        player.moveTo(card.travelTo(), state.board);
         break;
       default:
         break;

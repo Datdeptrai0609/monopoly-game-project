@@ -5,7 +5,6 @@ import java.util.Queue;
 
 public class Player {
 	private final Input input;
-	private final int JAIL_BLOCK = 8;
 	private final Queue<Block> properties;
 	private final String playerName;
 	private int money;
@@ -28,25 +27,25 @@ public class Player {
 		block.purchase(this);
 	}
 
-	public void move(int numSpaces) {
+	public void move(int numSpaces, Board board) {
 		position += numSpaces;
-		int BOARD_SIZE = 31;
-		if (position > BOARD_SIZE) {
-			position -= (BOARD_SIZE + 1);
+		int boardSize = board.size();
+		if (position > boardSize) {
+			position -= (boardSize + 1);
 			excMoney(200);
 		}
 
-		if (position == JAIL_BLOCK) {
+		if (position == board.jailPos()) {
       inJail = true;
 		}
 	}
 
-	public void moveTo(int pos) {
+	public void moveTo(int pos, Board board) {
 		if (pos < position && !inJail)
 			excMoney(200);
 		position = pos;
 
-    if (position == JAIL_BLOCK) {
+    if (position == board.jailPos()) {
       inJail = true;
     }
 	}
@@ -71,8 +70,8 @@ public class Player {
 		this.money += money;
 	}
 
-	public void toJail() {
-    moveTo(JAIL_BLOCK);
+	public void toJail(Board board) {
+    moveTo(board.jailPos(), board);
 	}
 
 	public void sellProp(Block bl) {
