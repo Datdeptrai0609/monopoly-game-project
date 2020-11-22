@@ -56,7 +56,7 @@ class Input {
         player = new Player(name);
 			}
 			if (player == null)
-				System.out.println("This name is choosen, please enter another name.");
+				System.out.println("This name is chosen, please enter another name.");
 
 		} while (player == null);
 

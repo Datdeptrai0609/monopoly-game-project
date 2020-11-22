@@ -89,8 +89,6 @@ class Monopoly {
         }
 
         System.out.println("You roll a " + dice.getVal());
-        // System.out.println(" and land on " + block[(state.current.position() +
-        // dice.getVal()) % block.length].name());
         state.current.move(dice.getVal(), state.board);
         // Handle action at destination
         handleBlock(state.current, board[state.current.position()]);
