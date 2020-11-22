@@ -1,6 +1,6 @@
 # USAGE (Command Line)
 
-Firstly, let Java compiler creates Java class files by: 
+Firstly, move to folder monopoly then compile all Java files by the command: 
 ```bash
 javac -cp "../lib/*;." -d ../out  *.java
 ```
