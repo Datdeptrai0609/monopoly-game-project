@@ -44,6 +44,8 @@ public class FestivalBlock implements Block {
 
   public void purchase(Player player) {}
 
+  public void reset() {}
+
   public String toString() {
     return name;
   }

@@ -1,5 +1,7 @@
 package monopoly;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -10,7 +12,7 @@ class Monopoly {
   private State state;
   private boolean lost = false;
 
-  private Monopoly() {
+  private Monopoly() throws IOException {
     state = new State();
     state.players = new LinkedList<>();
     state.current = null;
@@ -20,7 +22,7 @@ class Monopoly {
     initialize(input);
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     Monopoly monopoly = new Monopoly();
     monopoly.run();
   }
@@ -47,13 +49,13 @@ class Monopoly {
   private void turn() {
     System.out.println("It's " + state.current.name() + "'s turn");
     int double_count = 0;
-    Block[] block = state.board.getBoard();
+    Block[] board = state.board.getBoard();
     while (true) {
       // Check player's previous turn is in BusBlock or not
       if (state.current.position() == state.board.busPos()) {
         int busNum = busSelect(state.current);
         state.current.moveTo(busNum, state.board);
-        handleBlock(state.current, block[state.current.position()]);
+        handleBlock(state.current, board[state.current.position()]);
         break;
       }
       // Check player is in JailBlock or not
@@ -87,10 +89,11 @@ class Monopoly {
         }
 
         System.out.println("You roll a " + dice.getVal());
-        //System.out.println(" and land on " + block[(state.current.position() + dice.getVal()) % block.length].name());
+        // System.out.println(" and land on " + block[(state.current.position() +
+        // dice.getVal()) % block.length].name());
         state.current.move(dice.getVal(), state.board);
         // Handle action at destination
-        handleBlock(state.current, block[state.current.position()]);
+        handleBlock(state.current, board[state.current.position()]);
 
         // If not roll double or player in jail -> END TURN
         if (!dice.getDouble() || state.current.inJail()) {
@@ -119,6 +122,8 @@ class Monopoly {
       state.current.toJail(state.board);
     else if (block instanceof FestivalBlock)
       organizeFestival(player);
+    else 
+      return;
   }
 
   private void organizeFestival(Player player) {
@@ -133,9 +138,10 @@ class Monopoly {
 
   private void payTax(Player player, TaxBlock block) {
     int cost = block.tax(player.getAssets());
+    System.out.println("You must pay $" + cost);
     if (player.getMoney() < cost) {
       while (true) {
-        cost = additionMoney(player, cost);
+        cost = additionMoney(player, null, cost);
         if (cost == Integer.MIN_VALUE) {
           return;
         } else if (cost <= 0) {
@@ -163,6 +169,7 @@ class Monopoly {
   private void rentBlock(Player player, Block block) {
     int cost = block.rent();
     Player owner = block.owner();
+    // Land on your property
     if (player.name().equals(owner.name())) {
       // Handle build House here
       if (block instanceof PropertyBlock) {
@@ -189,7 +196,6 @@ class Monopoly {
               break;
             case 2:
             case 3:
-            case 4:
               if (player.getMoney() < propsBlock.houseCost()) {
                 System.out.println("You don't have enough money!");
               } else {
@@ -204,25 +210,31 @@ class Monopoly {
         }
       }
       return;
-    } 
+    }
+
+    // Land on different player's property
     System.out.println("You have landed on " + block.name() + " and must pay " + cost + " in rent.");
     if (player.getMoney() >= cost) {
       player.excMoney(cost * -1);
       owner.excMoney(cost);
     } else {
+      int remainCost = cost;
       while (true) {
-        cost = additionMoney(player, cost);
-        if (cost == Integer.MIN_VALUE)
+        remainCost = additionMoney(player, owner, remainCost);
+        // player lose
+        if (remainCost == Integer.MIN_VALUE)
           return;
-        else if (cost <= 0) {
-          player.excMoney(cost * -1);
+        // player pay all money but have redundant money
+        else if (remainCost <= 0) {
+          player.excMoney(remainCost * -1);
+          owner.excMoney(cost);
           break;
         }
       }
     }
 
     // Set the festival price to normal price when have any player go in
-    if (block.getFestival()) 
+    if (block.getFestival())
       block.setFestival(false);
   }
 
@@ -240,7 +252,7 @@ class Monopoly {
           int cost = -1 * card.value();
           if (player.getMoney() < cost) {
             while (true) {
-              cost = additionMoney(player, cost);
+              cost = additionMoney(player, null, cost);
               if (cost == Integer.MIN_VALUE) {
                 return;
               } else if (cost <= 0) {
@@ -248,6 +260,8 @@ class Monopoly {
                 break;
               }
             }
+          } else {
+            player.excMoney(cost * -1);
           }
         }
         break;
@@ -266,14 +280,15 @@ class Monopoly {
     handleBlock(player, bl);
   }
 
-  private int additionMoney(Player player, int cost) {
+  // Handle sell property to pay money
+  private int additionMoney(Player player, Player owner, int cost) {
     Queue<Block> props = availableAssets(player);
     int availableAssets = sellVal(props) + player.getMoney();
 
     if (availableAssets < cost) {
-      lose(player);
+      lose(player, owner);
       return Integer.MIN_VALUE;
-    } else if (cost < player.getMoney()) {
+    } else if (cost <= player.getMoney()) {
       player.excMoney(cost * -1);
       return 0;
     } else {
@@ -284,8 +299,12 @@ class Monopoly {
       System.out.println("Please enter number.");
       Block bl = propsSelect(player);
 
-      player.sellProp(bl);
       cost -= bl.cost();
+      if (bl instanceof PropertyBlock) {
+        PropertyBlock prop = (PropertyBlock) bl;
+        cost -= prop.numHouses() * prop.houseCost() / 2;
+      }
+      player.sellProp(bl);
       return cost;
     }
   }
@@ -310,9 +329,20 @@ class Monopoly {
     return totalMoney;
   }
 
-  private void lose(Player player) {
+  private void lose(Player player, Player owner) {
+    if (owner != null) {
+      owner.excMoney(player.getMoney());
+      for (Block bl : player.properties()) {
+        owner.addProperty(bl);
+        bl.purchase(owner);
+      }
+    } else {
+      for (Block bl : player.properties()) {
+        bl.reset();
+      }
+    }
     lost = true;
-    System.out.println(player.name() + "has lost!");
+    System.out.println(player.name() + " has lost!");
   }
 
   private Block propsSelect(Player player) {
@@ -338,7 +368,7 @@ class Monopoly {
 
   private int busSelect(Player player) {
     int busNum;
-    System.out.println("You can choose one block in this list:"); 
+    System.out.println("You can choose one block in this list:");
     for (Block bl : state.board.getBoard()) {
       if (bl instanceof BusBlock)
         continue;
@@ -361,7 +391,7 @@ class Monopoly {
     block.purchase(player);
   }
 
-  private void initialize(Input input) {
+  private void initialize(Input input) throws IOException {
     for (int i = 0; i < 4; ++i) {
       System.out.println("Player " + (i + 1) + " name?");
       state.players.add(input.inputPlayer(state));

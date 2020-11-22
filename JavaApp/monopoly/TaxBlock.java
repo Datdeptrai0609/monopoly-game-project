@@ -48,4 +48,10 @@ public class TaxBlock implements Block {
 	public Player owner() {
 		return null;
 	}
+
+  public void reset() {}
+
+  public String toString() {
+    return name;
+  }
 }

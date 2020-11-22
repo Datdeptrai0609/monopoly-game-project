@@ -1,5 +1,6 @@
 package monopoly;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 class Input {
@@ -41,7 +42,7 @@ class Input {
 		}
 	}
 
-	public Player inputPlayer(Monopoly.State state) {
+	public Player inputPlayer(Monopoly.State state) throws IOException {
     Player player = null;
 		do {
 			String name = inputString();

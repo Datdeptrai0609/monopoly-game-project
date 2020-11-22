@@ -72,4 +72,6 @@ public class ChanceBlock implements Block {
 	public Iterable<Card> cards() {
 		return deck.cards();
 	}
+
+  public void reset() {}
 }

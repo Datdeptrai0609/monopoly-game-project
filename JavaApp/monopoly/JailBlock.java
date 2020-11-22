@@ -46,6 +46,8 @@ public class JailBlock implements Block {
 		return null;
 	}
 
+  public void reset() {}
+
 	public String toString() {
 		return name;
 	}

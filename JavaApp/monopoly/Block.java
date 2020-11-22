@@ -21,5 +21,7 @@ public interface Block {
 
 	Player owner();
 
+  void reset();
+
 	String toString();
 }

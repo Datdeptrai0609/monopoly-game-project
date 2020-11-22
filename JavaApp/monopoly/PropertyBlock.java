@@ -6,7 +6,6 @@ public class PropertyBlock implements Block {
   private final int oneHouseRent;
   private final int twoHouseRent;
   private final int threeHouseRent;
-  private final int fourHouseRent;
   private final int hotelRent;
 
   private final int buyPrice; // cost to purchase property
@@ -20,12 +19,11 @@ public class PropertyBlock implements Block {
 
   // construct property, given its rents
   public PropertyBlock(String name, int pos, int rent, int oneHouseRent, int twoHouseRent, int threeHouseRent,
-      int fourHouseRent, int hotelRent, int buyPrice, int buildPrice) {
+      int hotelRent, int buyPrice, int buildPrice) {
     this.rent = rent;
     this.oneHouseRent = oneHouseRent;
     this.twoHouseRent = twoHouseRent;
     this.threeHouseRent = threeHouseRent;
-    this.fourHouseRent = fourHouseRent;
     this.hotelRent = hotelRent;
     this.buyPrice = buyPrice;
     this.buildPrice = buildPrice;
@@ -62,7 +60,7 @@ public class PropertyBlock implements Block {
   // update building status by integer input
   public void build(int a) {
     buildings += a;
-    if (buildings > 5)
+    if (buildings > 4)
       throw new IllegalArgumentException("Cannot build past hotel!");
     if (buildings < 0)
       throw new IllegalArgumentException("Cannot build negative buildings!");
@@ -112,9 +110,6 @@ public class PropertyBlock implements Block {
         price = threeHouseRent;
         break;
       case 4:
-        price = fourHouseRent;
-        break;
-      case 5:
         price = hotelRent;
         break;
       default:
@@ -129,10 +124,17 @@ public class PropertyBlock implements Block {
     return owner;
   }
 
+  public void reset() {
+    owned = false;
+    buildings = 0;
+    festivalStatus = false;
+    owner = null;
+  }
+
   public String toString() {
-    if (numHouses() == 5 && festivalStatus)
+    if (numHouses() == 4 && festivalStatus)
       return name + " - Hotel" + " - Festival";
-    else if (numHouses() == 5)
+    else if (numHouses() == 4)
       return name + " - Hotel";
     if (numHouses() > 0 && festivalStatus)
       return name + " - " + numHouses() + " Houses" + " - Festival";
