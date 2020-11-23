@@ -44,6 +44,7 @@ class Monopoly {
     }
     Player winner = state.players.remove();
     System.out.println("Winner is: " + winner.name());
+    System.out.println("Test GitAction")
   }
 
   private void turn() {
