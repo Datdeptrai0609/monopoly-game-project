@@ -131,12 +131,28 @@ class Monopoly {
   }
 
   private void organizeFestival(Player player) {
-    if (player.properties().size() != 0) {
-      Block bl = propsSelect(player);
-      // x2 rent price here
-      bl.setFestival(true);
+    // Check can organize festival or not
+    boolean canOrganize = false;
+    // Player can organize festival if player has any property don't organize yet
+    for (Block prop : player.properties()) {
+      if (!prop.getFestival()) {
+        canOrganize = true;
+      }
+    }
+    if (canOrganize) {
+      Block bl;
+      // Can only choose property which are not Festival
+      while (true) {
+        bl = propsSelect(player);
+        if (bl.getFestival()) {
+          System.out.println("This property was already organized Festival");
+        } else {
+          bl.setFestival(true);
+          break;
+        }
+      }
     } else {
-      System.out.println("You don't have any properties to organize Festival");
+      System.out.println("You cannot organize any Festival now!");
     }
   }
 
@@ -179,6 +195,10 @@ class Monopoly {
       if (block instanceof PropertyBlock) {
         PropertyBlock propsBlock = (PropertyBlock) block;
         System.out.println("Your " + propsBlock.name() + " block is having " + propsBlock.numHouses() + " house(s)");
+        if (player.getMoney() < propsBlock.houseCost()) {
+          System.out.println("You don't have enough money to build house in this property!");
+          return;
+        }
         System.out.println("Would you like to build houses here?");
         if (player.inputBool()) {
           // when first build can build 2 houses, then only 1 house
