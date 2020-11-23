@@ -24,6 +24,7 @@ public class TaxBlock implements Block {
 		return false;
 	}
 
+  // tax is 10% of all assets of player
 	public int tax(int value) {
 		return (int) (value * 10 / 100);
 	}

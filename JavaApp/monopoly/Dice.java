@@ -10,6 +10,7 @@ public class Dice {
 		rand = new Random();
 	}
 
+  // Roll the dice and check double
 	public void roll() {
 		int randA = rand.nextInt(6) + 1;
 

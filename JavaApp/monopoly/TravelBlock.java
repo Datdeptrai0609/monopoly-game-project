@@ -15,6 +15,7 @@ public class TravelBlock implements Block {
 
 	//constructor
 	public TravelBlock(String name, int pos) throws IOException {
+    // Read config.ini file
     Wini ini = new Wini(new File("..\\config.ini"));
     cost = Integer.parseInt(ini.get("travel", "buy").toString());
     owned = false;
@@ -49,7 +50,7 @@ public class TravelBlock implements Block {
     return festivalStatus;
   }
 
-	//return rent owed
+	//return rent price = cost of 1 TravelBlock * number TravelBlock owner has
 	public int rent() {
     int price = cost * owner.travelSize(); 
     if (festivalStatus) 

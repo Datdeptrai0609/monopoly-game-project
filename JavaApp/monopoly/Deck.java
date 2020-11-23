@@ -9,11 +9,11 @@ public class Deck {
 	private int SIZE; //store number of cards
 	private int current;  //store current card
 
-	//create shuffled deck of cards
 	public Deck() {
 		deck = new ArrayList<>();
 	}
 
+	//create shuffled deck of cards
 	public void initialize(Card[] cards) {
 		if (!deck.isEmpty())
 			return;
