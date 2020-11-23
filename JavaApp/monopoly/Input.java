@@ -1,7 +1,3 @@
-/**
- * This is a monopoly game for OOP Project
- * Author: Vo Anh Viet
-*/
 package monopoly;
 
 import java.io.IOException;
@@ -39,12 +35,13 @@ class Input {
   }
 
   // Check yes/no for inputBool()
-  public int inputDecision(String[] choices) {
+  public int inputDecision(final String[] choices) {
     while (true) {
       String input = inputString();
       for (int i = 0; i < choices.length; i++) {
-        if (input.equalsIgnoreCase(choices[i]) || input.equalsIgnoreCase(choices[i].substring(0, 1)))
+        if (input.equalsIgnoreCase(choices[i]) || input.equalsIgnoreCase(choices[i].substring(0, 1))) {
           return i;
+        }
       }
       System.out.println("Please enter a valid decision.");
     }
@@ -55,8 +52,9 @@ class Input {
     Player player = null;
     do {
       String name = inputString();
-      if (state.players.size() == 0)
+      if (state.players.size() == 0) {
         return new Player(name);
+      }
       for (Player p : state.players) {
         if (name.equals(p.name())) {
           player = null;
@@ -64,8 +62,9 @@ class Input {
         }
         player = new Player(name);
       }
-      if (player == null)
+      if (player == null) {
         System.out.println("This name is chosen, please enter another name.");
+      }
 
     } while (player == null);
 

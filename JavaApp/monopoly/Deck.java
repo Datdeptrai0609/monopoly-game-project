@@ -1,7 +1,3 @@
-/**
- * This is a monopoly game for OOP Project
- * Author: Vo Anh Viet
-*/
 package monopoly;
 
 import java.util.ArrayList;
@@ -10,7 +6,7 @@ import java.util.Collections;
 
 public class Deck {
   private final ArrayList<Card> deck; // store array of cards
-  private int SIZE; // store number of cards
+  private int size; // store number of cards
   private int current; // store current card
 
   public Deck() {
@@ -19,16 +15,17 @@ public class Deck {
 
   // create shuffled deck of cards
   public void initialize(Card[] cards) {
-    if (!deck.isEmpty())
+    if (!deck.isEmpty()) {
       return;
-    SIZE = cards.length;
+    }
+    size = cards.length;
     deck.addAll(Arrays.asList(cards));
     Collections.shuffle(deck);
   }
 
   // draw next card from deck
   public Card drawCard() {
-    if (current == SIZE) {
+    if (current == size) {
       Collections.shuffle(deck);
       current = 0;
     }

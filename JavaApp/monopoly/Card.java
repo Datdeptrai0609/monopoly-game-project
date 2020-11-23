@@ -1,10 +1,7 @@
-/**
- * This is a monopoly game for OOP Project
- * Author: Vo Anh Viet
-*/
 package monopoly;
 
-import org.ini4j.*;
+import org.ini4j.Wini; 
+import org.ini4j.Profile;
 
 import java.io.File;
 import java.io.IOException;
