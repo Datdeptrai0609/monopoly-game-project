@@ -38,7 +38,7 @@ public class Player {
     if (!block.isOwnable())
       throw new IllegalArgumentException("This property cannot be purchased!");
     properties.add(block);
-    if (block instanceof TravelBlock) 
+    if (block instanceof TravelBlock)
       travelList.add((TravelBlock) block);
     block.purchase(this);
   }
@@ -97,7 +97,7 @@ public class Player {
   public void sellProp(Block bl) {
     properties.remove(bl);
     bl.reset();
-    if (bl instanceof TravelBlock) 
+    if (bl instanceof TravelBlock)
       travelList.remove((TravelBlock) bl);
   }
 

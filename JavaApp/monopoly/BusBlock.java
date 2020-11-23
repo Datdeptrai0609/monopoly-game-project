@@ -36,7 +36,8 @@ public class BusBlock implements Block {
     return 0;
   }
 
-  public void setFestival(boolean stt) {}
+  public void setFestival(boolean stt) {
+  }
 
   public boolean getFestival() {
     return false;
@@ -46,9 +47,11 @@ public class BusBlock implements Block {
     return null;
   }
 
-  public void purchase(Player player) {}
+  public void purchase(Player player) {
+  }
 
-  public void reset() {}
+  public void reset() {
+  }
 
   public String toString() {
     return name;

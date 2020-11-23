@@ -130,7 +130,7 @@ class Monopoly {
       state.current.toJail(state.board);
     else if (block instanceof FestivalBlock)
       organizeFestival(player);
-    else 
+    else
       return;
   }
 
@@ -405,8 +405,9 @@ class Monopoly {
     int busNum;
     System.out.println("You can choose one block in this list:");
     for (Block bl : state.board.getBoard()) {
-      if (bl instanceof BusBlock)
+      if (bl instanceof BusBlock) {
         continue;
+      }
       System.out.println(bl.position() + ") " + bl.name());
     }
 

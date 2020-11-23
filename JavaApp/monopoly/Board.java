@@ -73,7 +73,7 @@ class Board {
         for (int i = 0; i < section.size(); i++) {
           pos = castNum(section.get(String.format("pos%d", i + 1)));
           bl = new ChanceBlock(pos);
-          board[pos] =  bl;
+          board[pos] = bl;
         }
         continue;
       } else if (sectionName.equals("travel")) {
@@ -99,11 +99,12 @@ class Board {
         threeH = castNum(section.get("3H"));
         hotel = castNum(section.get("HT"));
         bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, hotel, buy, build);
-      }      
+      }
       // Assign block to array board
       board[pos] = bl;
     }
   }
+
   public int busPos() {
     return BUS_BLOCK;
   }
