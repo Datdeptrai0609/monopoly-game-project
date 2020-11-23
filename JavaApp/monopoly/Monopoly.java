@@ -99,7 +99,7 @@ class Monopoly {
         handleBlock(state.current, board[state.current.position()]);
 
         // If not roll double or player in jail -> END TURN
-        if (!dice.getDouble() || state.current.inJail()) {
+        if (!dice.getDouble() || state.current.inJail() || lost) {
           break;
         } else {
           System.out.println("Your dice is double. So, You can go in the next turn");
