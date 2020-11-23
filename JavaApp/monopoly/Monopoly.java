@@ -1,7 +1,6 @@
 package monopoly;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
