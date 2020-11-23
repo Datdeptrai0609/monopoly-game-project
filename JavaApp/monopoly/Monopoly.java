@@ -1,3 +1,7 @@
+/**
+ * This is a monopoly game for OOP Project
+ * Author: Vo Anh Viet
+*/
 package monopoly;
 
 import java.io.IOException;
@@ -47,7 +51,6 @@ class Monopoly {
     // Print player who win
     Player winner = state.players.remove();
     System.out.println("Winner is: " + winner.name());
-    System.out.println("Test GitAction")
   }
 
   // Handle each turn of each player
