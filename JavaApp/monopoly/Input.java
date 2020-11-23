@@ -10,14 +10,17 @@ class Input {
 		scanner = new Scanner(System.in);
 	}
 
+  // Read string input
 	public String inputString() {
 		return scanner.nextLine();
 	}
 
+  // Check input is yes or no return boolean
 	public boolean inputBool() {
 		return inputDecision(new String[]{"Yes", "No"}) == 0;
 	}
 
+  // Check input is integer or not then parse to int
 	public int inputInt() {
 		while (true) {
 			int val;
@@ -31,6 +34,7 @@ class Input {
 		}
 	}
 
+  // Check yes/no for inputBool()
 	public int inputDecision(String[] choices) {
 		while (true) {
 			String input = inputString();
@@ -42,6 +46,7 @@ class Input {
 		}
 	}
 
+  // Player input their names and check if duplicated at the beginning of game
 	public Player inputPlayer(Monopoly.State state) throws IOException {
     Player player = null;
 		do {

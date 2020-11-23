@@ -1,7 +1,6 @@
 package monopoly;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -13,6 +12,7 @@ class Monopoly {
   private boolean lost = false;
 
   private Monopoly() throws IOException {
+    // Create board and initialize players as well as some neccessary state
     state = new State();
     state.players = new LinkedList<>();
     state.current = null;
@@ -23,11 +23,13 @@ class Monopoly {
   }
 
   public static void main(String[] args) throws IOException {
+    // create Monopoly and run it
     Monopoly monopoly = new Monopoly();
     monopoly.run();
   }
 
   private void run() {
+    // while loop until game has only 1 player remain
     while (state.players.size() > 1) {
       try {
         state.current = state.players.remove(); // Current is player who is playing
@@ -42,11 +44,13 @@ class Monopoly {
         printState();
       }
     }
+    // Print player who win
     Player winner = state.players.remove();
     System.out.println("Winner is: " + winner.name());
     System.out.println("Test GitAction")
   }
 
+  // Handle each turn of each player
   private void turn() {
     System.out.println("It's " + state.current.name() + "'s turn");
     int double_count = 0;
@@ -74,6 +78,7 @@ class Monopoly {
         if (dice.getDouble())
           double_count++;
 
+        // Handle dice when in Jail
         if (state.current.inJail()) {
           if (dice.getDouble()) {
             state.current.leaveJail();
@@ -84,6 +89,7 @@ class Monopoly {
           }
         }
 
+        // If dice 3 double continuity -> go to Jail
         if (double_count == 3) {
           state.current.toJail(state.board);
           break;
@@ -91,11 +97,10 @@ class Monopoly {
 
         System.out.println("You roll a " + dice.getVal());
         state.current.move(dice.getVal(), state.board);
-        // Handle action at destination
         handleBlock(state.current, board[state.current.position()]);
 
         // If not roll double or player in jail -> END TURN
-        if (!dice.getDouble() || state.current.inJail()) {
+        if (!dice.getDouble() || state.current.inJail() || lost) {
           break;
         } else {
           System.out.println("Your dice is double. So, You can go in the next turn");
@@ -104,6 +109,7 @@ class Monopoly {
     }
   }
 
+  // Handle action at destination
   private void handleBlock(Player player, Block block) {
     System.out.println("You land on " + state.board.getBoard()[player.position()].name());
     boolean owned = block.isOwned();
@@ -126,12 +132,28 @@ class Monopoly {
   }
 
   private void organizeFestival(Player player) {
-    if (player.properties().size() != 0) {
-      Block bl = propsSelect(player);
-      // x2 rent price here
-      bl.setFestival(true);
+    // Check can organize festival or not
+    boolean canOrganize = false;
+    // Player can organize festival if player has any property don't organize yet
+    for (Block prop : player.properties()) {
+      if (!prop.getFestival()) {
+        canOrganize = true;
+      }
+    }
+    if (canOrganize) {
+      Block bl;
+      // Can only choose property which are not Festival
+      while (true) {
+        bl = propsSelect(player);
+        if (bl.getFestival()) {
+          System.out.println("This property was already organized Festival");
+        } else {
+          bl.setFestival(true);
+          break;
+        }
+      }
     } else {
-      System.out.println("You don't have any properties to organize Festival");
+      System.out.println("You cannot organize any Festival now!");
     }
   }
 
@@ -174,8 +196,13 @@ class Monopoly {
       if (block instanceof PropertyBlock) {
         PropertyBlock propsBlock = (PropertyBlock) block;
         System.out.println("Your " + propsBlock.name() + " block is having " + propsBlock.numHouses() + " house(s)");
+        if (player.getMoney() < propsBlock.houseCost()) {
+          System.out.println("You don't have enough money to build house in this property!");
+          return;
+        }
         System.out.println("Would you like to build houses here?");
         if (player.inputBool()) {
+          // when first build can build 2 houses, then only 1 house
           switch (propsBlock.numHouses()) {
             case 0:
             case 1:
@@ -237,6 +264,7 @@ class Monopoly {
       block.setFestival(false);
   }
 
+  // Handle drawCard in ChanceBlock
   private void drawCard(Player player, ChanceBlock cards) {
     Card card = cards.draw();
     System.out.println(card.text());
@@ -279,7 +307,7 @@ class Monopoly {
     handleBlock(player, bl);
   }
 
-  // Handle sell property to pay money
+  // Handle sell property for more money
   private int additionMoney(Player player, Player owner, int cost) {
     Queue<Block> props = availableAssets(player);
     int availableAssets = sellVal(props) + player.getMoney();
@@ -316,6 +344,7 @@ class Monopoly {
     return avail;
   }
 
+  // Calculate the price of sell all properties player has
   private int sellVal(Queue<Block> props) {
     int totalMoney = 0;
     for (Block bl : props) {
@@ -328,6 +357,8 @@ class Monopoly {
     return totalMoney;
   }
 
+  // When a player lose game, change their money and property to owner if not
+  // reset all property
   private void lose(Player player, Player owner) {
     if (owner != null) {
       owner.excMoney(player.getMoney());
@@ -344,6 +375,7 @@ class Monopoly {
     System.out.println(player.name() + " has lost!");
   }
 
+  // Return a Block which player select in their asset
   private Block propsSelect(Player player) {
     System.out.println("You own the following properties:");
     Iterable<Block> props = player.properties();
@@ -365,6 +397,7 @@ class Monopoly {
     }
   }
 
+  // Select the destination when in BusBlock
   private int busSelect(Player player) {
     int busNum;
     System.out.println("You can choose one block in this list:");
@@ -385,11 +418,13 @@ class Monopoly {
     return busNum;
   }
 
+  // purchase a property
   private void purchase(Player player, Block block) {
     player.addProperty(block);
     block.purchase(player);
   }
 
+  // initialize player and random at the beginning of the game
   private void initialize(Input input) throws IOException {
     for (int i = 0; i < 4; ++i) {
       System.out.println("Player " + (i + 1) + " name?");
@@ -405,6 +440,7 @@ class Monopoly {
     printState();
   }
 
+  // Method to print information each turn
   private void printState() {
     int counter = 1;
     for (Player player : state.players) {

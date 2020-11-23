@@ -19,6 +19,7 @@ public class Player {
 
   public Player(String playerName) throws IOException {
     input = new Input();
+    // Read config.ini file and get player's money
     Wini ini = new Wini(new File("..\\config.ini"));
     money = Integer.parseInt(ini.get("player", "money").toString());
     properties = new LinkedList<>();
@@ -28,6 +29,7 @@ public class Player {
     inJail = false;
   }
 
+  // Add property when have new property
   public void addProperty(Block block) {
     if (!block.isOwnable())
       throw new IllegalArgumentException("This property cannot be purchased!");
@@ -37,6 +39,7 @@ public class Player {
     block.purchase(this);
   }
 
+  // Handle move in game
   public void move(int numSpaces, Board board) {
     position += numSpaces;
     int boardSize = board.size();
@@ -50,6 +53,7 @@ public class Player {
     }
   }
 
+  // Handle some special cases such as jumping to a new block
   public void moveTo(int pos, Board board) {
     if (pos < position && !inJail)
       excMoney(200);
@@ -76,6 +80,7 @@ public class Player {
     return money;
   }
 
+  // Handle pay or receive money in game
   public void excMoney(int money) {
     this.money += money;
   }
@@ -84,6 +89,7 @@ public class Player {
     moveTo(board.jailPos(), board);
   }
 
+  // Sell property
   public void sellProp(Block bl) {
     properties.remove(bl);
     bl.reset();
@@ -99,6 +105,7 @@ public class Player {
     return inJail;
   }
 
+  // Calculate the money player has and all properties' cost
   public int getAssets() {
     int assets = this.money;
     for (Block s : properties) {
@@ -116,10 +123,12 @@ public class Player {
     return numHouses * houseCost;
   }
 
+  // Number of TravelBlock player has
   public int travelSize() {
     return travelList.size();
   }
 
+  // Handle input in game
   public boolean inputBool() {
     return input.inputBool();
   }

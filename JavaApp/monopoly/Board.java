@@ -4,7 +4,6 @@ import org.ini4j.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 class Board {
@@ -47,10 +46,10 @@ class Board {
     // loop through the list to create object of block
     for (Profile.Section section : list) {
       String sectionName = section.getName();
-      // monopoly and player are not blocks
+      // monopoly and player are not blocks but place in top of file
       if (sectionName.equals("monopoly") || sectionName.equals("player"))
         continue;
-      // all the conditions below are checking block and create them
+      // all the conditions below are checking block and create the board
       else if (sectionName.equals("go")) {
         pos = castNum(section.get("pos"));
         bl = new GoBlock(pos);
@@ -83,6 +82,9 @@ class Board {
           board[pos] = bl;
         }
         continue;
+      } else if (sectionName.equals("cards")) {
+        // This will go to the section of cards. The block is done.
+        break;
       } else {
         pos = castNum(section.get("pos"));
         buy = castNum(section.get("buy"));
@@ -93,7 +95,8 @@ class Board {
         threeH = castNum(section.get("3H"));
         hotel = castNum(section.get("HT"));
         bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, hotel, buy, build);
-      }
+      }      
+      // Assign block to array board
       board[pos] = bl;
     }
   }

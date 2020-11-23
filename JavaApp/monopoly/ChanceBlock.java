@@ -1,13 +1,17 @@
 package monopoly;
 
+import org.ini4j.*;
+
+import java.io.File;
+import java.io.IOException;
+
 public class ChanceBlock implements Block {
-	private final int DECK_SIZE = 16; //16 cards in a deck
 	private final Deck deck; //store deck of cards
 	private String name = "chance";
 	private int pos;
 
 	//construct square of type cards
-	public ChanceBlock(int pos) {
+	public ChanceBlock(int pos) throws IOException{
 		deck = new Deck();
     chance();
 		this.pos = pos;
@@ -29,12 +33,18 @@ public class ChanceBlock implements Block {
 		return false;
 	}
 
-	//create deck of chance cards
-	private void chance() {
-		Card[] cards = new Card[DECK_SIZE];
+  // Create cards assign to deck and shuffle them
+	private void chance() throws IOException {
+    // Open file config.ini
+    Wini ini = new Wini(new File("..\\config.ini"));
+    // Get number of all chance cards
+    int cardSize = Integer.parseInt(ini.get("cards", "size").toString()); 
+		Card[] cards = new Card[cardSize];
 
-		for (int i = 0; i < DECK_SIZE; i++)
-			cards[i] = new Card(i);
+    // Create Card object and save to cards array
+    for (int i = 0; i < cardSize; i++) {
+			cards[i] = new Card(i + 1);
+    }
 
 		deck.initialize(cards);
 	}

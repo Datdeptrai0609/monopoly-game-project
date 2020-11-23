@@ -91,7 +91,7 @@ public class PropertyBlock implements Block {
     return buildPrice;
   }
 
-  // return amount owed
+  // return rent price
   public int rent() {
     int price;
     if (!owned)
