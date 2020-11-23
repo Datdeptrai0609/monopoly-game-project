@@ -1,6 +1,6 @@
 package monopoly;
 
-import org.ini4j.Wini; 
+import org.ini4j.Wini;
 import org.ini4j.Profile;
 
 import java.io.File;
@@ -50,9 +50,7 @@ class Board {
       // monopoly and player are not blocks but place in top of file
       if (sectionName.equals("monopoly") || sectionName.equals("player")) {
         continue;
-      }
-      // all the conditions below are checking block and create the board
-      else if (sectionName.equals("go")) {
+      } else if (sectionName.equals("go")) {
         pos = castNum(section.get("pos"));
         bl = new GoBlock(pos);
       } else if (sectionName.equals("jail")) {
@@ -96,8 +94,7 @@ class Board {
         twoH = castNum(section.get("2H"));
         threeH = castNum(section.get("3H"));
         hotel = castNum(section.get("HT"));
-        bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, 
-            hotel, buy, build);
+        bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, hotel, buy, build);
       }
       // Assign block to array board
       board[pos] = bl;

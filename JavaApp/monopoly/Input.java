@@ -17,7 +17,7 @@ class Input {
 
   // Check input is yes or no return boolean
   public boolean inputBool() {
-    return inputDecision(new String[] { "Yes", "No" }) == 0;
+    return inputDecision(new String[] {"Yes", "No"}) == 0;
   }
 
   // Check input is integer or not then parse to int

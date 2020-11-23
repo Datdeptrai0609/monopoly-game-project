@@ -1,6 +1,6 @@
 package monopoly;
 
-import org.ini4j.Wini; 
+import org.ini4j.Wini;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ public class ChanceBlock implements Block {
   private int pos;
 
   // construct square of type cards
-  public ChanceBlock(int pos) throws IOException {
+  public ChanceBlock(final int pos) throws IOException {
     deck = new Deck();
     chance();
     this.pos = pos;

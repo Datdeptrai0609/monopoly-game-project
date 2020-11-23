@@ -6,7 +6,6 @@ public class Dice {
   private final Random rand;
   private int val = 0;
   private boolean isDouble = false;
-  private int maxValOneDice = 6;
 
   public Dice() {
     rand = new Random();
@@ -14,9 +13,9 @@ public class Dice {
 
   // Roll the dice and check double
   public void roll() {
-    int randA = rand.nextInt(maxValOneDice) + 1;
+    int randA = rand.nextInt(6) + 1;
 
-    int randB = rand.nextInt(maxValOneDice) + 1;
+    int randB = rand.nextInt(6) + 1;
 
     val = randA + randB;
     isDouble = randA == randB;

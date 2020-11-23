@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
 
-class Monopoly {
+final class Monopoly {
   private final Dice dice;
   private State state;
   private boolean lost = false;
@@ -34,8 +34,9 @@ class Monopoly {
       try {
         state.current = state.players.remove(); // Current is player who is playing
         turn();
-        if (!lost)
+        if (!lost) {
           state.players.add(state.current); // End turn. Add current to the end of queue
+        }
         lost = false;
       } catch (NoSuchElementException e) {
         System.out.println("ERROR!");
@@ -52,7 +53,7 @@ class Monopoly {
   // Handle each turn of each player
   private void turn() {
     System.out.println("It's " + state.current.name() + "'s turn");
-    int double_count = 0;
+    int doubleCount = 0;
     Block[] board = state.board.getBoard();
     while (true) {
       // Check player's previous turn is in BusBlock or not
@@ -61,9 +62,8 @@ class Monopoly {
         state.current.moveTo(busNum, state.board);
         handleBlock(state.current, board[state.current.position()]);
         break;
-      }
-      // Check player is in JailBlock or not
-      else if (state.current.inJail()) {
+      } else if (state.current.inJail()) {
+        // Check player is in JailBlock or not
         System.out.println("Would you like to get out of jail using cash?");
         if (state.current.inputBool()) {
           state.current.excMoney(-50);
@@ -74,9 +74,9 @@ class Monopoly {
       if (state.current.inputBool()) {
         // Start dice
         dice.roll();
-        if (dice.getDouble())
-          double_count++;
-
+        if (dice.getDouble()) {
+          doubleCount++;
+        }
         // Handle dice when in Jail
         if (state.current.inJail()) {
           if (dice.getDouble()) {
@@ -89,7 +89,7 @@ class Monopoly {
         }
 
         // If dice 3 double continuity -> go to Jail
-        if (double_count == 3) {
+        if (doubleCount == 3) {
           state.current.toJail(state.board);
           break;
         }
@@ -114,20 +114,21 @@ class Monopoly {
     boolean owned = block.isOwned();
     boolean ownable = block.isOwnable();
 
-    if (!owned && ownable)
+    if (!owned && ownable) {
       buyBlock(player, block);
-    else if (ownable)
+    } else if (ownable) {
       rentBlock(player, block);
-    else if (block instanceof ChanceBlock)
+    } else if (block instanceof ChanceBlock) {
       drawCard(player, (ChanceBlock) block);
-    else if (block instanceof TaxBlock)
+    } else if (block instanceof TaxBlock) {
       payTax(player, (TaxBlock) block);
-    else if (block instanceof JailBlock)
+    } else if (block instanceof JailBlock) {
       state.current.toJail(state.board);
-    else if (block instanceof FestivalBlock)
+    } else if (block instanceof FestivalBlock) {
       organizeFestival(player);
-    else
+    } else {
       return;
+    }
   }
 
   private void organizeFestival(Player player) {
@@ -247,10 +248,10 @@ class Monopoly {
       while (true) {
         remainCost = additionMoney(player, owner, remainCost);
         // player lose
-        if (remainCost == Integer.MIN_VALUE)
+        if (remainCost == Integer.MIN_VALUE) {
           return;
-        // player pay all money but have redundant money
-        else if (remainCost <= 0) {
+        } else if (remainCost <= 0) {
+          // player pay all money but have redundant money
           player.excMoney(remainCost * -1);
           owner.excMoney(cost);
           break;
@@ -259,8 +260,9 @@ class Monopoly {
     }
 
     // Set the festival price to normal price when have any player go in
-    if (block.getFestival())
+    if (block.getFestival()) {
       block.setFestival(false);
+    }
   }
 
   // Handle drawCard in ChanceBlock
@@ -299,8 +301,9 @@ class Monopoly {
     }
 
     // Handle action at destination for MOVE_TO card action
-    if (initialPos == player.position())
+    if (initialPos == player.position()) {
       return;
+    }
 
     Block bl = state.board.block(player.position());
     handleBlock(player, bl);
@@ -388,8 +391,9 @@ class Monopoly {
       int propState = 1;
 
       for (Block bl : props) {
-        if (propState++ == propNum)
+        if (propState++ == propNum) {
           return bl;
+        }
       }
 
       System.out.println("Please select a valid property.");
@@ -454,19 +458,21 @@ class Monopoly {
 
       boolean first = true;
       for (Block s : owned) {
-        if (first)
+        if (first) {
           System.out.printf("%40s%n", s);
-        else
+        } else {
           System.out.printf("%50s%n", s);
+        }
         first = false;
       }
 
-      if (first)
+      if (first) {
         System.out.printf("%40s%n", "none");
+      }
 
-      if (player.inJail())
+      if (player.inJail()) {
         System.out.println("In jail");
-      else if (player.position() == state.board.busPos()) {
+      } else if (player.position() == state.board.busPos()) {
         System.out.println("In Bus Block");
       }
       System.out.println("--------------------------------------------------");

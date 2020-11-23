@@ -53,8 +53,9 @@ public class TravelBlock implements Block {
   // return rent price = cost of 1 TravelBlock * number TravelBlock owner has
   public int rent() {
     int price = cost * owner.travelSize();
-    if (festivalStatus)
+    if (festivalStatus) {
       return price * 2;
+    }
     return price;
   }
 
