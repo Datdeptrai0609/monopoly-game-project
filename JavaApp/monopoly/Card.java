@@ -12,7 +12,7 @@ public class Card {
   private int travelTo = Integer.MAX_VALUE;
   private String text;
 
-  public Card(final int i) throws IOException {
+  public Card(int i) throws IOException {
     Wini ini = new Wini(new File("..\\config.ini"));
     // Create Profile.Section of BANK_MONEY
     Profile.Section section = (Profile.Section) ini.get("BANK_MONEY");
