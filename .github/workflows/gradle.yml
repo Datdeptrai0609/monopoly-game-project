@@ -7,7 +7,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    evn: 
+    env: 
       working-directory: ./JavaApp
 
     runs-on: ubuntu-latest
