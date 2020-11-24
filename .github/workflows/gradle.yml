@@ -8,6 +8,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./JavaApp/PlayScreen/
 
     steps:
       - uses: actions/checkout@v2
@@ -17,3 +19,4 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: ./gradlew build
+        working-directory: ${{env.working_directory}}
