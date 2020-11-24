@@ -1,35 +1,36 @@
 package monopoly;
 
-import org.ini4j.*;
+import org.ini4j.Wini;
+import org.ini4j.Profile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
 class Board {
-  private final int N; // number of blocks in a board
+  private final int size; // number of blocks in a board
   private final Block[] board; // representation of board
-  private int BUS_BLOCK;
-  private int JAIL_BLOCK;
+  private int busPos;
+  private int jailPos;
   private Wini ini;
 
   // constructor for a new board of squares
   public Board() throws IOException {
     // Starting to read config.ini file
     ini = new Wini(new File("..\\config.ini"));
-    N = castNum(ini.get("monopoly", "size"));
-    BUS_BLOCK = castNum(ini.get("bus", "pos"));
-    JAIL_BLOCK = castNum(ini.get("jail", "pos"));
+    size = castNum(ini.get("monopoly", "size"));
+    busPos = castNum(ini.get("bus", "pos"));
+    jailPos = castNum(ini.get("jail", "pos"));
 
-    board = new Block[N];
+    board = new Block[size];
     makeBoard();
   }
 
   public int size() {
-    return N;
+    return size;
   }
 
-  public Block block(int pos) {
+  public Block block(final int pos) {
     return board[pos];
   }
 
@@ -47,10 +48,9 @@ class Board {
     for (Profile.Section section : list) {
       String sectionName = section.getName();
       // monopoly and player are not blocks but place in top of file
-      if (sectionName.equals("monopoly") || sectionName.equals("player"))
+      if (sectionName.equals("monopoly") || sectionName.equals("player")) {
         continue;
-      // all the conditions below are checking block and create the board
-      else if (sectionName.equals("go")) {
+      } else if (sectionName.equals("go")) {
         pos = castNum(section.get("pos"));
         bl = new GoBlock(pos);
       } else if (sectionName.equals("jail")) {
@@ -69,7 +69,7 @@ class Board {
         for (int i = 0; i < section.size(); i++) {
           pos = castNum(section.get(String.format("pos%d", i + 1)));
           bl = new ChanceBlock(pos);
-          board[pos] =  bl;
+          board[pos] = bl;
         }
         continue;
       } else if (sectionName.equals("travel")) {
@@ -95,20 +95,21 @@ class Board {
         threeH = castNum(section.get("3H"));
         hotel = castNum(section.get("HT"));
         bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, hotel, buy, build);
-      }      
+      }
       // Assign block to array board
       board[pos] = bl;
     }
   }
+
   public int busPos() {
-    return BUS_BLOCK;
+    return busPos;
   }
 
   public int jailPos() {
-    return JAIL_BLOCK;
+    return jailPos;
   }
 
-  static int castNum(Object o) {
+  static int castNum(final Object o) {
     return Integer.parseInt(o.toString());
   }
 }

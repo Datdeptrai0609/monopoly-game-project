@@ -60,10 +60,11 @@ public class PropertyBlock implements Block {
   // update building status by integer input
   public void build(int a) {
     buildings += a;
-    if (buildings > 4)
+    if (buildings > 4) {
       throw new IllegalArgumentException("Cannot build past hotel!");
-    if (buildings < 0)
+    } else if (buildings < 0) {
       throw new IllegalArgumentException("Cannot build negative buildings!");
+    } 
   }
 
   // cost to purchase property
@@ -94,8 +95,9 @@ public class PropertyBlock implements Block {
   // return rent price
   public int rent() {
     int price;
-    if (!owned)
+    if (!owned) {
       return 0;
+    }
     switch (buildings) {
       case 0:
         price = rent;
@@ -115,8 +117,9 @@ public class PropertyBlock implements Block {
       default:
         return 0;
     }
-    if (festivalStatus)
+    if (festivalStatus) {
       return price * 2;
+    }
     return price;
   }
 
@@ -132,16 +135,18 @@ public class PropertyBlock implements Block {
   }
 
   public String toString() {
-    if (numHouses() == 4 && festivalStatus)
+    if (numHouses() == 4 && festivalStatus) {
       return name + " - Hotel" + " - Festival";
-    else if (numHouses() == 4)
+    } else if (numHouses() == 4) {
       return name + " - Hotel";
-    if (numHouses() > 0 && festivalStatus)
+    } else if (numHouses() > 0 && festivalStatus) {
       return name + " - " + numHouses() + " Houses" + " - Festival";
-    else if (numHouses() > 0)
+    } else if (numHouses() > 0) {
       return name + " - " + numHouses() + " Houses";
-    if (festivalStatus)
+    } else if (festivalStatus) {
       return name + " - Festival";
-    return name;
+    } else {
+      return name;
+    }
   }
 }

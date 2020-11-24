@@ -1,27 +1,27 @@
 package monopoly;
 
 public interface Block {
-	int position();
+  int position();
 
-	String name();
+  String name();
 
-	boolean isOwnable();
+  boolean isOwnable();
 
-	boolean isOwned();
+  boolean isOwned();
 
-	int cost();
+  int cost();
 
-	void purchase(Player player);
+  void purchase(Player player);
 
-	int rent();
+  int rent();
 
   void setFestival(boolean stt);
 
   boolean getFestival();
 
-	Player owner();
+  Player owner();
 
   void reset();
 
-	String toString();
+  String toString();
 }

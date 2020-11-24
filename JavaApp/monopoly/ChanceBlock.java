@@ -1,87 +1,89 @@
 package monopoly;
 
-import org.ini4j.*;
+import org.ini4j.Wini;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ChanceBlock implements Block {
-	private final Deck deck; //store deck of cards
-	private String name = "chance";
-	private int pos;
+  private final Deck deck; // store deck of cards
+  private String name = "chance";
+  private int pos;
 
-	//construct square of type cards
-	public ChanceBlock(int pos) throws IOException{
-		deck = new Deck();
+  // construct square of type cards
+  public ChanceBlock(final int pos) throws IOException {
+    deck = new Deck();
     chance();
-		this.pos = pos;
-	}
+    this.pos = pos;
+  }
 
-	public boolean isOwnable() {
-		return false;
-	}
+  public boolean isOwnable() {
+    return false;
+  }
 
-	public int position() {
-		return pos;
-	}
+  public int position() {
+    return pos;
+  }
 
-	public String name() {
-		return name;
-	}
+  public String name() {
+    return name;
+  }
 
-	public boolean isOwned() {
-		return false;
-	}
+  public boolean isOwned() {
+    return false;
+  }
 
   // Create cards assign to deck and shuffle them
-	private void chance() throws IOException {
+  private void chance() throws IOException {
     // Open file config.ini
     Wini ini = new Wini(new File("..\\config.ini"));
     // Get number of all chance cards
-    int cardSize = Integer.parseInt(ini.get("cards", "size").toString()); 
-		Card[] cards = new Card[cardSize];
+    int cardSize = Integer.parseInt(ini.get("cards", "size").toString());
+    Card[] cards = new Card[cardSize];
 
     // Create Card object and save to cards array
     for (int i = 0; i < cardSize; i++) {
-			cards[i] = new Card(i + 1);
+      cards[i] = new Card(i + 1);
     }
 
-		deck.initialize(cards);
-	}
+    deck.initialize(cards);
+  }
 
-	//draw next card
-	public Card draw() {
-		return deck.drawCard();
-	}
+  // draw next card
+  public Card draw() {
+    return deck.drawCard();
+  }
 
-	public int cost() {
-		return 0;
-	}
+  public int cost() {
+    return 0;
+  }
 
-	public void purchase(Player player) {
-	}
+  public void purchase(Player player) {
+  }
 
-	public int rent() {
-		return 0;
-	}
+  public int rent() {
+    return 0;
+  }
 
-  public void setFestival(boolean stt) {}
+  public void setFestival(boolean stt) {
+  }
 
   public boolean getFestival() {
     return false;
   }
 
-	public Player owner() {
-		return null;
-	}
+  public Player owner() {
+    return null;
+  }
 
-	public String toString() {
-		return name;
-	}
+  public String toString() {
+    return name;
+  }
 
-	public Iterable<Card> cards() {
-		return deck.cards();
-	}
+  public Iterable<Card> cards() {
+    return deck.cards();
+  }
 
-  public void reset() {}
+  public void reset() {
+  }
 }

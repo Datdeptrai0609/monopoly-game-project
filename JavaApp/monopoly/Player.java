@@ -1,6 +1,6 @@
 package monopoly;
 
-import org.ini4j.*;
+import org.ini4j.Wini; 
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +31,13 @@ public class Player {
 
   // Add property when have new property
   public void addProperty(Block block) {
-    if (!block.isOwnable())
+    if (!block.isOwnable()) {
       throw new IllegalArgumentException("This property cannot be purchased!");
+    }
     properties.add(block);
-    if (block instanceof TravelBlock) 
+    if (block instanceof TravelBlock) {
       travelList.add((TravelBlock) block);
+    }
     block.purchase(this);
   }
 
@@ -55,8 +57,9 @@ public class Player {
 
   // Handle some special cases such as jumping to a new block
   public void moveTo(int pos, Board board) {
-    if (pos < position && !inJail)
+    if (pos < position && !inJail) {
       excMoney(200);
+    }
     position = pos;
 
     if (position == board.jailPos()) {
@@ -93,8 +96,9 @@ public class Player {
   public void sellProp(Block bl) {
     properties.remove(bl);
     bl.reset();
-    if (bl instanceof TravelBlock) 
+    if (bl instanceof TravelBlock) {
       travelList.remove((TravelBlock) bl);
+    }
   }
 
   public void leaveJail() {
@@ -110,8 +114,9 @@ public class Player {
     int assets = this.money;
     for (Block s : properties) {
       assets += s.cost();
-      if (s instanceof PropertyBlock)
+      if (s instanceof PropertyBlock) {
         assets += getHouseVal((PropertyBlock) s);
+      }
     }
     return assets;
   }
