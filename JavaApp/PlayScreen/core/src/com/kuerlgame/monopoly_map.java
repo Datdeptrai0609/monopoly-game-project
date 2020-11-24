@@ -22,13 +22,13 @@ public class monopoly_map extends ApplicationAdapter {
     @Override
     public void create() {
 
-        textureAtlas = new TextureAtlas("block_Features.txt");
-        backAtlas = new TextureAtlas("back_.txt");
-        roadHigh = new TextureAtlas("roadHigh_.txt");
-        roadLow = new TextureAtlas("roadLow_.txt");
-        carsHigh = new TextureAtlas("carsHigh_.txt");
-        carsLow = new TextureAtlas("carsLow_.txt");
-        things = new TextureAtlas("otherThings_.txt");
+        textureAtlas = new TextureAtlas("playScreenAssets/block_Features.txt");
+        backAtlas = new TextureAtlas("playScreenAssets/back_.txt");
+        roadHigh = new TextureAtlas("playScreenAssets/roadHigh_.txt");
+        roadLow = new TextureAtlas("playScreenAssets/roadLow_.txt");
+        carsHigh = new TextureAtlas("playScreenAssets/carsHigh_.txt");
+        carsLow = new TextureAtlas("playScreenAssets/carsLow_.txt");
+        things = new TextureAtlas("playScreenAssets/otherThings_.txt");
 
         batch = new SpriteBatch();
     }
