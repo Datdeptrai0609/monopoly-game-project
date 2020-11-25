@@ -7,7 +7,8 @@ import {
     Text,
     StatusBar,
     ImageBackground,
-    Image
+    Image,
+    Animated
 } from 'react-native';
 
 import {
@@ -18,36 +19,41 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-// add Logo component
-
+// add component
 import LogoMono from './Logo';
+import FadeinView from './FadeinView'
 
 export default class WellcomeScreen extends Component {
     render() {
         return (
-        // create containner 
-        <View style = {styles.container}>
-        {/* using image background to set wellcome background */}
-        <ImageBackground
-          style ={styles.image}
-          source = {imgWellcome}>
-            {/* logo IU and IoT */}
-            <View
-              style={styles.containerLogo}>
-                <Image
-                  source={logoIU}
-                  style={styles.img}
-                />
-                <Image
-                  style={styles.img}
-                  source={logoIoT}
-                />
+            // create containner 
+            <View style={styles.container}>
+                {/* using image background to set wellcome background */}
+                <ImageBackground
+                    style={styles.image}
+                    source={imgWellcome}>
+                    {/* logo IU and IoT */}
+                    <FadeinView
+                        style={styles.containerLogo}
+                        duration={1000}
+                        delay={3000}>
+                        <Image
+                            source={logoIU}
+                            style={styles.img}
+                        />
+                        <Image
+                            style={styles.img}
+                            source={logoIoT}
+                        />
+                    </FadeinView>
+                    <FadeinView
+                        duration={2000}
+                        delay={1000}
+                        style={styles.monoImg}>
+                        <LogoMono />
+                    </FadeinView>
+                </ImageBackground>
             </View>
-            <View>
-                <LogoMono/>
-            </View>
-        </ImageBackground>
-    </View>
         )
     }
 }
@@ -58,26 +64,34 @@ const logoIoT = require('../img/logo/logoIoT.png');
 const logoIU = require('../img/logo/IULogo.png');
 
 //define css style 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         flexDirection: "column"
     },
     image: {
-        flex:1,
-        resizeMode:"cover",
-        justifyContent:"center"
+        display: 'flex',
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
     },
     containerLogo: {
+        display: 'flex',
         flex: 1,
         flexDirection: "row",
     },
     img: {
-        resizeMode:'center',
+        resizeMode: 'center',
         width: 55,
         height: 55,
         marginLeft: 5,
         marginTop: 25
+    },
+    monoImg: {
+        width: 200,
+        marginLeft: 60,
+        flex: 2,
+        // justifyContent:'center'
     }
 })
 

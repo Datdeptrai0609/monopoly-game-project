@@ -22,7 +22,10 @@ import {
 export default class LogoMono extends Component {
     render() {
         return(
-            <View></View>
+            <Image
+               source = {monoLogo}
+               style ={styles.monoImg}
+            />
         );
     }
 }
@@ -33,5 +36,8 @@ const monoLogo = require('../img/logo/monoLogo.png')
 
 //define css style 
 const styles = StyleSheet.create ({
-    
+    // monoImg: {
+        // width: 10,
+        // marginBottom:290
+    // }
 })
