@@ -16,7 +16,8 @@ class FadeInView extends Component {
             {
                 toValue: 1,                             // Animate to opacity: 1, or fully opaque
                 duration: this.props.duration,
-                delay: this.props.delay
+                delay: this.props.delay,
+                useNativeDriver: true
             }
         ).start();                                  // Starts the animation
     }
