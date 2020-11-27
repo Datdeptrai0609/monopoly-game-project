@@ -1,8 +1,8 @@
-package com.kuerlgame.desktop;
+package com.monopoly.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.kuerlgame.monopoly_map;
+import com.monopoly.MonopolyOOP;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -12,6 +12,6 @@ public class DesktopLauncher {
 		config.height = 1000;
 		config.resizable = false;
 
-		new LwjglApplication(new monopoly_map(), config);
+		new LwjglApplication(new MonopolyOOP(), config);
 	}
 }

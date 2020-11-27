@@ -1,0 +1,26 @@
+waitingRoom_.png
+size: 1922, 1449
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 1, 1
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+playerAvailable
+  rotate: true
+  xy: 1, 1083
+  size: 365, 664
+  orig: 365, 664
+  offset: 0, 0
+  index: -1
+playerNotAvailable
+  rotate: true
+  xy: 667, 1083
+  size: 365, 664
+  orig: 365, 664
+  offset: 0, 0
+  index: -1
