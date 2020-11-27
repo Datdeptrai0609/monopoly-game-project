@@ -1,0 +1,61 @@
+golemStand.png
+size: 1440, 1920
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 0, 0
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 4
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 720, 0
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 5
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 0, 480
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 6
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 720, 480
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 7
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 0, 960
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 8
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 720, 960
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 9
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 0, 1440
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 10
+Golem_01_Idle Blinking
+  rotate: false
+  xy: 720, 1440
+  size: 720, 480
+  orig: 720, 480
+  offset: 0, 0
+  index: 11
