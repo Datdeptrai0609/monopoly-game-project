@@ -8,7 +8,11 @@ import {
     StatusBar,
     ImageBackground,
     Image,
-    Animated
+    Animated,
+    TextInput,
+    KeyboardAvoidingView,
+    Button,
+    Alert
 } from 'react-native';
 
 import {
@@ -19,24 +23,29 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+//add animation lib
+import * as Animatable from 'react-native-animatable';
+
 // add component
 import LogoMono from './Logo';
-import FadeinView from './FadeinView'
 
 export default class WellcomeScreen extends Component {
     render() {
         return (
-            // create containner 
-            <View style={styles.container}>
+            //  {/* create containner  */}
+            <KeyboardAvoidingView
+                behavior={'height'}
+                style={styles.container}>
                 {/* using image background to set wellcome background */}
                 <ImageBackground
                     style={styles.image}
                     source={imgWellcome}>
                     {/* logo IU and IoT */}
-                    <FadeinView
+                    <Animatable.View 
+                        animation = "fadeIn"
                         style={styles.containerLogo}
                         duration={1000}
-                        delay={3000}>
+                        delay={1600}>
                         <Image
                             source={logoIU}
                             style={styles.img}
@@ -45,15 +54,24 @@ export default class WellcomeScreen extends Component {
                             style={styles.img}
                             source={logoIoT}
                         />
-                    </FadeinView>
-                    <FadeinView
-                        duration={2000}
+                    </Animatable.View>
+                    <Animatable.View
+                        animation ="zoomIn"
+                        duration={500}
                         delay={1000}
                         style={styles.monoImg}>
                         <LogoMono />
-                    </FadeinView>
+                    </Animatable.View>
+                    <Animatable.View
+                        style= {styles.textInputView}>
+                        <TextInput style = {styles.textInput}/>
+                        <Button
+                            title="Press me"
+                            onPress={() => Alert.alert('Simple Button pressed')}
+                        />
+                    </Animatable.View>
                 </ImageBackground>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -67,18 +85,20 @@ const logoIU = require('../img/logo/IULogo.png');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        alignContent:'space-between'
     },
     image: {
-        display: 'flex',
+        
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center"
     },
     containerLogo: {
         display: 'flex',
-        flex: 1,
+        flex: 1.3,
         flexDirection: "row",
+        // backgroundColor:'blue'
     },
     img: {
         resizeMode: 'center',
@@ -88,10 +108,25 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     monoImg: {
-        width: 200,
-        marginLeft: 60,
-        flex: 2,
-        // justifyContent:'center'
+        paddingLeft: 60,
+        flex: 1,
+        // marginTop: 50,
+        // backgroundColor:'red',
+        justifyContent:'center'
+    },
+    textInputView:{
+        flex:1.6,
+        // backgroundColor:'green',
+        opacity: 0.3,
+        alignItems:'center'
+    },
+    textInput: {
+        width: 180,
+        height: 60,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 50,
+        fontSize: 20,
+        color:'black',
     }
 })
-
