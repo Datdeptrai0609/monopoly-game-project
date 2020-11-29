@@ -12,7 +12,9 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Button,
-    Alert
+    Alert,
+    TouchableOpacity,
+    Keyboard
 } from 'react-native';
 
 import {
@@ -30,47 +32,62 @@ import * as Animatable from 'react-native-animatable';
 import LogoMono from './Logo';
 
 export default class WellcomeScreen extends Component {
+    state = {
+        placeholder: 'game PIN',
+        room: 0
+    }
     render() {
         return (
             //  {/* create containner  */}
+
             <KeyboardAvoidingView
-                behavior={'height'}
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
                 style={styles.container}>
-                {/* using image background to set wellcome background */}
-                <ImageBackground
-                    style={styles.image}
-                    source={imgWellcome}>
-                    {/* logo IU and IoT */}
-                    <Animatable.View 
-                        animation = "fadeIn"
-                        style={styles.containerLogo}
-                        duration={1000}
-                        delay={1600}>
-                        <Image
-                            source={logoIU}
-                            style={styles.img}
-                        />
-                        <Image
-                            style={styles.img}
-                            source={logoIoT}
-                        />
-                    </Animatable.View>
-                    <Animatable.View
-                        animation ="zoomIn"
-                        duration={500}
-                        delay={1000}
-                        style={styles.monoImg}>
-                        <LogoMono />
-                    </Animatable.View>
-                    <Animatable.View
-                        style= {styles.textInputView}>
-                        <TextInput style = {styles.textInput}/>
-                        <Button
-                            title="Press me"
-                            onPress={() => Alert.alert('Simple Button pressed')}
-                        />
-                    </Animatable.View>
-                </ImageBackground>
+                    {/* using image background to set wellcome background */}
+                    <ImageBackground
+                        style={styles.image}
+                        source={imgWellcome}>
+                        {/* logo IU and IoT */}
+                        <Animatable.View
+                            animation="fadeIn"
+                            style={styles.containerLogo}
+                            duration={1000}
+                            delay={1600}>
+                            <Image
+                                source={logoIU}
+                                style={styles.img}
+                            />
+                            <Image
+                                style={styles.img}
+                                source={logoIoT}
+                            />
+                        </Animatable.View>
+                        <Animatable.View
+                            animation="zoomIn"
+                            duration={500}
+                            delay={1000}
+                            style={styles.monoImg}>
+                            <LogoMono />
+                        </Animatable.View>
+                        <Animatable.View
+                            animation='fadeIn'
+                            delay={3000}
+                            style={styles.textInputView}>
+                            <TextInput
+                                onChangeText={(value) => { this.state.room = value; }}
+                                keyboardType='number-pad'
+                                maxLength={4}
+                                placeholder={this.state.placeholder}
+                                style={styles.textInput} />
+                            <TouchableOpacity
+                                onPress={() => Alert.alert('Simple Button pressed')}
+                                style={styles.btnPress}
+                            >
+                                <Text
+                                    style={styles.TextStyle}>PRESS ME</Text>
+                            </TouchableOpacity>
+                        </Animatable.View>
+                    </ImageBackground>
             </KeyboardAvoidingView>
         )
     }
@@ -86,17 +103,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        alignContent:'space-between'
+        alignContent: 'space-between'
     },
     image: {
-        
+
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center"
     },
     containerLogo: {
         display: 'flex',
-        flex: 1.3,
+        flex: 1,
         flexDirection: "row",
         // backgroundColor:'blue'
     },
@@ -108,25 +125,44 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     monoImg: {
-        paddingLeft: 60,
-        flex: 1,
-        // marginTop: 50,
+
+        flex: 1.3,
+        paddingLeft: 3,
         // backgroundColor:'red',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
-    textInputView:{
-        flex:1.6,
+    textInputView: {
+        flex: 1.6,
         // backgroundColor:'green',
-        opacity: 0.3,
-        alignItems:'center'
+        alignItems: 'center'
     },
     textInput: {
+        backgroundColor: 'white',
         width: 180,
         height: 60,
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 50,
-        fontSize: 20,
-        color:'black',
+        fontSize: 25,
+        color: 'black',
+        textAlign: 'center'
+    },
+    btnPress: {
+        marginTop: 15,
+        borderWidth: 1,
+        alignItems: 'center',
+        padding: 5,
+        width: 120,
+        height: 40,
+        borderRadius: 15,
+        borderColor: "#ffd800",
+        backgroundColor: '#ffd800'
+    },
+    TextStyle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontFamily: 'Cochin'
+
+
     }
 })
