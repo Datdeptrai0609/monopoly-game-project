@@ -24,7 +24,6 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Logo from './Component/Logo';
 
 import WellcomeScreen from './Component/WellcomeScreen';
 

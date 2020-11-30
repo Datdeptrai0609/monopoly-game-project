@@ -14,7 +14,8 @@ import {
     Button,
     Alert,
     TouchableOpacity,
-    Keyboard
+    Keyboard,
+    Dimensions
 } from 'react-native';
 
 import {
@@ -28,14 +29,12 @@ import {
 //add animation lib
 import * as Animatable from 'react-native-animatable';
 
-// add component
-import LogoMono from './Logo';
-
 export default class WellcomeScreen extends Component {
     state = {
         placeholder: 'game PIN',
-        room: 0
+        roomNumber: 0
     }
+
     render() {
         return (
             //  {/* create containner  */}
@@ -45,7 +44,7 @@ export default class WellcomeScreen extends Component {
                 style={styles.container}>
                     {/* using image background to set wellcome background */}
                     <ImageBackground
-                        style={styles.image}
+                        style={styles.imageBackground}
                         source={imgWellcome}>
                         {/* logo IU and IoT */}
                         <Animatable.View
@@ -55,10 +54,10 @@ export default class WellcomeScreen extends Component {
                             delay={1600}>
                             <Image
                                 source={logoIU}
-                                style={styles.img}
+                                style={styles.imgLogo}
                             />
                             <Image
-                                style={styles.img}
+                                style={styles.imgLogo}
                                 source={logoIoT}
                             />
                         </Animatable.View>
@@ -67,20 +66,23 @@ export default class WellcomeScreen extends Component {
                             duration={500}
                             delay={1000}
                             style={styles.monoImg}>
-                            <LogoMono />
+                        <Image
+                            source={monoLogo}
+                        />
                         </Animatable.View>
                         <Animatable.View
                             animation='fadeIn'
                             delay={3000}
                             style={styles.textInputView}>
                             <TextInput
-                                onChangeText={(value) => { this.state.room = value; }}
+                            onChangeText={text => this.setState({roomNumber: text})}
                                 keyboardType='number-pad'
                                 maxLength={4}
                                 placeholder={this.state.placeholder}
-                                style={styles.textInput} />
+                                style={styles.textInput} 
+                                />
                             <TouchableOpacity
-                                onPress={() => Alert.alert('Simple Button pressed')}
+                                onPress={() => Alert.alert(this.state.roomNumber)}
                                 style={styles.btnPress}
                             >
                                 <Text
@@ -94,9 +96,11 @@ export default class WellcomeScreen extends Component {
 }
 
 //define img link
+const monoLogo = require('../img/logo/monoLogo.png');
 const imgWellcome = require('../img/background/backgroundImg.png');
 const logoIoT = require('../img/logo/logoIoT.png');
 const logoIU = require('../img/logo/IULogo.png');
+const {height, width} = Dimensions.get('window');
 
 //define css style 
 const styles = StyleSheet.create({
@@ -105,7 +109,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignContent: 'space-between'
     },
-    image: {
+    imageBackground: {
 
         flex: 1,
         resizeMode: "cover",
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         // backgroundColor:'blue'
     },
-    img: {
+    imgLogo: {
         resizeMode: 'center',
         width: 55,
         height: 55,
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
     monoImg: {
 
         flex: 1.3,
-        paddingLeft: 3,
+        paddingLeft: width*0.03,
         // backgroundColor:'red',
         justifyContent: 'center'
     },
