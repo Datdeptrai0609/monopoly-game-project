@@ -26,12 +26,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import WellcomeScreen from './Component/WellcomeScreen';
+import ChooseCharacter from './Component/ChooseCharacter';
 
 
 export default class App extends Component {
   render() {
     return (
-      <WellcomeScreen/>
+      <ChooseCharacter/>
     )
   }
 }
