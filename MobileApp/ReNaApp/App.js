@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  ImageBackground,
 } from 'react-native';
 
 import {
@@ -24,12 +25,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import WellcomeScreen from './Component/WellcomeScreen';
+
+
 export default class App extends Component {
   render() {
     return (
-      <View>
-        
-      </View>
+      <WellcomeScreen/>
     )
   }
 }
