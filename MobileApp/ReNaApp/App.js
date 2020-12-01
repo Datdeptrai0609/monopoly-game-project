@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { Component } from 'react';
 import {
   SafeAreaView,
@@ -25,14 +17,22 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import WellcomeScreen from './Component/WellcomeScreen';
-import ChooseCharacter from './Component/ChooseCharacter';
+// import navigation 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
+//import screens
+import WellcomeScreen from './Component/WellcomeScreen';
+import ChooseCharater from './Component/ChooseCharacter';
+import * as Animatable from 'react-native-animatable';
 
 export default class App extends Component {
   render() {
     return (
-      <ChooseCharacter/>
+        <WellcomeScreen/>
+      // <ChooseCharater/>
     )
   }
 }
+
+const Stack = createStackNavigator();

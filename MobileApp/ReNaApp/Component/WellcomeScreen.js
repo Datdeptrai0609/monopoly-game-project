@@ -32,16 +32,22 @@ import * as Animatable from 'react-native-animatable';
 export default class WellcomeScreen extends Component {
     state = {
         placeholder: 'game PIN',
-        roomNumber: 0
+        roomNumber: 0,
+        animation: 'zoomIn'
+    }
+
+    setAnimation = () => {
+        this.setState({animation: 'fadeOut'});
+        console.log(this.state.animation);
     }
 
     render() {
         return (
             //  {/* create containner  */}
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
-                style={styles.container}>
+                <KeyboardAvoidingView
+                    animation={this.state.animation}
+                    behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    style={styles.container}>
                     {/* using image background to set wellcome background */}
                     <ImageBackground
                         style={styles.imageBackground}
@@ -62,7 +68,7 @@ export default class WellcomeScreen extends Component {
                             />
                         </Animatable.View>
                         <Animatable.View
-                            animation="zoomIn"
+                            animation={this.state.animation}
                             duration={500}
                             delay={1000}
                             style={styles.monoImg}>
@@ -75,14 +81,14 @@ export default class WellcomeScreen extends Component {
                             delay={3000}
                             style={styles.textInputView}>
                             <TextInput
-                            onChangeText={text => this.setState({roomNumber: text})}
+                                onChangeText={text => this.setState({roomNumber: text})}
                                 keyboardType='number-pad'
                                 maxLength={4}
                                 placeholder={this.state.placeholder}
                                 style={styles.textInput} 
                                 />
                             <TouchableOpacity
-                                onPress={() => Alert.alert(this.state.roomNumber)}
+                                onPress={this.setAnimation}
                                 style={styles.btnPress}
                             >
                                 <Text
