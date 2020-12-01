@@ -1,0 +1,54 @@
+loadingBar.png
+size: 1793, 730
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a
+  rotate: false
+  xy: 1, 628
+  size: 1791, 101
+  orig: 1791, 101
+  offset: 0, 0
+  index: -1
+aa
+  rotate: false
+  xy: 1, 107
+  size: 1791, 103
+  orig: 1791, 127
+  offset: 0, 0
+  index: -1
+ab
+  rotate: false
+  xy: 1, 212
+  size: 1791, 102
+  orig: 1791, 102
+  offset: 0, 0
+  index: -1
+ac
+  rotate: false
+  xy: 1, 316
+  size: 1791, 102
+  orig: 1791, 102
+  offset: 0, 0
+  index: -1
+ad
+  rotate: false
+  xy: 1, 1
+  size: 1791, 104
+  orig: 1791, 152
+  offset: 0, 24
+  index: -1
+ae
+  rotate: false
+  xy: 1, 420
+  size: 1791, 102
+  orig: 1791, 102
+  offset: 0, 0
+  index: -1
+af
+  rotate: false
+  xy: 1, 524
+  size: 1791, 102
+  orig: 1791, 102
+  offset: 0, 0
+  index: -1

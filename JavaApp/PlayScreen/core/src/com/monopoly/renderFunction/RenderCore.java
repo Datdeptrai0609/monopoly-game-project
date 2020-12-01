@@ -21,10 +21,19 @@ public class RenderCore extends ApplicationAdapter {
         this.batch = batch;
     }
 
-//    public TextureAtlas setTextureAtlas(TextureAtlas textureAtlas) {
-//        this.textureAtlas = textureAtlas;
-//        return textureAtlas;
-//    }
+    public double getSpritesWidth(int texture_ordinal) {
+        Array<TextureAtlas.AtlasRegion> regions = textureAtlas.getRegions();
+        TextureAtlas.AtlasRegion region = regions.get(texture_ordinal);
+        Sprite sprite = textureAtlas.createSprite(region.name);
+        return sprite.getWidth();
+    }
+
+    public double getSpritesHeight(int texture_ordinal) {
+        Array<TextureAtlas.AtlasRegion> regions = textureAtlas.getRegions();
+        TextureAtlas.AtlasRegion region = regions.get(texture_ordinal);
+        Sprite sprite = textureAtlas.createSprite(region.name);
+        return sprite.getHeight();
+    }
 
     public void drawThing(int texture_ordinal, float x_position, float y_position) {
         Array<TextureAtlas.AtlasRegion> regions = textureAtlas.getRegions();
