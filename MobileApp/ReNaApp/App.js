@@ -28,18 +28,20 @@ import * as Animatable from 'react-native-animatable';
 export default class App extends Component {
   render() {
     return (
-      // <Router>
-      //   <Scene key="root">
-      //     <Scene
-      //       key="Wellcome"
-      //       component={WellcomeScreen}
-      //     />
-      //     <Scene
-      //       key="chooseCharacter"
-      //       component={ChooseCharater}
-      //     />
-      //   </Scene>
-      // </Router>
-      <WellcomeScreen/>
+      <Router>
+        <Scene key="root" hideNavBar>
+          <Scene
+            key="Wellcome"
+            component={WellcomeScreen}
+            hideNavBar
+          />
+          <Scene
+            key="chooseCharacter"
+            component={ChooseCharater}
+            hideNavBar
+          />
+        </Scene>
+      </Router>
+      // <WellcomeScreen/>
   )
 }}

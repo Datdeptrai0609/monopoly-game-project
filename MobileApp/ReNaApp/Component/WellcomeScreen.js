@@ -40,7 +40,7 @@ export default class WellcomeScreen extends Component {
     setAnimation = () => {
         this.setState({animation: 'fadeOut'});
         console.log(this.state.animation);
-        Actions.ChooseCharacter();
+        
     }
 
     render() {
@@ -90,7 +90,7 @@ export default class WellcomeScreen extends Component {
                                 style={styles.textInput} 
                                 />
                             <TouchableOpacity
-                                onPress={this.setAnimation}
+                                onPress={() => Actions.chooseCharacter()}
                                 style={styles.btnPress}
                             >
                                 <Text
