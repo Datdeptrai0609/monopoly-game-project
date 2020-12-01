@@ -18,8 +18,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 // import navigation 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Router, Scene } from 'react-native-router-flux';
 
 //import screens
 import WellcomeScreen from './Component/WellcomeScreen';
@@ -29,10 +28,18 @@ import * as Animatable from 'react-native-animatable';
 export default class App extends Component {
   render() {
     return (
-        <WellcomeScreen/>
-      // <ChooseCharater/>
-    )
-  }
-}
-
-const Stack = createStackNavigator();
+      // <Router>
+      //   <Scene key="root">
+      //     <Scene
+      //       key="Wellcome"
+      //       component={WellcomeScreen}
+      //     />
+      //     <Scene
+      //       key="chooseCharacter"
+      //       component={ChooseCharater}
+      //     />
+      //   </Scene>
+      // </Router>
+      <WellcomeScreen/>
+  )
+}}

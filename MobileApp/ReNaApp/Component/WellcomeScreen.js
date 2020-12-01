@@ -28,6 +28,7 @@ import {
 
 //add animation lib
 import * as Animatable from 'react-native-animatable';
+import { Actions } from 'react-native-router-flux';
 
 export default class WellcomeScreen extends Component {
     state = {
@@ -39,6 +40,7 @@ export default class WellcomeScreen extends Component {
     setAnimation = () => {
         this.setState({animation: 'fadeOut'});
         console.log(this.state.animation);
+        Actions.ChooseCharacter();
     }
 
     render() {
