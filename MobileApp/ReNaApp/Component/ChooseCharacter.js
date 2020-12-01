@@ -65,10 +65,10 @@ const styles = StyleSheet.create({
     },
     logoImg: {
         position:'absolute',
-        marginTop: 50
+        marginTop: 25
     },
     windowsChoose: {
-        marginTop: height *1/7,
+        marginTop: 73,
         position: 'absolute',
         width: width*5/6,
         height: height*3/4,
