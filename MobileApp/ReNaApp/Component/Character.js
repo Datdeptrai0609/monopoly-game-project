@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, StyleSheet,Image } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet,Image, ScrollView } from 'react-native'
 
 class Character extends Component {
     state = {
@@ -39,7 +39,8 @@ class Character extends Component {
                 name: 'Tei Tei',
                 status: false,
                 charac: require('../img/imgCharacter/charac6.png'),
-            }
+            },
+            
         ],
     }
 
@@ -62,6 +63,7 @@ class Character extends Component {
     render() {
         return (
             //return design character
+            
             <View style={styles.playerContainer}>
                 {
                     this.state.characters.map((item, index) => (
