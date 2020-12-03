@@ -6,7 +6,9 @@ import {
   View,
   Text,
   StatusBar,
-  ImageBackground,
+  ImageBackground, 
+  BackHandler, 
+  Alert
 } from 'react-native';
 
 import {
@@ -26,6 +28,25 @@ import ChooseCharater from './Component/ChooseCharacter';
 import * as Animatable from 'react-native-animatable';
 
 export default class App extends Component {
+  backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  }
   render() {
     return (
       <Router>
@@ -38,6 +59,7 @@ export default class App extends Component {
           <Scene
             key="chooseCharacter"
             component={ChooseCharater}
+            onback = {() => {return false}}
             hideNavBar
           />
         </Scene>

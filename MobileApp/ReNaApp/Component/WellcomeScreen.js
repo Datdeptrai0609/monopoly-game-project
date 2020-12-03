@@ -34,13 +34,11 @@ export default class WellcomeScreen extends Component {
     state = {
         placeholder: 'game PIN',
         roomNumber: 0,
-        animation: 'zoomIn'
+        count: 0
     }
 
-    setAnimation = () => {
-        this.setState({animation: 'fadeOut'});
-        console.log(this.state.animation);
-        
+    setRoomNumber = (text) => {
+        this.setState({roomNumber: text, count: this.state.count + 1 });
     }
 
     render() {
@@ -70,7 +68,7 @@ export default class WellcomeScreen extends Component {
                             />
                         </Animatable.View>
                         <Animatable.View
-                            animation={this.state.animation}
+                            animation='zoomIn'
                             duration={500}
                             delay={1000}
                             style={styles.monoImg}>
@@ -83,14 +81,14 @@ export default class WellcomeScreen extends Component {
                             delay={3000}
                             style={styles.textInputView}>
                             <TextInput
-                                onChangeText={text => this.setState({roomNumber: text})}
+                                onChangeText={text => this.setRoomNumber(text)}
                                 keyboardType='number-pad'
                                 maxLength={4}
                                 placeholder={this.state.placeholder}
                                 style={styles.textInput} 
                                 />
                             <TouchableOpacity
-                                onPress={() => Actions.chooseCharacter()}
+                                onPress={() => this.state.count == 4 ? Actions.chooseCharacter() : Alert.alert("Wrong Room Number")}
                                 style={styles.btnPress}
                             >
                                 <Text
@@ -133,7 +131,7 @@ const styles = StyleSheet.create({
         resizeMode: 'center',
         width: 55,
         height: 55,
-        marginLeft: 5,
+        marginLeft: 2,
         marginTop: 25
     },
     monoImg: {
@@ -141,7 +139,8 @@ const styles = StyleSheet.create({
         flex: 1.3,
         paddingLeft: width*0.03,
         // backgroundColor:'red',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems:'center'
     },
     textInputView: {
         flex: 1.6,
