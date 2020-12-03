@@ -32,17 +32,12 @@ import List from './Character';
 
 export default class ChooseCharacter extends Component {
     state = {
-        btnStatus: false
-    }
-
-    handleLanguage = (langValue) => {
-        this.setState({ btnStatus: langValue });
-        console.log(this.state.btnStatus);
+        btnStatus: true
     }
 
     setBtnStatus = (child) => {
         this.setState({btnStatus: child})
-        console.log(this.state.btnStatus);
+        console.log('in setBtnStatus:' + this.state.btnStatus);
     }
 
     render() {
@@ -54,16 +49,18 @@ export default class ChooseCharacter extends Component {
                     style={styles.imageBackground}>
                     <Animatable.View
                         animation='fadeIn'
-                        delay = {700}
+                        delay = {1000}
+                        duration = {2000}
                         style = {styles.windowsChoose}>
                         <Text
-                            style = {styles.text}>C h o o s e    Y o u r    C h a r a c t e r !</Text>
-                        <List send = {this.setBtnStatus}/>
+                            style = {styles.text}>P i c k    Y o u r    C h a r a c t e r !</Text>
+                        <List sendData = {this.setBtnStatus}/>
                         <View
-                            style = {styles.test}>
+                            style = {styles.readyContainer}>
                             <TouchableOpacity
-                                disabled={false}
-                                style = {styles.buttonOff}>
+                                disabled={this.state.btnStatus}
+                                //if disable is true then the button is off 
+                                style = { this.state.btnStatus ? styles.buttonOff : styles.buttonOn}>
                                 <Text style = {styles.textReady}> READY </Text>
                             </TouchableOpacity>
                         </View>
@@ -71,7 +68,7 @@ export default class ChooseCharacter extends Component {
                     <Animatable.Image
                         animation='zoomIn'
                         delay ={100}
-                        duration ={700}
+                        duration ={1000}
                         source={logoMonoSmall}
                         style={styles.logoImg}>
                     </Animatable.Image>
@@ -113,18 +110,8 @@ const styles = StyleSheet.create({
         borderColor:'#6E1CE9',
         alignItems: 'center'
     },
-    playerContainer: {
-        width: 300,
-        height: 400,
-        flex:3,
-        flexDirection:'row',
-        flexWrap: 'wrap',
-        justifyContent:'center',
-        alignContent:'center',
-        backgroundColor: 'rgba(0,0,0,0.8)'
-    },
     
-    test: {
+    readyContainer: {
         flex:1,
         width: 300,
         height: 400,
@@ -132,21 +119,21 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     text:{
-        flex:0.2,
+        flex:0.5,
         fontStyle:'italic',
         fontSize: 20,
         paddingTop:40,
-        color: 'yellow',
+        color: '#ff5be6',
         fontWeight:'bold'
     },
-    buttonOff: {
+    buttonOn: {
         width: 190,
         height: 70,
         backgroundColor:'#00ff48',
         borderRadius: 18,
         
     },
-    buttonOn: {
+    buttonOff: {
         width: 190,
         height: 70,
         backgroundColor: 'gray',
