@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet,Image } from 'react-native'
 
-class List extends Component {
+class Character extends Component {
     state = {
         characters: [
             {
@@ -46,7 +46,6 @@ class List extends Component {
     sendBtnStatus = () => {
         var check = false;
         this.props.sendData(check);
-        console.log('qq');
     }
 
 
@@ -83,7 +82,7 @@ class List extends Component {
         )
     }
 }
-export default List
+export default Character
 
 const buttonStatus = false;
 

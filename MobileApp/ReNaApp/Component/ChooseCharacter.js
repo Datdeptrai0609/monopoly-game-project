@@ -28,7 +28,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import * as Animatable from 'react-native-animatable';
-import List from './Character';
+import Character from './Character';
 
 export default class ChooseCharacter extends Component {
     state = {
@@ -37,7 +37,6 @@ export default class ChooseCharacter extends Component {
 
     setBtnStatus = (child) => {
         this.setState({btnStatus: child})
-        console.log('in setBtnStatus:' + this.state.btnStatus);
     }
 
     render() {
@@ -54,7 +53,7 @@ export default class ChooseCharacter extends Component {
                         style = {styles.windowsChoose}>
                         <Text
                             style = {styles.text}>P i c k    Y o u r    C h a r a c t e r !</Text>
-                        <List sendData = {this.setBtnStatus}/>
+                        <Character sendData = {this.setBtnStatus}/>
                         <View
                             style = {styles.readyContainer}>
                             <TouchableOpacity
