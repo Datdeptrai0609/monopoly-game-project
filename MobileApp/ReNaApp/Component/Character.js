@@ -34,31 +34,33 @@ class List extends Component {
                 status: false,
                 charac: require('../img/imgCharacter/charac6.png')
             }
-        ]
+        ],
     }
 
-    setStatus =() => {
-        // this.state.characters.map((item) => {
-        //     console.log('       ' + item);
-        //     let characters = {...this.state.characters};
-        //     characters.
-        // })
+    sendData = () => {
+        this.props.setBtnsStatus('true');
+    }
 
-        let character = {...this.state.characters};
-        this.setState({character})
-        character.map((item) => console.log(item));
-       console.log(character);
+    setStatus =(index) => {
+        let character = [...this.state.characters];//clone characters
+        //set status for each item which chose in clone variable
+        character.map((item) => {
+            (item.id == index) ? item.status = true : item.status = false;
+        });
+        // update for state
+        this.setState({character});
     }
 
     render() {
         return (
+            //return design character
             <View style={styles.playerContainer}>
                 {
                     this.state.characters.map((item, index) => (
                         <TouchableOpacity
                             key={item.id}
-                            onPress = {() => this.setStatus()}
-                            style={item.status == true ? styles.characterBoxChoose : styles.characterBox}>
+                            onPress = {() => this.setStatus(item.id)}
+                            style={item.status == true ? styles.characterBoxChose : styles.characterBox}>
                             <Image source={item.charac}/>
                         </TouchableOpacity>
                     ))
@@ -68,6 +70,8 @@ class List extends Component {
     }
 }
 export default List
+
+const buttonStatus = false;
 
 const styles = StyleSheet.create({
     characterBox: {
@@ -80,16 +84,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    characterBoxChoose: {
+    characterBoxChose: {
         width: 120,
         height: 120,
-        backgroundColor: 'white',
+        backgroundColor: 'gray',
         margin: 10,
         borderWidth: 10,
         borderColor: 'green',
         borderRadius: 30,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
     },
     playerContainer: {
         width: 300,

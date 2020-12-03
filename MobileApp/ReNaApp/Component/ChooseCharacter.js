@@ -31,8 +31,20 @@ import * as Animatable from 'react-native-animatable';
 import List from './Character';
 
 export default class ChooseCharacter extends Component {
-    
-        
+    state = {
+        btnStatus: false
+    }
+
+    handleLanguage = (langValue) => {
+        this.setState({ btnStatus: langValue });
+        console.log(this.state.btnStatus);
+    }
+
+    setBtnStatus = (child) => {
+        this.setState({btnStatus: child})
+        console.log(this.state.btnStatus);
+    }
+
     render() {
         return (
             <View
@@ -46,11 +58,11 @@ export default class ChooseCharacter extends Component {
                         style = {styles.windowsChoose}>
                         <Text
                             style = {styles.text}>C h o o s e    Y o u r    C h a r a c t e r !</Text>
-                        <List/>
+                        <List send = {this.setBtnStatus}/>
                         <View
                             style = {styles.test}>
                             <TouchableOpacity
-                                disabled={true}
+                                disabled={false}
                                 style = {styles.buttonOff}>
                                 <Text style = {styles.textReady}> READY </Text>
                             </TouchableOpacity>
