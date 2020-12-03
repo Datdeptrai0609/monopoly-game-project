@@ -5,47 +5,50 @@ class List extends Component {
     state = {
         characters: [
             {
-                id: 1,
+                id: 0,
                 status: false,
                 charac: require('../img/imgCharacter/charac1.png')
             },
             {
-                id: 2,
+                id: 1,
                 status: false,
                 charac: require('../img/imgCharacter/charac2.png')
             },
             {
-                id: 3,
+                id: 2,
                 status: false,
                 charac: require('../img/imgCharacter/charac3.png')
             },
             {
-                id: 4,
+                id: 3,
                 status: false,
                 charac: require('../img/imgCharacter/charac4.png')
             },
             {
-                id: 5,
+                id: 4,
                 status: false,
                 charac: require('../img/imgCharacter/charac5.png')
             },
             {
-                id: 6,
+                id: 5,
                 status: false,
                 charac: require('../img/imgCharacter/charac6.png')
             }
         ]
     }
 
-    setStatus =(index) => {
-        this.state.characters.map((item) => {
-            // console.log(typeof item.id);
-            // console.log(typeof index);
-            (item.id == index) ? this.setState({ status: true }) : this.setState({ status: true });
-            console.log(item.status);
-        });
+    setStatus =() => {
+        // this.state.characters.map((item) => {
+        //     console.log('       ' + item);
+        //     let characters = {...this.state.characters};
+        //     characters.
+        // })
 
-    } 
+        let character = {...this.state.characters};
+        this.setState({character})
+        character.map((item) => console.log(item));
+       console.log(character);
+    }
 
     render() {
         return (
@@ -54,7 +57,7 @@ class List extends Component {
                     this.state.characters.map((item, index) => (
                         <TouchableOpacity
                             key={item.id}
-                            onPress = {() => this.setStatus(item.id)}
+                            onPress = {() => this.setStatus()}
                             style={item.status == true ? styles.characterBoxChoose : styles.characterBox}>
                             <Image source={item.charac}/>
                         </TouchableOpacity>
