@@ -1,4 +1,6 @@
-# Installation
+# GIT FLOW
+
+## Installation
 
   To make git flow:
 
