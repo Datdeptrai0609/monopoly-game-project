@@ -83,4 +83,8 @@ public class TravelBlock implements Block {
     }
     return name;
   }
+
+  public String priceInfo() {
+    return String.format("$%d\n$%d\n$%d\n$%d\n$%d", cost, cost * 2, cost * 3, cost * 4, cost * 5);
+  }
 }

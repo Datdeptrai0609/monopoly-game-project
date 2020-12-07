@@ -149,4 +149,8 @@ public class PropertyBlock implements Block {
       return name;
     }
   }
+
+  public String priceInfo() {
+    return String.format("$%d\n$%d\n$%d\n$%d\n$%d\n$%d\n$%d", rent, oneHouseRent, twoHouseRent, threeHouseRent, hotelRent, buyPrice, buildPrice);
+  }
 }

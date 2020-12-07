@@ -28,7 +28,7 @@ public class MonopolyGUI extends ApplicationAdapter {
     Animation<TextureRegion> playerOneStand, playerTwoStand, playerThreeStand, playerFourStand;
     CharacterAnimation[] walkAnimation = new CharacterAnimation[4];
 
-    // Animation for arrow
+    // Animation for arrow on the head of player
     Animation<TextureRegion> arrow;  
 
     // Animation for dices
@@ -39,10 +39,11 @@ public class MonopolyGUI extends ApplicationAdapter {
     private int diceVal;
 
     // Attribute for card
-    private boolean cardStart;
-    private String cardText;
-    Texture chance;
-    BitmapFont word;
+    private boolean chanceCard, propertyCard, travelCard;
+    private String cardText, propName, propPrice, travelName, travelPrice;
+    Texture chanceImg, propertyImg, travelImg;
+    // Words will be draw on card picture
+    BitmapFont word, word2;
 
     // Attribute for game handle
     Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
@@ -96,13 +97,19 @@ public class MonopolyGUI extends ApplicationAdapter {
         batch = new SpriteBatch();
 
         // Create chance card GUI
-        chance = new Texture("chance.jpg");
+        chanceImg = new Texture("chance.jpg");
+        propertyImg = new Texture("propCard.jpg");
+        travelImg = new Texture("travelCard.jpg");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
         parameter.size = 40;
-        parameter.color = Color.BLACK;
+        parameter2.size = 30;
+        parameter.color = parameter2.color = Color.BLACK;
         word = generator.generateFont(parameter);
+        word2 = generator.generateFont(parameter2);
         generator.dispose();
+        chanceCard = propertyCard = travelCard = false;
         
         // Create animation for arrow
         arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
@@ -110,6 +117,54 @@ public class MonopolyGUI extends ApplicationAdapter {
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
           Monopoly monopoly;
+
+          // Handle render and action at chance block
+          private void handleChance(Monopoly.State state) {
+            cardText = monopoly.drawCard(state.current, (ChanceBlock) state.board.getBoard()[state.current.position()]);
+            chanceCard = true;
+            try {
+              Thread.sleep(3500);
+            } catch (InterruptedException e) {}
+            chanceCard = false;
+          }
+
+          // Handle render at property block
+          private void handleProp(Monopoly.State state) {
+            PropertyBlock prop = (PropertyBlock) state.board.getBoard()[state.current.position()];
+            propName = prop.name();
+            propPrice = prop.priceInfo();
+            propertyCard = true;
+            try {
+              Thread.sleep(2000);
+            } catch (InterruptedException e) {}
+          }
+
+          private void handleTravel(Monopoly.State state) {
+            TravelBlock travel = (TravelBlock) state.board.getBoard()[state.current.position()];
+            travelName = travel.name();
+            travelPrice = travel.priceInfo();
+            travelCard = true;
+            try {
+              Thread.sleep(2000);
+            } catch (InterruptedException e) {}
+          }
+
+          // Render player move
+          private void playerMove() {
+            for (CharacterAnimation player : walkAnimation) {
+              if (player.name.equals(currentPlayer)) {
+                player.destination = monopoly.getState().current.position();
+                break;
+              }
+            }
+            // Thread sleep 1s to player move
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              System.out.println("Thread interrupted");
+            }
+          }
+
           @Override
           public void run() {
             try {
@@ -129,33 +184,29 @@ public class MonopolyGUI extends ApplicationAdapter {
 
             // Run
             int doubleCount = 0;
-            while (monopoly.getState().players.size() > 1) {
-              Monopoly.State state = monopoly.getState();
+            Monopoly.State state = monopoly.getState();
+            Block[] board = state.board.getBoard();
+            while (state.players.size() > 1) {
               state.current = state.players.peek();
               // Pass the current player who is playing
               currentPlayer = monopoly.getState().current.name();
               if (state.current.position() == state.board.busPos()) {
                 int busNum = monopoly.busSelect(state.current);
                 state.current.moveTo(busNum, state.board);
-                for (CharacterAnimation player : walkAnimation) {
-                  if (player.name.equals(currentPlayer)) {
-                    player.destination = monopoly.getState().current.position();
-                    break;
-                  }
+
+                playerMove();
+                // Handle render card at ChanceBlock or handle card at
+                // PropertyBlock
+                if (board[state.current.position()] instanceof ChanceBlock) {
+                  handleChance(state);
+                } else if (board[state.current.position()] instanceof PropertyBlock) {
+                  handleProp(state);
+                } else if (board[state.current.position()] instanceof TravelBlock) {
+                  handleTravel(state);
                 }
-                try {
-                  Thread.sleep(1000);
-                } catch (InterruptedException e) {}
-                // Handle render card at ChanceBlock
-                if (state.board.getBoard()[state.current.position()] instanceof ChanceBlock) {
-                  cardText = monopoly.drawCard(state.current, (ChanceBlock) state.board.getBoard()[state.current.position()]);
-                  cardStart = true;
-                  try {
-                    Thread.sleep(3500);
-                  } catch (InterruptedException e) {}
-                  cardStart = false;
-                }
-                monopoly.handleBlock(state.current, state.board.getBoard()[state.current.position()]);
+
+                monopoly.handleBlock(state.current, board[state.current.position()]);
+                propertyCard = travelCard = false;
                 state.players.add(state.players.remove());
                 continue;
               } else if (state.current.inJail()) {
@@ -171,18 +222,7 @@ public class MonopolyGUI extends ApplicationAdapter {
               // Pass the current player who is playing
               diceVal = monopoly.getDice().getVal();
               diceStart = false;
-              for (CharacterAnimation player : walkAnimation) {
-                if (player.name.equals(currentPlayer)) {
-                  player.destination = monopoly.getState().current.position();
-                  break;
-                }
-              }
-              // Stop thread 1s to make sure data send correctly
-              try {
-                Thread.sleep(1000);
-              } catch (InterruptedException e) {
-                System.out.println("Thread interrupted");
-              }
+              playerMove();
 
               if (monopoly.getDouble()) {
                 doubleCount++;
@@ -191,44 +231,24 @@ public class MonopolyGUI extends ApplicationAdapter {
                 System.out.println("Dice double 3 times. GO TO JAIL!");
                 doubleCount = 0;
                 state.current.toJail(state.board);
-                for (CharacterAnimation player : walkAnimation) {
-                  if (player.name.equals(currentPlayer)) {
-                    player.destination = monopoly.getState().current.position();
-                    break;
-                  }
-                }
-                try {
-                  Thread.sleep(1000);
-                } catch (InterruptedException e) {}
+                playerMove();
                 state.players.add(state.players.remove());
                 continue;
               }
 
-              // Handle render card at ChanceBlock
-              if (state.board.getBoard()[state.current.position()] instanceof ChanceBlock) {
-                cardText = monopoly.drawCard(state.current, (ChanceBlock) state.board.getBoard()[state.current.position()]);
-                cardStart = true;
-                try {
-                  Thread.sleep(3500);
-                } catch (InterruptedException e) {}
-                cardStart = false;
+              // Handle render card at ChanceBlock and card at Property
+              System.out.println(board[state.current.position()].name());
+              if (board[state.current.position()] instanceof PropertyBlock) {
+                handleProp(state);
+              } else if (board[state.current.position()] instanceof ChanceBlock) {
+                handleChance(state);
+              } else if (board[state.current.position()] instanceof TravelBlock) {
+                handleTravel(state);
               }
 
               // Handle Block at destination
-              monopoly.handleBlock(state.current, state.board.getBoard()[state.current.position()]);
-              // Handle change position in handleBlock()
-              for (CharacterAnimation player : walkAnimation) {
-                if (player.name.equals(currentPlayer)) {
-                  player.destination = monopoly.getState().current.position();
-                  break;
-                }
-              }
-              // Stop thread 1s to make sure data send correctly
-              try {
-                Thread.sleep(1000);
-              } catch (InterruptedException e) {
-                System.out.println("Thread interrupted");
-              }
+              monopoly.handleBlock(state.current, board[state.current.position()]);
+              propertyCard = travelCard = false;
 
               if (!monopoly.getDouble() && !monopoly.getLost()) {
                 //System.out.println("Not play again and not lost");
@@ -424,11 +444,23 @@ public class MonopolyGUI extends ApplicationAdapter {
     }
 
     private void renderCard() {
-      if (cardStart) {
-        float x = Gdx.graphics.getWidth()/2 - chance.getWidth()/2;
-        float y = Gdx.graphics.getHeight()/2 - chance.getHeight()/2;
-        batch.draw(chance, x, y);
-        word.draw(batch, cardText, x, y + chance.getHeight()*2/3, chance.getWidth()/2, Align.center, true);
+      if (chanceCard) {
+        float x = Gdx.graphics.getWidth()/2 - chanceImg.getWidth()/2;
+        float y = Gdx.graphics.getHeight()/2 - chanceImg.getHeight()/2;
+        batch.draw(chanceImg, x, y);
+        word.draw(batch, cardText, x, y + chanceImg.getHeight()*2/3, chanceImg.getWidth()/2, Align.center, true);
+      } else if (propertyCard) {
+        float x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
+        float y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
+        batch.draw(propertyImg, x, y);
+        word.draw(batch, propName, x, y + propertyImg.getHeight() * 6/7, propertyImg.getWidth(), Align.center, false);
+        word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.74f);
+      } else if (travelCard) {
+        float x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
+        float y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
+        batch.draw(travelImg, x, y);
+        word.draw(batch, travelName, x, y + travelImg.getHeight()* 2/3, travelImg.getWidth(), Align.center, false);
+        word2.draw(batch, travelPrice, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
       }
     }
 
@@ -444,7 +476,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             waitingScreen.draw(batch);
             break;
           case PLAYING:
-            // Render all thing behind
+            // Render board all thing behind
             renderBack();
             renderRoadHigh();
             renderRoadLow();
