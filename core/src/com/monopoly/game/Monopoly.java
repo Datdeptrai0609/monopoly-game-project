@@ -2,7 +2,6 @@ package com.monopoly.game;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
 
@@ -20,88 +19,35 @@ final class Monopoly {
     dice = new Dice();
     state.board = new Board();
     gameStatus = GameStatus.WAITING;
-  }
-
-  public Player run() {
-    // while loop until game has only 1 player remain
-    // while (state.players.size() > 1) {
-    try {
-      state.current = state.players.remove(); // Current is player who is playing
-      turn();
-      if (!lost) {
-        state.players.add(state.current); // End turn. Add current to the end of queue
-        return state.current;
-      }
-      lost = false;
-    } catch (NoSuchElementException e) {
-      System.out.println("ERROR!");
-    } finally {
-      printState();
-    }
-    return null;
-    // }
-    // Print player who win
-    //Player winner = state.players.remove();
-    //System.out.println("Winner is: " + winner.name());
+    initialize();
   }
 
   // Handle each turn of each player
   public void turn() {
     System.out.println("It's " + state.current.name() + "'s turn");
-    int doubleCount = 0;
-    Block[] board = state.board.getBoard();
-    //while (true) {
-      // Check player's previous turn is in BusBlock or not
-      if (state.current.position() == state.board.busPos()) {
-        int busNum = busSelect(state.current);
-        state.current.moveTo(busNum, state.board);
-        handleBlock(state.current, board[state.current.position()]);
-        //break;
-      } else if (state.current.inJail()) {
-        // Check player is in JailBlock or not
-        System.out.println("Would you like to get out of jail using cash?");
-        if (state.current.inputBool()) {
-          state.current.excMoney(-50);
-          state.current.leaveJail();
-        }
+    System.out.println("Are you ready to dice?");
+    if (state.current.inputBool()) {
+      // Start dice
+      dice.roll();
+      if (dice.getDouble()) {
+        System.out.println("DOUBLE!");
       }
-      System.out.println("Are you ready to dice?");
-      if (state.current.inputBool()) {
-        // Start dice
-        dice.roll();
+      // Handle dice when in Jail
+      if (state.current.inJail()) {
         if (dice.getDouble()) {
-          doubleCount++;
+          state.current.leaveJail();
+          dice.setDouble();
+        } else {
+          System.out.println("You did not roll a double dice");
+          return;
         }
-        // Handle dice when in Jail
-        if (state.current.inJail()) {
-          if (dice.getDouble()) {
-            state.current.leaveJail();
-            dice.setDouble();
-          } else {
-            System.out.println("You did not roll a double dice");
-            //break;
-          }
-        }
-
-        // If dice 3 double continuity -> go to Jail
-        if (doubleCount == 3) {
-          state.current.toJail(state.board);
-          //break;
-        }
-
-        System.out.println("You roll a " + dice.getVal());
-        state.current.move(dice.getVal(), state.board);
-        //handleBlock(state.current, board[state.current.position()]);
-
-        // If not roll double or player in jail -> END TURN
-        //if (!dice.getDouble() || state.current.inJail() || lost) {
-          ////break;
-        //} else {
-          //System.out.println("Your dice is double. So, You can go in the next turn");
-        //}
       }
+
+
+      System.out.println("You roll a " + dice.getVal());
+      state.current.move(dice.getVal(), state.board);
     }
-  //}
+  }
 
   // Handle action at destination
   public void handleBlock(Player player, Block block) {
@@ -113,9 +59,11 @@ final class Monopoly {
       buyBlock(player, block);
     } else if (ownable) {
       rentBlock(player, block);
-    } else if (block instanceof ChanceBlock) {
-      drawCard(player, (ChanceBlock) block);
-    } else if (block instanceof TaxBlock) {
+    } 
+    //else if (block instanceof ChanceBlock) {
+      //drawCard(player, (ChanceBlock) block);
+    //} 
+    else if (block instanceof TaxBlock) {
       payTax(player, (TaxBlock) block);
     } else if (block instanceof JailBlock) {
       state.current.toJail(state.board);
@@ -261,11 +209,11 @@ final class Monopoly {
   }
 
   // Handle drawCard in ChanceBlock
-  private void drawCard(Player player, ChanceBlock cards) {
+  public String drawCard(Player player, ChanceBlock cards) {
     Card card = cards.draw();
     System.out.println(card.text());
 
-    int initialPos = player.position();
+    //int initialPos = player.position();
 
     switch (card.action()) {
       case BANK_MONEY:
@@ -277,7 +225,7 @@ final class Monopoly {
             while (true) {
               cost = additionMoney(player, null, cost);
               if (cost == Integer.MIN_VALUE) {
-                return;
+                break;
               } else if (cost <= 0) {
                 player.excMoney(cost * -1);
                 break;
@@ -295,13 +243,14 @@ final class Monopoly {
         break;
     }
 
+    return card.text();
     // Handle action at destination for MOVE_TO card action
-    if (initialPos == player.position()) {
-      return;
-    }
+    //if (initialPos == player.position()) {
+      //return;
+    //}
 
-    Block bl = state.board.block(player.position());
-    handleBlock(player, bl);
+    //Block bl = state.board.block(player.position());
+    //handleBlock(player, bl);
   }
 
   // Handle sell property for more money
@@ -396,7 +345,7 @@ final class Monopoly {
   }
 
   // Select the destination when in BusBlock
-  private int busSelect(Player player) {
+  public int busSelect(Player player) {
     int busNum;
     System.out.println("You can choose one block in this list:");
     for (Block bl : state.board.getBoard()) {
@@ -431,18 +380,19 @@ final class Monopoly {
       state.players.add(input.inputPlayer(state));
     }
     // Find the person who go first
-    int first = new Random().nextInt(4) + 1;
+    int first = new Random().nextInt(2) + 1;
 
     // Swap the first person to the first queue
     for (int i = 0; i < first; i++)
       state.players.add(state.players.remove());
+
     gameStatus = GameStatus.PLAYING;
 
     printState();
   }
 
   // Method to print information each turn
-  private void printState() {
+  public void printState() {
     int counter = 1;
     for (Player player : state.players) {
       System.out.println("--------------------------------------------------");
@@ -475,7 +425,11 @@ final class Monopoly {
       System.out.println("--------------------------------------------------");
     }
   }
-  
+
+  public boolean getDouble() {
+    return dice.getDouble();
+  }
+
   public class State {
     public Queue<Player> players;
     public Board board; // game board
@@ -497,11 +451,15 @@ final class Monopoly {
     return state;
   }
 
-  public boolean playerLost() {
+  public boolean getLost() {
     return lost;
   }
 
   public void setLost() {
     lost = false;
+  }
+
+  public Dice getDice() {
+    return dice;
   }
 }

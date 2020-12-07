@@ -16,7 +16,6 @@ public class Player {
   private int position;
   private boolean inJail;
   private ArrayList<TravelBlock> travelList;
-  float stateTime;
 
   public Player(String playerName) throws IOException {
     input = new Input();
@@ -51,9 +50,9 @@ public class Player {
       excMoney(200);
     }
 
-    if (position == board.jailPos()) {
-      inJail = true;
-    }
+    //if (position == board.jailPos()) {
+      //inJail = true;
+    //}
   }
 
   // Handle some special cases such as jumping to a new block

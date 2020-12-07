@@ -13,12 +13,9 @@ public class Dice {
 
   // Roll the dice and check double
   public void roll() {
-    int randA = rand.nextInt(6) + 1;
+    val = rand.nextInt(6) + 1;
 
-    int randB = rand.nextInt(6) + 1;
-
-    val = randA + randB;
-    isDouble = randA == randB;
+    isDouble = (val == 1 || val == 6);
   }
 
   public int getVal() {

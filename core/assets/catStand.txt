@@ -1,0 +1,75 @@
+catStand.png
+size: 888, 1811
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Idle (1)
+  rotate: false
+  xy: 1, 1
+  size: 294, 455
+  orig: 547, 481
+  offset: 103, 15
+  index: -1
+Idle (2)
+  rotate: false
+  xy: 593, 1
+  size: 294, 452
+  orig: 547, 481
+  offset: 103, 15
+  index: -1
+Idle (3)
+  rotate: false
+  xy: 1, 458
+  size: 294, 450
+  orig: 547, 481
+  offset: 103, 15
+  index: -1
+Idle (4)
+  rotate: false
+  xy: 297, 458
+  size: 294, 447
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (5)
+  rotate: false
+  xy: 593, 458
+  size: 294, 447
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (6)
+  rotate: false
+  xy: 1, 910
+  size: 294, 447
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (7)
+  rotate: false
+  xy: 1, 1363
+  size: 295, 447
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (8)
+  rotate: false
+  xy: 297, 910
+  size: 294, 449
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (9)
+  rotate: false
+  xy: 593, 910
+  size: 294, 451
+  orig: 547, 481
+  offset: 104, 15
+  index: -1
+Idle (10)
+  rotate: false
+  xy: 297, 1
+  size: 294, 453
+  orig: 547, 481
+  offset: 103, 15
+  index: -1
