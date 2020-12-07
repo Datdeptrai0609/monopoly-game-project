@@ -28,6 +28,9 @@ public class MonopolyGUI extends ApplicationAdapter {
     Animation<TextureRegion> playerOneStand, playerTwoStand, playerThreeStand, playerFourStand;
     CharacterAnimation[] walkAnimation = new CharacterAnimation[4];
 
+    // Animation for arrow
+    Animation<TextureRegion> arrow;  
+
     // Animation for dices
     TextureAtlas diceAtlas;
     TextureRegion diceRegion;
@@ -101,6 +104,8 @@ public class MonopolyGUI extends ApplicationAdapter {
         word = generator.generateFont(parameter);
         generator.dispose();
         
+        // Create animation for arrow
+        arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
         
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
@@ -402,6 +407,9 @@ public class MonopolyGUI extends ApplicationAdapter {
         // Draw player
         walkAnimation[i].draw(stateTime, boardSprite);
       }
+      // Draw the arrow on the current player
+      TextureRegion arrowFrame = arrow.getKeyFrame(stateTime, true);
+      batch.draw(arrowFrame, walkAnimation[3].x + walkAnimation[3].getWidth()/2 - arrowFrame.getRegionWidth()/4, walkAnimation[3].y + walkAnimation[3].getHeight(), arrowFrame.getRegionWidth()/2, arrowFrame.getRegionHeight()/2);
     }
 
     private void renderDice() {

@@ -26,6 +26,14 @@ public class CharacterAnimation {
     step = 1;
   }
 
+  public float getWidth() {
+    return animationFrame.getRegionWidth()/3;
+  }
+
+  public float getHeight() {
+    return animationFrame.getRegionHeight()/3;
+  }
+
   public void draw(float stateTime, Sprite[] board) {
     float xPosition = board[position].getX() + board[position].getWidth()/3;
     float yPosition = board[position].getY() + board[position].getHeight()/2;
@@ -48,7 +56,7 @@ public class CharacterAnimation {
     } 
     // Come to the destination change to stand animation
     else if (position == destination) {
-      TextureRegion animationFrame = stand.getKeyFrame(stateTime, true);
+      animationFrame = stand.getKeyFrame(stateTime, true);
       sb.draw(animationFrame, x, y, animationFrame.getRegionWidth()/3, animationFrame.getRegionHeight()/3);
     } 
     // While player don't come to the next block continue walkAnimation and
