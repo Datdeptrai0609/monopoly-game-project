@@ -14,7 +14,7 @@ public class CharacterAnimation {
   TextureRegion animationFrame;
   String name;
   Rectangle character;
-  int position, destination, step;
+  int position, destination;
   float x, y, angle;
   
   public CharacterAnimation(SpriteBatch sb, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> standAnimation, String name) {
@@ -23,7 +23,6 @@ public class CharacterAnimation {
     this.stand = standAnimation;
     this.name = name;
     position = destination = 0;
-    step = 1;
   }
 
   public float getWidth() {
@@ -34,19 +33,32 @@ public class CharacterAnimation {
     return animationFrame.getRegionHeight()/3;
   }
 
-  public void draw(float stateTime, Sprite[] board) {
-    float xPosition = board[position].getX() + board[position].getWidth()/3;
-    float yPosition = board[position].getY() + board[position].getHeight()/2;
-
-    float xPositionNext, yPositionNext;
-    // Handle the position between block 31 and 0
-    if (position + step == board.length) {
-      xPositionNext = board[0].getX() + board[0].getWidth()/3;
-      yPositionNext = board[0].getY() + board[0].getHeight()/2;
+  private float[] coordinates(Sprite[] board, int position) {
+    float[] coord = new float[2];
+    if (position > 0 && position < 8 || position > 16 && position < 24) {
+      coord[0] = board[position].getX() + board[position].getWidth()/9;
+      coord[1] = board[position].getY() + board[position].getHeight()/3;
+    } else if (position == 0 || position == 8 || position == 16 || position == 24) {
+      coord[0] = board[position].getX() + board[position].getWidth()/3;
+      coord[1] = board[position].getY() + board[position].getHeight()/3;
     } else {
-      xPositionNext = board[position + step].getX() + board[position + step].getWidth()/3;
-      yPositionNext = board[position + step].getY() + board[position + step].getHeight()/2;
+      coord[0] = board[position].getX() + board[position].getWidth()/2.7f;
+      coord[1] = board[position].getY() + board[position].getHeight()/3.5f;
     }
+    return coord;
+  }
+
+  public void draw(float stateTime, Sprite[] board) {
+    float xPosition = coordinates(board, position)[0]; 
+    float yPosition = coordinates(board, position)[1];
+
+    int posNext = position + 1;
+    // Handle the position between block 31 and 0
+    if (position + 1 == board.length) {
+      posNext = 0;
+    }
+    float xPositionNext = coordinates(board, posNext)[0]; 
+    float yPositionNext = coordinates(board, posNext)[1];
     // Set coordinates at start of the game
     if (position == 0 && destination == 0) {
       x = xPosition;
@@ -61,7 +73,7 @@ public class CharacterAnimation {
     } 
     // While player don't come to the next block continue walkAnimation and
     // increase x and y
-    else if (Math.abs(x - xPositionNext) > 3 && Math.abs(y - yPositionNext) > 3) {
+    else if (Math.abs(x - xPositionNext) > 4 && Math.abs(y - yPositionNext) > 4) {
       angle = (float) Math.atan2(yPositionNext - yPosition, xPositionNext - xPosition);
       animationFrame = walk.getKeyFrame(stateTime, true);
       // Flip the animation by X

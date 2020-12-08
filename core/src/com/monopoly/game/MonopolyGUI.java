@@ -45,9 +45,13 @@ public class MonopolyGUI extends ApplicationAdapter {
     // Words will be draw on card picture
     BitmapFont word, word2;
 
+    // Img for flag and house in PropertyBlock
+    Texture flag, house;
+
     // Attribute for game handle
     Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
     private String currentPlayer;
+    private Block[] boardRender;
 
     final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
     Sprite[] boardSprite = new Sprite[32];
@@ -113,6 +117,10 @@ public class MonopolyGUI extends ApplicationAdapter {
         
         // Create animation for arrow
         arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
+
+        // Create texture for flag and house
+        flag = new Texture("flag.png");
+        house = new Texture("house.png");
         
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
@@ -136,7 +144,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             propPrice = prop.priceInfo();
             propertyCard = true;
             try {
-              Thread.sleep(2000);
+              Thread.sleep(2500);
             } catch (InterruptedException e) {}
           }
 
@@ -188,6 +196,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             Monopoly.State state = monopoly.getState();
             Block[] board = state.board.getBoard();
             while (state.players.size() > 1) {
+              boardRender = board;
               state.current = state.players.peek();
               // Pass the current player who is playing
               currentPlayer = monopoly.getState().current.name();
@@ -223,8 +232,6 @@ public class MonopolyGUI extends ApplicationAdapter {
               // Pass the current player who is playing
               diceVal = monopoly.getDice().getVal();
               diceStart = false;
-              playerMove();
-
               if (monopoly.getDouble()) {
                 doubleCount++;
               }
@@ -236,9 +243,10 @@ public class MonopolyGUI extends ApplicationAdapter {
                 state.players.add(state.players.remove());
                 continue;
               }
+              playerMove();
+
 
               // Handle render card at ChanceBlock and card at Property
-              System.out.println(board[state.current.position()].name());
               if (board[state.current.position()] instanceof PropertyBlock) {
                 handleProp(state);
               } else if (board[state.current.position()] instanceof ChanceBlock) {
@@ -363,7 +371,7 @@ public class MonopolyGUI extends ApplicationAdapter {
         //render a
         drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
 
-        // Hash map Block Sprite to Integer
+        // Assign block sprite in order to an array 
         int count = 0;
         for (int i = 0; i < 4; i++) {
           boardSprite[count] = sprites.get("" + boardName[i]);
@@ -466,6 +474,64 @@ public class MonopolyGUI extends ApplicationAdapter {
       }
     }
 
+    private void renderHouse() {
+      // Render flag if purchase prop and house if build
+      for (int i = 0; i < boardRender.length; i++) {
+        if (boardRender[i].isOwned()) {
+          float x, y;
+          if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
+            x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.6f;
+            y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.7f;
+          } else {
+            x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.2f;
+            y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.65f;
+          }
+          if (boardRender[i] instanceof PropertyBlock) {
+            PropertyBlock prop = (PropertyBlock) boardRender[i];
+            if (prop.isOwned() && prop.numHouses() == 0) {
+              batch.draw(flag, x, y);
+            } else {
+              float xHouse2, yHouse2, xHouse3, yHouse3, xHouse4, yHouse4;
+              yHouse2 = y - house.getHeight()/5;
+              yHouse3 = y - house.getHeight()/4.5f;
+              yHouse4 = yHouse3 - house.getHeight()/5;
+              if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
+                xHouse2 = x + house.getWidth()/3;
+                xHouse3 = x - house.getWidth()/2.5f;
+                xHouse4 = xHouse3 + house.getWidth()/3;
+              } else {
+                xHouse2 = x - house.getWidth()/3;
+                xHouse3 = x + house.getWidth()/2.5f;
+                xHouse4 = xHouse3 - house.getWidth()/3;
+              }
+              switch (prop.numHouses()) {
+                case 1:
+                  batch.draw(house, x, y);
+                  break;
+                case 2:
+                  batch.draw(house, x, y);
+                  batch.draw(house, xHouse2, yHouse2);
+                  break;
+                case 3:
+                  batch.draw(house, x, y);
+                  batch.draw(house, xHouse2, yHouse2);
+                  batch.draw(house, xHouse3, yHouse3);
+                  break;
+                case 4:
+                  batch.draw(house, x, y);
+                  batch.draw(house, xHouse2, yHouse2);
+                  batch.draw(house, xHouse3, yHouse3);
+                  batch.draw(house, xHouse4, yHouse4);
+                  break;
+              }
+            }
+          } else {
+            batch.draw(flag, x, y);
+          }
+        }
+      }
+    }
+
     @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -486,6 +552,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             renderCarsLow();
             renderBlocks();
             renderThings();
+            renderHouse();
             // Render Player and dice
             renderPlayer();
             renderDice();
