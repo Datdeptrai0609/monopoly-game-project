@@ -98,7 +98,7 @@ public class MonopolyGUI extends ApplicationAdapter {
 
         // Create chance card GUI
         chanceImg = new Texture("chance.jpg");
-        propertyImg = new Texture("propCard.jpg");
+        //propertyImg = new Texture("propCard1.png");
         travelImg = new Texture("travelCard.jpg");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -126,6 +126,7 @@ public class MonopolyGUI extends ApplicationAdapter {
               Thread.sleep(3500);
             } catch (InterruptedException e) {}
             chanceCard = false;
+            playerMove();
           }
 
           // Handle render at property block
@@ -450,11 +451,12 @@ public class MonopolyGUI extends ApplicationAdapter {
         batch.draw(chanceImg, x, y);
         word.draw(batch, cardText, x, y + chanceImg.getHeight()*2/3, chanceImg.getWidth()/2, Align.center, true);
       } else if (propertyCard) {
+        propertyImg = new Texture(String.format("propCard%s.png", walkAnimation[3].destination));
         float x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
         float y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
         batch.draw(propertyImg, x, y);
         word.draw(batch, propName, x, y + propertyImg.getHeight() * 6/7, propertyImg.getWidth(), Align.center, false);
-        word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.74f);
+        word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.72f);
       } else if (travelCard) {
         float x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
         float y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
