@@ -26,6 +26,7 @@ import { Router, Scene } from 'react-native-router-flux';
 import Login from './Component/Login';
 import ChooseCharater from './Component/ChooseCharacter';
 import * as Animatable from 'react-native-animatable';
+import Welcome from './Component/Welcome';
 
 export default class App extends Component {
   backAction = () => {
@@ -51,6 +52,11 @@ export default class App extends Component {
     return (
       <Router>
         <Scene key="root" hideNavBar>
+          <Scene
+            key="Welcome"
+            component={Welcome}
+            hideNavBar
+          />
           <Scene
             key="Login"
             component={Login}
