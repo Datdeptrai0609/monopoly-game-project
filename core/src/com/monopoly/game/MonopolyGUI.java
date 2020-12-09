@@ -17,15 +17,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MonopolyGUI extends ApplicationAdapter {
 
     TextureAtlas textureAtlas, backAtlas, roadHigh, roadLow, carsHigh, carsLow, things;
-    // Animation for player
-    Animation<TextureRegion> playerOneWalk, playerTwoWalk, playerThreeWalk, playerFourWalk;
-    Animation<TextureRegion> playerOneStand, playerTwoStand, playerThreeStand, playerFourStand;
+
     CharacterAnimation[] walkAnimation = new CharacterAnimation[4];
 
     // Animation for arrow on the head of player
@@ -44,9 +41,6 @@ public class MonopolyGUI extends ApplicationAdapter {
     Texture chanceImg, propertyImg, travelImg;
     // Words will be draw on card picture
     BitmapFont word, word2;
-
-    // Img for flag and house in PropertyBlock
-    Texture flag, house;
 
     // Attribute for game handle
     Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
@@ -72,28 +66,6 @@ public class MonopolyGUI extends ApplicationAdapter {
         things = new TextureAtlas("playScreenAssets/otherThings_.txt");
         waitingScreen = new Sprite(new Texture(Gdx.files.internal("WaitingScreen.jpg")));
 
-        // Create player walk animation
-        playerOneWalk = new Animation<TextureRegion>(0.07f, new TextureAtlas("girlWalk.txt").getRegions());
-        playerTwoWalk = new Animation<TextureRegion>(0.07f, new TextureAtlas("catWalk.txt").getRegions());
-        playerThreeWalk = new Animation<TextureRegion>(0.07f, new TextureAtlas("ninjaWalk.txt").getRegions());
-        playerFourWalk = new Animation<TextureRegion>(0.07f, new TextureAtlas("satanWalk.txt").getRegions());
-        final ArrayList<Animation<TextureRegion>> listPlayerImg = new ArrayList<Animation<TextureRegion>>();
-        final ArrayList<Animation<TextureRegion>> listPlayerStandImg = new ArrayList<Animation<TextureRegion>>();
-        listPlayerImg.add(playerOneWalk);
-        listPlayerImg.add(playerTwoWalk);
-        listPlayerImg.add(playerThreeWalk);
-        listPlayerImg.add(playerFourWalk);
-
-        // Create player stand animation
-        playerOneStand = new Animation<TextureRegion>(0.1f, new TextureAtlas("girlStand.txt").getRegions());
-        playerTwoStand = new Animation<TextureRegion>(0.1f, new TextureAtlas("catStand.txt").getRegions());
-        playerThreeStand = new Animation<TextureRegion>(0.1f, new TextureAtlas("ninjaStand.txt").getRegions());
-        playerFourStand = new Animation<TextureRegion>(0.1f, new TextureAtlas("satanStand.txt").getRegions());
-        listPlayerStandImg.add(playerOneStand);
-        listPlayerStandImg.add(playerTwoStand);
-        listPlayerStandImg.add(playerThreeStand);
-        listPlayerStandImg.add(playerFourStand);
-
         // Create animation for dice
         diceAtlas = new TextureAtlas("dice.txt");
         dice = new Animation<TextureRegion>(0.1f, diceAtlas.getRegions());
@@ -102,7 +74,6 @@ public class MonopolyGUI extends ApplicationAdapter {
 
         // Create chance card GUI
         chanceImg = new Texture("chance.jpg");
-        //propertyImg = new Texture("propCard1.png");
         travelImg = new Texture("travelCard.jpg");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -118,10 +89,6 @@ public class MonopolyGUI extends ApplicationAdapter {
         // Create animation for arrow
         arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
 
-        // Create texture for flag and house
-        flag = new Texture("flag.png");
-        house = new Texture("house.png");
-        
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
           Monopoly monopoly;
@@ -184,11 +151,20 @@ public class MonopolyGUI extends ApplicationAdapter {
             }
 
             // Initialize animation for each Player
-            int i = 0;
-            for (Player player : monopoly.getState().players) {
-              walkAnimation[i] = new CharacterAnimation(batch, listPlayerImg.get(i), listPlayerStandImg.get(i), player.name());
-              i++;
-            }
+            Gdx.app.postRunnable(new Runnable() {
+              @Override
+              public void run() {
+                int i = 0;
+                for (Player player : monopoly.getState().players) {
+                  Animation<TextureRegion> walkAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("%sWalk.txt", player.name())).getRegions());
+                  Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sStand.txt", player.name())).getRegions());
+                  Texture flagIn = new Texture(String.format("%sFlag.png", player.name()));
+                  Texture houseIn = new Texture(String.format("%sHouse.png", player.name()));
+                  walkAnimation[i] = new CharacterAnimation(batch, walkAnimationIn, standAnimationIn, flagIn, houseIn, player.name());
+                  i++;
+                }
+              }
+            });
             gameStatus = monopoly.getStatus();
 
             // Run
@@ -478,55 +454,62 @@ public class MonopolyGUI extends ApplicationAdapter {
       // Render flag if purchase prop and house if build
       for (int i = 0; i < boardRender.length; i++) {
         if (boardRender[i].isOwned()) {
-          float x, y;
-          if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
-            x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.6f;
-            y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.7f;
-          } else {
-            x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.2f;
-            y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.65f;
-          }
-          if (boardRender[i] instanceof PropertyBlock) {
-            PropertyBlock prop = (PropertyBlock) boardRender[i];
-            if (prop.isOwned() && prop.numHouses() == 0) {
-              batch.draw(flag, x, y);
-            } else {
-              float xHouse2, yHouse2, xHouse3, yHouse3, xHouse4, yHouse4;
-              yHouse2 = y - house.getHeight()/5;
-              yHouse3 = y - house.getHeight()/4.5f;
-              yHouse4 = yHouse3 - house.getHeight()/5;
+          for (CharacterAnimation character : walkAnimation) {
+            if (character.name.equals(boardRender[i].owner().name())) {
+              Texture flag = character.flag;
+              Texture house = character.house;
+              float x, y;
               if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
-                xHouse2 = x + house.getWidth()/3;
-                xHouse3 = x - house.getWidth()/2.5f;
-                xHouse4 = xHouse3 + house.getWidth()/3;
+                x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.6f;
+                y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.7f;
               } else {
-                xHouse2 = x - house.getWidth()/3;
-                xHouse3 = x + house.getWidth()/2.5f;
-                xHouse4 = xHouse3 - house.getWidth()/3;
+                x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.2f;
+                y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.65f;
               }
-              switch (prop.numHouses()) {
-                case 1:
-                  batch.draw(house, x, y);
-                  break;
-                case 2:
-                  batch.draw(house, x, y);
-                  batch.draw(house, xHouse2, yHouse2);
-                  break;
-                case 3:
-                  batch.draw(house, x, y);
-                  batch.draw(house, xHouse2, yHouse2);
-                  batch.draw(house, xHouse3, yHouse3);
-                  break;
-                case 4:
-                  batch.draw(house, x, y);
-                  batch.draw(house, xHouse2, yHouse2);
-                  batch.draw(house, xHouse3, yHouse3);
-                  batch.draw(house, xHouse4, yHouse4);
-                  break;
+              if (boardRender[i] instanceof PropertyBlock) {
+                PropertyBlock prop = (PropertyBlock) boardRender[i];
+                if (prop.isOwned() && prop.numHouses() == 0) {
+                  batch.draw(flag, x, y);
+                } else {
+                  float xHouse2, yHouse2, xHouse3, yHouse3, xHouse4, yHouse4;
+                  yHouse2 = y - house.getHeight()/5;
+                  yHouse3 = y - house.getHeight()/4.5f;
+                  yHouse4 = yHouse3 - house.getHeight()/5;
+                  if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
+                    xHouse2 = x + house.getWidth()/3;
+                    xHouse3 = x - house.getWidth()/2.5f;
+                    xHouse4 = xHouse3 + house.getWidth()/3;
+                  } else {
+                    xHouse2 = x - house.getWidth()/3;
+                    xHouse3 = x + house.getWidth()/2.5f;
+                    xHouse4 = xHouse3 - house.getWidth()/3;
+                  }
+                  switch (prop.numHouses()) {
+                    case 1:
+                      batch.draw(house, x, y);
+                      break;
+                    case 2:
+                      batch.draw(house, x, y);
+                      batch.draw(house, xHouse2, yHouse2);
+                      break;
+                    case 3:
+                      batch.draw(house, x, y);
+                      batch.draw(house, xHouse2, yHouse2);
+                      batch.draw(house, xHouse3, yHouse3);
+                      break;
+                    case 4:
+                      batch.draw(house, x, y);
+                      batch.draw(house, xHouse2, yHouse2);
+                      batch.draw(house, xHouse3, yHouse3);
+                      batch.draw(house, xHouse4, yHouse4);
+                      break;
+                  }
+                }
+              } else {
+                batch.draw(flag, x, y);
               }
+              break;
             }
-          } else {
-            batch.draw(flag, x, y);
           }
         }
       }

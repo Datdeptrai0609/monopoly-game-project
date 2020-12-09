@@ -1,6 +1,7 @@
 package com.monopoly.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,17 +12,20 @@ public class CharacterAnimation {
   SpriteBatch sb;
   Animation<TextureRegion> walk;
   Animation<TextureRegion> stand;
+  Texture flag, house;
   TextureRegion animationFrame;
   String name;
   Rectangle character;
   int position, destination;
   float x, y, angle;
   
-  public CharacterAnimation(SpriteBatch sb, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> standAnimation, String name) {
+  public CharacterAnimation(SpriteBatch sb, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> standAnimation, Texture flag, Texture house, String name) {
     this.sb = sb;
     this.walk = walkAnimation;
     this.stand = standAnimation;
     this.name = name;
+    this.flag = flag;
+    this.house = house;
     position = destination = 0;
   }
 
@@ -33,6 +37,7 @@ public class CharacterAnimation {
     return animationFrame.getRegionHeight()/3;
   }
 
+  // Return the coordinate x, y for player moving
   private float[] coordinates(Sprite[] board, int position) {
     float[] coord = new float[2];
     if (position > 0 && position < 8 || position > 16 && position < 24) {

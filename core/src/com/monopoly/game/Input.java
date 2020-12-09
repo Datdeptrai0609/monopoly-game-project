@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 class Input {
   private final Scanner scanner;
+  // list name of characters
+  private String[] names = {"girl", "cat", "ninja", "satan"};
+
 
   public Input() {
     scanner = new Scanner(System.in);
@@ -51,21 +54,29 @@ class Input {
   public Player inputPlayer(Monopoly.State state) throws IOException {
     Player player = null;
     do {
+      boolean check = false;
       String name = inputString();
-      if (state.players.size() == 0) {
-        return new Player(name);
-      }
-      for (Player p : state.players) {
-        if (name.equals(p.name())) {
-          player = null;
+      for (String nameCheck : names) {
+        if (name.equals(nameCheck)) {
+          check = true;
           break;
         }
-        player = new Player(name);
+      }
+      if (check) {
+        if (state.players.size() == 0) {
+          return new Player(name);
+        }
+        for (Player p : state.players) {
+          if (name.equals(p.name())) {
+            player = null;
+            break;
+          }
+          player = new Player(name);
+        }
       }
       if (player == null) {
-        System.out.println("This name is chosen, please enter another name.");
+        System.out.println("Invalid player's name, please enter another name.");
       }
-
     } while (player == null);
 
     return player;
