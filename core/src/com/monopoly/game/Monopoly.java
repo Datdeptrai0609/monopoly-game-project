@@ -209,12 +209,7 @@ final class Monopoly {
   }
 
   // Handle drawCard in ChanceBlock
-  public String drawCard(Player player, ChanceBlock cards) {
-    Card card = cards.draw();
-    System.out.println(card.text());
-
-    //int initialPos = player.position();
-
+  public void drawCard(Player player, Card card) {
     switch (card.action()) {
       case BANK_MONEY:
         if (card.value() >= 0) {
@@ -242,15 +237,6 @@ final class Monopoly {
       default:
         break;
     }
-
-    return card.text();
-    // Handle action at destination for MOVE_TO card action
-    //if (initialPos == player.position()) {
-      //return;
-    //}
-
-    //Block bl = state.board.block(player.position());
-    //handleBlock(player, bl);
   }
 
   // Handle sell property for more money

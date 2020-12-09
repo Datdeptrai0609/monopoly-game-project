@@ -1,0 +1,75 @@
+catDie.png
+size: 1838, 754
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+catDie (1)
+  rotate: false
+  xy: 0, 0
+  size: 337, 382
+  orig: 580, 510
+  offset: 5, 52
+  index: -1
+catDie (2)
+  rotate: false
+  xy: 337, 0
+  size: 331, 428
+  orig: 580, 510
+  offset: 86, 50
+  index: -1
+catDie (3)
+  rotate: false
+  xy: 668, 0
+  size: 376, 433
+  orig: 580, 510
+  offset: 113, 46
+  index: -1
+catDie (4)
+  rotate: false
+  xy: 1044, 0
+  size: 377, 343
+  orig: 580, 510
+  offset: 133, 46
+  index: -1
+catDie (5)
+  rotate: false
+  xy: 1421, 0
+  size: 417, 351
+  orig: 580, 510
+  offset: 136, 47
+  index: -1
+catDie (6)
+  rotate: false
+  xy: 0, 433
+  size: 408, 321
+  orig: 580, 510
+  offset: 141, 49
+  index: -1
+catDie (7)
+  rotate: false
+  xy: 408, 433
+  size: 400, 309
+  orig: 580, 510
+  offset: 143, 48
+  index: -1
+catDie (8)
+  rotate: false
+  xy: 808, 433
+  size: 398, 301
+  orig: 580, 510
+  offset: 144, 48
+  index: -1
+catDie (9)
+  rotate: false
+  xy: 1206, 433
+  size: 401, 300
+  orig: 580, 510
+  offset: 143, 47
+  index: -1
+catDie (10)
+  rotate: false
+  xy: 1206, 433
+  size: 401, 300
+  orig: 580, 510
+  offset: 143, 47
+  index: -1

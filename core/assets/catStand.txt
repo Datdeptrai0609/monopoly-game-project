@@ -1,74 +1,74 @@
 catStand.png
-size: 888, 1811
+size: 882, 1803
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Idle (1)
+catStand (1)
   rotate: false
-  xy: 1, 1
+  xy: 0, 0
   size: 294, 455
   orig: 547, 481
   offset: 103, 15
   index: -1
-Idle (2)
+catStand (2)
   rotate: false
-  xy: 593, 1
+  xy: 588, 0
   size: 294, 452
   orig: 547, 481
   offset: 103, 15
   index: -1
-Idle (3)
+catStand (3)
   rotate: false
-  xy: 1, 458
+  xy: 0, 455
   size: 294, 450
   orig: 547, 481
   offset: 103, 15
   index: -1
-Idle (4)
+catStand (4)
   rotate: false
-  xy: 297, 458
+  xy: 294, 455
   size: 294, 447
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (5)
+catStand (5)
   rotate: false
-  xy: 593, 458
+  xy: 588, 455
   size: 294, 447
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (6)
+catStand (6)
   rotate: false
-  xy: 1, 910
+  xy: 0, 905
   size: 294, 447
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (7)
+catStand (7)
   rotate: false
-  xy: 1, 1363
+  xy: 0, 1356
   size: 295, 447
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (8)
+catStand (8)
   rotate: false
-  xy: 297, 910
+  xy: 294, 905
   size: 294, 449
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (9)
+catStand (9)
   rotate: false
-  xy: 593, 910
+  xy: 588, 905
   size: 294, 451
   orig: 547, 481
   offset: 104, 15
   index: -1
-Idle (10)
+catStand (10)
   rotate: false
-  xy: 297, 1
+  xy: 294, 0
   size: 294, 453
   orig: 547, 481
   offset: 103, 15

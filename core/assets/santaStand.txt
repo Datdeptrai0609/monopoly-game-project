@@ -1,116 +1,116 @@
-satanStand.png
-size: 2039, 1640
+santaStand.png
+size: 2027, 1634
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Idle (1)
+santaStand (1)
   rotate: false
-  xy: 1389, 1091
+  xy: 1380, 1086
   size: 346, 548
   orig: 934, 641
   offset: 193, 63
   index: -1
-Idle (2)
+santaStand (2)
   rotate: false
-  xy: 1042, 1091
+  xy: 1035, 1086
   size: 345, 547
   orig: 934, 641
   offset: 194, 63
   index: -1
-Idle (3)
+santaStand (3)
   rotate: false
-  xy: 348, 1091
+  xy: 345, 1086
   size: 345, 546
   orig: 934, 641
   offset: 195, 63
   index: -1
-Idle (4)
+santaStand (4)
   rotate: false
-  xy: 1374, 544
+  xy: 1365, 541
   size: 342, 545
   orig: 934, 641
   offset: 197, 63
   index: -1
-Idle (5)
+santaStand (5)
   rotate: false
-  xy: 686, 544
+  xy: 681, 541
   size: 342, 543
   orig: 934, 641
   offset: 198, 63
   index: -1
-Idle (6)
+santaStand (6)
   rotate: false
-  xy: 1, 544
+  xy: 0, 541
   size: 341, 542
   orig: 934, 641
   offset: 199, 63
   index: -1
-Idle (7)
+santaStand (7)
   rotate: false
-  xy: 678, 1
+  xy: 673, 0
   size: 340, 540
   orig: 934, 641
   offset: 200, 64
   index: -1
-Idle (8)
+santaStand (8)
   rotate: false
-  xy: 1698, 1
+  xy: 1687, 0
   size: 340, 541
   orig: 934, 641
   offset: 201, 63
   index: -1
-Idle (9)
+santaStand (9)
   rotate: false
-  xy: 1020, 1
+  xy: 1013, 0
   size: 337, 540
   orig: 934, 641
   offset: 203, 63
   index: -1
-Idle (10)
+santaStand (10)
   rotate: false
-  xy: 339, 1
+  xy: 336, 0
   size: 337, 539
   orig: 934, 641
   offset: 204, 63
   index: -1
-Idle (11)
+santaStand (11)
   rotate: false
-  xy: 1, 1
+  xy: 0, 0
   size: 336, 538
   orig: 934, 641
   offset: 205, 63
   index: -1
-Idle (12)
+santaStand (12)
   rotate: false
-  xy: 1359, 1
+  xy: 1350, 0
   size: 337, 541
   orig: 934, 641
   offset: 203, 63
   index: -1
-Idle (13)
+santaStand (13)
   rotate: false
-  xy: 344, 544
+  xy: 341, 541
   size: 340, 543
   orig: 934, 641
   offset: 200, 63
   index: -1
-Idle (14)
+santaStand (14)
   rotate: false
-  xy: 1030, 544
+  xy: 1023, 541
   size: 342, 544
   orig: 934, 641
   offset: 198, 64
   index: -1
-Idle (15)
+santaStand (15)
   rotate: false
-  xy: 695, 1091
+  xy: 690, 1086
   size: 345, 547
   orig: 934, 641
   offset: 195, 63
   index: -1
-Idle (16)
+santaStand (16)
   rotate: false
-  xy: 1, 1091
+  xy: 0, 1086
   size: 345, 546
   orig: 934, 641
   offset: 194, 64

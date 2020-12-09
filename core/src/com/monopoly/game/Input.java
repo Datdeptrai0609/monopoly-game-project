@@ -6,8 +6,7 @@ import java.util.Scanner;
 class Input {
   private final Scanner scanner;
   // list name of characters
-  private String[] names = {"girl", "cat", "ninja", "satan"};
-
+  private String[] names = {"girl", "cat", "ninja", "santa"};
 
   public Input() {
     scanner = new Scanner(System.in);

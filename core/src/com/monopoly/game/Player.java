@@ -49,22 +49,21 @@ public class Player {
       position -= boardSize;
       excMoney(200);
     }
-
-    //if (position == board.jailPos()) {
-      //inJail = true;
-    //}
   }
 
   // Handle some special cases such as jumping to a new block
   public void moveTo(int pos, Board board) {
+    if (pos == board.jailPos()) {
+      inJail = true;;
+    }
     if (pos < position && !inJail) {
       excMoney(200);
     }
     position = pos;
 
-    if (position == board.jailPos()) {
-      inJail = true;
-    }
+    //if (position == board.jailPos()) {
+      //inJail = true;
+    //}
   }
 
   public int position() {
