@@ -23,7 +23,7 @@ import {
 import { Router, Scene } from 'react-native-router-flux';
 
 //import screens
-import WellcomeScreen from './Component/WellcomeScreen';
+import Login from './Component/Login';
 import ChooseCharater from './Component/ChooseCharacter';
 import * as Animatable from 'react-native-animatable';
 
@@ -52,8 +52,8 @@ export default class App extends Component {
       <Router>
         <Scene key="root" hideNavBar>
           <Scene
-            key="Wellcome"
-            component={WellcomeScreen}
+            key="Login"
+            component={Login}
             hideNavBar
           />
           <Scene

@@ -30,7 +30,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { Actions } from 'react-native-router-flux';
 
-export default class WellcomeScreen extends Component {
+export default class Login extends Component {
     state = {
         placeholder: 'game PIN',
         roomNumber: 0,
