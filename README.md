@@ -1,4 +1,6 @@
-# :fire: MONOPOLY PLUSUBTRACT :fire: ![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg)
+# :fire: MONOPOLY PLUSUBTRACT :fire: 
+
+![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg)
 
 ## Summary
 
