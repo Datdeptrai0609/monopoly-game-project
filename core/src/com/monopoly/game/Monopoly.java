@@ -60,9 +60,6 @@ final class Monopoly {
     } else if (ownable) {
       rentBlock(player, block);
     } 
-    //else if (block instanceof ChanceBlock) {
-      //drawCard(player, (ChanceBlock) block);
-    //} 
     else if (block instanceof TaxBlock) {
       payTax(player, (TaxBlock) block);
     } else if (block instanceof JailBlock) {

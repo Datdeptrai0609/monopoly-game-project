@@ -37,9 +37,9 @@ public class MonopolyGUI extends ApplicationAdapter {
     private int diceVal;
 
     // Attribute for card
-    private boolean chanceCard, propertyCard, travelCard;
+    private boolean chanceCard, propertyCard, travelCard, isBought;
     private String cardText, propName, propPrice, travelName, travelPrice;
-    Texture chanceImg, propertyImg, travelImg;
+    Texture chanceImg, propertyImg, travelImg, bought;
     // Words will be draw on card picture
     BitmapFont word, word2;
 
@@ -77,6 +77,7 @@ public class MonopolyGUI extends ApplicationAdapter {
         // Create chance card GUI
         chanceImg = new Texture("chance.jpg");
         travelImg = new Texture("travelCard.jpg");
+        bought = new Texture("bought.png");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
@@ -86,7 +87,7 @@ public class MonopolyGUI extends ApplicationAdapter {
         word = generator.generateFont(parameter);
         word2 = generator.generateFont(parameter2);
         generator.dispose();
-        chanceCard = propertyCard = travelCard = false;
+        chanceCard = propertyCard = travelCard = isBought = false;
         
         // Create animation for arrow
         arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
@@ -119,9 +120,14 @@ public class MonopolyGUI extends ApplicationAdapter {
             PropertyBlock prop = (PropertyBlock) state.board.getBoard()[state.current.position()];
             propName = prop.name();
             propPrice = prop.priceInfo();
+            if (prop.isOwned()) {
+              isBought = true;
+            } else {
+              isBought = false;
+            }
             propertyCard = true;
             try {
-              Thread.sleep(2500);
+              Thread.sleep(3000);
             } catch (InterruptedException e) {}
           }
 
@@ -129,9 +135,14 @@ public class MonopolyGUI extends ApplicationAdapter {
             TravelBlock travel = (TravelBlock) state.board.getBoard()[state.current.position()];
             travelName = travel.name();
             travelPrice = travel.priceInfo();
+            if (travel.isOwned()) {
+              isBought = true;
+            } else {
+              isBought = false;
+            }
             travelCard = true;
             try {
-              Thread.sleep(2000);
+              Thread.sleep(3000);
             } catch (InterruptedException e) {}
           }
 
@@ -477,12 +488,18 @@ public class MonopolyGUI extends ApplicationAdapter {
         float x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
         float y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
         batch.draw(propertyImg, x, y);
+        if (isBought) {
+          batch.draw(bought, x + propertyImg.getWidth() - bought.getWidth(), y);
+        }
         word.draw(batch, propName, x, y + propertyImg.getHeight() * 6/7, propertyImg.getWidth(), Align.center, false);
         word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.72f);
       } else if (travelCard) {
         float x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
         float y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
         batch.draw(travelImg, x, y);
+        if (isBought) {
+          batch.draw(bought, x + travelImg.getWidth() - bought.getWidth(), y);
+        }
         word.draw(batch, travelName, x, y + travelImg.getHeight()* 2/3, travelImg.getWidth(), Align.center, false);
         word2.draw(batch, travelPrice, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
       }
