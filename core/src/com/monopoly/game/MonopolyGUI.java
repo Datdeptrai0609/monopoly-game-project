@@ -37,11 +37,11 @@ public class MonopolyGUI extends ApplicationAdapter {
     private int diceVal;
 
     // Attribute for card
-    private boolean chanceCard, propertyCard, travelCard, isBought;
-    private String cardText, propName, propPrice, travelName, travelPrice;
-    Texture chanceImg, propertyImg, travelImg, bought;
+    private boolean chanceCard, propertyCard, travelCard, isBought, selectBlock;
+    private String cardText, propName, propPrice, travelName, travelPrice, selectBlockText;
+    Texture chanceImg, propertyImg, travelImg, bought, board;
     // Words will be draw on card picture
-    BitmapFont word, word2;
+    BitmapFont word, word2, whiteWord;
 
     // Attribute for game handle
     Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
@@ -78,16 +78,19 @@ public class MonopolyGUI extends ApplicationAdapter {
         chanceImg = new Texture("chance.jpg");
         travelImg = new Texture("travelCard.jpg");
         bought = new Texture("bought.png");
+        board = new Texture("greenBoard.png");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
         parameter.size = 40;
-        parameter2.size = 30;
-        parameter.color = parameter2.color = Color.BLACK;
+        parameter.color = Color.BLACK;
         word = generator.generateFont(parameter);
-        word2 = generator.generateFont(parameter2);
+        parameter.size = 30;
+        word2 = generator.generateFont(parameter);
+        parameter.size = 45;
+        parameter.color = Color.WHITE;
+        whiteWord = generator.generateFont(parameter);
         generator.dispose();
-        chanceCard = propertyCard = travelCard = isBought = false;
+        chanceCard = propertyCard = travelCard = isBought = selectBlock = false;
         
         // Create animation for arrow
         arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
@@ -96,6 +99,37 @@ public class MonopolyGUI extends ApplicationAdapter {
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
           Monopoly monopoly;
+
+          //private Block propsSelect(Player player) {
+          // Create BlockSelect callback to handle render
+          final class BlockSelect implements Select {
+            public Block select(Player player) {
+              selectBlockText = ""; 
+              System.out.println("You own the following properties:");
+              Iterable<Block> props = player.properties();
+
+              int counter = 1;
+              for (Block bl : props) {
+                String str = counter++ + ")" + bl.name();
+                System.out.println(str);
+                selectBlockText += (str + "   ");
+              }
+              selectBlock = true;
+
+              while (true) {
+                int propNum = player.inputInt();
+                int propState = 1;
+
+                for (Block bl : props) {
+                  if (propState++ == propNum) {
+                    return bl;
+                  }
+                }
+
+                System.out.println("Please select a valid property.");
+              }
+            }
+          }
 
           // Handle render and action at chance block
           private void handleChance(Monopoly.State state) {
@@ -107,12 +141,12 @@ public class MonopolyGUI extends ApplicationAdapter {
             cardText = card.text();
             chanceCard = true;
             // Handle card action
-            monopoly.drawCard(state.current, card);
+            monopoly.drawCard(state.current, card, new BlockSelect());
             playerMove();
             try {
               Thread.sleep(3500);
             } catch (InterruptedException e) {}
-            chanceCard = false;
+            chanceCard = selectBlock = false;
           }
 
           // Handle render at property block
@@ -127,7 +161,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             }
             propertyCard = true;
             try {
-              Thread.sleep(3000);
+              Thread.sleep(3500);
             } catch (InterruptedException e) {}
           }
 
@@ -178,7 +212,7 @@ public class MonopolyGUI extends ApplicationAdapter {
                 for (Player player : monopoly.getState().players) {
                   Animation<TextureRegion> walkAnimationIn = new Animation<TextureRegion>(0.05f, new TextureAtlas(String.format("%sRun.txt", player.name())).getRegions());
                   Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("%sStand.txt", player.name())).getRegions());
-                  Animation<TextureRegion> jumpAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("%sJump.txt", player.name())).getRegions());
+                  Animation<TextureRegion> jumpAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sJump.txt", player.name())).getRegions());
                   Animation<TextureRegion> dieAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sDie.txt", player.name())).getRegions());
                   Texture flagIn = new Texture(String.format("%sFlag.png", player.name()));
                   Texture houseIn = new Texture(String.format("%sHouse.png", player.name()));
@@ -197,6 +231,8 @@ public class MonopolyGUI extends ApplicationAdapter {
               state.current = state.players.peek();
               // Pass the current player who is playing
               currentPlayer = monopoly.getState().current.name();
+
+              // Handle action if player in BusBlock
               if (state.current.position() == state.board.busPos()) {
                 int busNum = monopoly.busSelect(state.current);
                 state.current.moveTo(busNum, state.board);
@@ -212,8 +248,8 @@ public class MonopolyGUI extends ApplicationAdapter {
                   handleTravel(state);
                 }
 
-                monopoly.handleBlock(state.current, board[state.current.position()]);
-                propertyCard = travelCard = false;
+                monopoly.handleBlock(state.current, board[state.current.position()], new BlockSelect());
+                propertyCard = travelCard = selectBlock = false;
                 // Check lost
                 if (monopoly.getLost()) {
                   monopoly.setLost();
@@ -229,7 +265,7 @@ public class MonopolyGUI extends ApplicationAdapter {
                 }
                 state.players.add(state.players.remove());
                 continue;
-              } else if (state.current.inJail()) {
+              } else if (state.current.inJail() && state.current.getMoney() >= 50) {
                 System.out.println("Would you like to get out of jail using cash?");
                 if (state.current.inputBool()) {
                   state.current.excMoney(-50);
@@ -266,8 +302,8 @@ public class MonopolyGUI extends ApplicationAdapter {
               }
 
               // Handle Block at destination
-              monopoly.handleBlock(state.current, board[state.current.position()]);
-              propertyCard = travelCard = false;
+              monopoly.handleBlock(state.current, board[state.current.position()], new BlockSelect());
+              propertyCard = travelCard = selectBlock = false;
 
               if (!monopoly.getDouble() && !monopoly.getLost()) {
                 //System.out.println("Not play again and not lost");
@@ -478,15 +514,25 @@ public class MonopolyGUI extends ApplicationAdapter {
     }
 
     private void renderCard() {
+      float x, y;
       if (chanceCard) {
-        float x = Gdx.graphics.getWidth()/2 - chanceImg.getWidth()/2;
-        float y = Gdx.graphics.getHeight()/2 - chanceImg.getHeight()/2;
+        if (selectBlock) {
+          x = Gdx.graphics.getWidth()/2 - (chanceImg.getWidth()+board.getWidth())/2;
+        } else {
+          x = Gdx.graphics.getWidth()/2 - chanceImg.getWidth()/2;
+        }
+        y = Gdx.graphics.getHeight()/2 - chanceImg.getHeight()/2;
         batch.draw(chanceImg, x, y);
         word.draw(batch, cardText, x, y + chanceImg.getHeight()*2/3, chanceImg.getWidth()/2, Align.center, true);
       } else if (propertyCard) {
         propertyImg = new Texture(String.format("propCard%s.png", walkAnimation.get(walkAnimation.size()-1).destination));
-        float x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
-        float y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
+        //float x, y;
+        if (selectBlock) {
+          x = Gdx.graphics.getWidth()/2 - (propertyImg.getWidth()+board.getWidth())/2;
+        } else {
+          x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
+        }
+        y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
         batch.draw(propertyImg, x, y);
         if (isBought) {
           batch.draw(bought, x + propertyImg.getWidth() - bought.getWidth(), y);
@@ -494,14 +540,37 @@ public class MonopolyGUI extends ApplicationAdapter {
         word.draw(batch, propName, x, y + propertyImg.getHeight() * 6/7, propertyImg.getWidth(), Align.center, false);
         word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.72f);
       } else if (travelCard) {
-        float x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
-        float y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
+        if (selectBlock) {
+          x = Gdx.graphics.getWidth()/2 - (travelImg.getWidth()+board.getWidth())/2;
+        } else {
+          x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
+        }
+        y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
         batch.draw(travelImg, x, y);
         if (isBought) {
           batch.draw(bought, x + travelImg.getWidth() - bought.getWidth(), y);
         }
         word.draw(batch, travelName, x, y + travelImg.getHeight()* 2/3, travelImg.getWidth(), Align.center, false);
         word2.draw(batch, travelPrice, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
+      }
+      // Render board to select block
+      if (selectBlock) {
+        //float x, y;
+        String description = "Choose a property to sell and pay money";
+        if (chanceCard) {
+          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + chanceImg.getWidth()/2;
+        } else if (propertyCard) {
+          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + propertyImg.getWidth()/2;
+        } else if (travelCard) {
+          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + travelImg.getWidth()/2;
+        } else {
+          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2;
+          description = "Organize festival in?";
+        }
+        y = Gdx.graphics.getHeight()/2 - board.getHeight()/2;
+        batch.draw(board, x, y);
+        whiteWord.draw(batch, description, x + board.getWidth()*0.05f, y + board.getHeight()*0.9f, board.getWidth() * 0.9f, Align.left, true);
+        whiteWord.draw(batch, selectBlockText, x + board.getWidth()*0.05f, y + board.getHeight()*0.6f, board.getWidth() * 0.9f, Align.left, true);
       }
     }
 

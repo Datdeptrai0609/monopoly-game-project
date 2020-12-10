@@ -50,7 +50,7 @@ final class Monopoly {
   }
 
   // Handle action at destination
-  public void handleBlock(Player player, Block block) {
+  public void handleBlock(Player player, Block block, Select propsSelect) {
     System.out.println("You land on " + state.board.getBoard()[player.position()].name());
     boolean owned = block.isOwned();
     boolean ownable = block.isOwnable();
@@ -58,20 +58,20 @@ final class Monopoly {
     if (!owned && ownable) {
       buyBlock(player, block);
     } else if (ownable) {
-      rentBlock(player, block);
+      rentBlock(player, block, propsSelect);
     } 
     else if (block instanceof TaxBlock) {
-      payTax(player, (TaxBlock) block);
+      payTax(player, (TaxBlock) block, propsSelect);
     } else if (block instanceof JailBlock) {
       state.current.toJail(state.board);
     } else if (block instanceof FestivalBlock) {
-      organizeFestival(player);
+      organizeFestival(player, propsSelect);
     } else {
       return;
     }
   }
 
-  private void organizeFestival(Player player) {
+  private void organizeFestival(Player player, Select propsSelect) {
     // Check can organize festival or not
     boolean canOrganize = false;
     // Player can organize festival if player has any property don't organize yet
@@ -84,7 +84,8 @@ final class Monopoly {
       Block bl;
       // Can only choose property which are not Festival
       while (true) {
-        bl = propsSelect(player);
+        //bl = propsSelect(player);
+        bl = propsSelect.select(player);
         if (bl.getFestival()) {
           System.out.println("This property was already organized Festival");
         } else {
@@ -97,12 +98,12 @@ final class Monopoly {
     }
   }
 
-  private void payTax(Player player, TaxBlock block) {
+  private void payTax(Player player, TaxBlock block, Select propsSelect) {
     int cost = block.tax(player.getAssets());
     System.out.println("You must pay $" + cost);
     if (player.getMoney() < cost) {
       while (true) {
-        cost = additionMoney(player, null, cost);
+        cost = additionMoney(player, null, cost, propsSelect);
         if (cost == Integer.MIN_VALUE) {
           return;
         } else if (cost <= 0) {
@@ -127,7 +128,7 @@ final class Monopoly {
     }
   }
 
-  private void rentBlock(Player player, Block block) {
+  private void rentBlock(Player player, Block block, Select propsSelect) {
     int cost = block.rent();
     Player owner = block.owner();
     // Land on your property
@@ -186,7 +187,7 @@ final class Monopoly {
     } else {
       int remainCost = cost;
       while (true) {
-        remainCost = additionMoney(player, owner, remainCost);
+        remainCost = additionMoney(player, owner, remainCost, propsSelect);
         // player lose
         if (remainCost == Integer.MIN_VALUE) {
           return;
@@ -206,7 +207,7 @@ final class Monopoly {
   }
 
   // Handle drawCard in ChanceBlock
-  public void drawCard(Player player, Card card) {
+  public void drawCard(Player player, Card card, Select propsSelect) {
     switch (card.action()) {
       case BANK_MONEY:
         if (card.value() >= 0) {
@@ -215,7 +216,7 @@ final class Monopoly {
           int cost = -1 * card.value();
           if (player.getMoney() < cost) {
             while (true) {
-              cost = additionMoney(player, null, cost);
+              cost = additionMoney(player, null, cost, propsSelect);
               if (cost == Integer.MIN_VALUE) {
                 break;
               } else if (cost <= 0) {
@@ -237,7 +238,7 @@ final class Monopoly {
   }
 
   // Handle sell property for more money
-  private int additionMoney(Player player, Player owner, int cost) {
+  private int additionMoney(Player player, Player owner, int cost, Select propsSelect) {
     Queue<Block> props = availableAssets(player);
     int availableAssets = sellVal(props) + player.getMoney();
 
@@ -253,7 +254,8 @@ final class Monopoly {
 
       System.out.println("Which property would you like to sell?");
       System.out.println("Please enter number.");
-      Block bl = propsSelect(player);
+      //Block bl = propsSelect(player);
+      Block bl = propsSelect.select(player);
 
       cost -= bl.cost();
       if (bl instanceof PropertyBlock) {
@@ -305,27 +307,27 @@ final class Monopoly {
   }
 
   // Return a Block which player select in their asset
-  private Block propsSelect(Player player) {
-    System.out.println("You own the following properties:");
-    Iterable<Block> props = player.properties();
+  //private Block propsSelect(Player player) {
+    //System.out.println("You own the following properties:");
+    //Iterable<Block> props = player.properties();
 
-    int counter = 1;
-    for (Block bl : props)
-      System.out.println(counter++ + ") " + bl.name());
+    //int counter = 1;
+    //for (Block bl : props)
+      //System.out.println(counter++ + ") " + bl.name());
 
-    while (true) {
-      int propNum = player.inputInt();
-      int propState = 1;
+    //while (true) {
+      //int propNum = player.inputInt();
+      //int propState = 1;
 
-      for (Block bl : props) {
-        if (propState++ == propNum) {
-          return bl;
-        }
-      }
+      //for (Block bl : props) {
+        //if (propState++ == propNum) {
+          //return bl;
+        //}
+      //}
 
-      System.out.println("Please select a valid property.");
-    }
-  }
+      //System.out.println("Please select a valid property.");
+    //}
+  //}
 
   // Select the destination when in BusBlock
   public int busSelect(Player player) {
