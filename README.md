@@ -1,8 +1,8 @@
-# MONOPOLY PLUSUBTRACT
+# :fire: MONOPOLY PLUSUBTRACT :fire:
 
 ## Summary
 
-[MONOPOLY PLUSUBTRACT](https://libgdx.badlogicgames.com/) is a project to make a game about the billionaire chess. This project is for Object-Oriented Programing. This game have two part. Part one is Desktop Application to show the game. Part two is Mobile Application to control the game. Using [ReactNative](https://reactnative.dev/), which is Framework of Javascript, to make Mobile Application. Using [Libgdx](https://libgdx.badlogicgames.com/), which is Framwork of Java, to make Desktop Application. 
+[MONOPOLY PLUSUBTRACT](https://en.wikipedia.org/wiki/Monopoly_(game)/) is a project to make a game about the billionaire chess. This project is for Object-Oriented Programing. This game have two part. Part one is Desktop Application to show the game. Part two is Mobile Application to control the game. Using [ReactNative](https://reactnative.dev/), which is Framework of Javascript, to make Mobile Application. Using [LibGDX](https://libgdx.badlogicgames.com/), which is Framwork of Java, to make Desktop Application. 
 
 
 ## Installation
@@ -47,3 +47,7 @@ Finally, you can run mobile app
 or: 
 
     npm android 
+
+## More Information
+
+You can find diagrams, documents and some informations in folder JavaApp/JavaCore. This folder contains our first version which do not support graphical user interface. If you want to understand our code more detailed, you should start here.
