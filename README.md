@@ -1,4 +1,4 @@
-# :fire: MONOPOLY PLUSUBTRACT :fire:
+# :fire: MONOPOLY PLUSUBTRACT :fire: ![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg)
 
 ## Summary
 
@@ -50,4 +50,4 @@ or:
 
 ## More Information
 
-You can find diagrams, documents and some informations in folder JavaApp/JavaCore. This folder contains our first version which do not support graphical user interface. If you want to understand our code more detailed, you should start here.
+You can find diagrams, documents and some information in folder JavaApp/JavaCore. This folder contains our first version which do not support graphical user interface. If you want to understand our code more detailed, you should start here.
