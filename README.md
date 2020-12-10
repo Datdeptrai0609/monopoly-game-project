@@ -4,7 +4,7 @@
 
 ## Summary
 
-[MONOPOLY PLUSUBTRACT](https://en.wikipedia.org/wiki/Monopoly_(game)/) is a project to make a game about the billionaire chess. This project is for Object-Oriented Programing. This game have two part. Part one is Desktop Application to show the game. Part two is Mobile Application to control the game. Using [ReactNative](https://reactnative.dev/), which is Framework of Javascript, to make Mobile Application. Using [LibGDX](https://libgdx.badlogicgames.com/), which is Framwork of Java, to make Desktop Application. 
+[MONOPOLY PLUSUBTRACT](https://en.wikipedia.org/wiki/Monopoly_(game)) is a project to make a game about the billionaire chess. This project is for Object-Oriented Programing. This game have two part. Part one is Desktop Application to show the game. Part two is Mobile Application to control the game. Using [ReactNative](https://reactnative.dev/), which is Framework of Javascript, to make Mobile Application. Using [LibGDX](https://libgdx.badlogicgames.com/), which is Framwork of Java, to make Desktop Application. 
 
 
 ## Installation
