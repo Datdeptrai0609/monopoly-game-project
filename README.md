@@ -15,9 +15,17 @@ You can install this game with git.
 
 ### Launch Java App
 
-To play the game, you must launch core of the game.
+To play the game, you must launch core of the game on a desktop.
 
-    cd JavaApp
+Firstly, move to the folder which contain core game by the command:
+
+    cd JavaApp/PlayScreen
+   
+Then, run the game by using gradle:
+
+    ./gradlew desktop:run
+    
+Next step, move to another device to launch mobile app. Have fun with our Monopoly Plusubtract !!! :smirk_cat:
   
 ### Launch Mobile App
 
