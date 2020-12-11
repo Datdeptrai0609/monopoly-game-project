@@ -31,18 +31,50 @@ import * as Animatable from 'react-native-animatable';
 import Character from './Character';
 
 export default class ChooseCharacter extends Component {
-    state = {
-        btnStatus: true,// show/hide status of btn ready
-        logoAnimation: 'zoomIn',// set animation for logo
-        characterChooseAnimation: 'fadeIn', // set animation for choose character
-
+    constructor(props) {
+        super(props);
+        state = {
+            btnStatus: true,// show/hide status of btn ready
+            logoAnimation: 'zoomIn',// set animation for logo
+            characterChooseAnimation: 'fadeIn', // set animation for choose character
+            waitingAnimation: 'zoomIn',
+            show: false,
+            duration: 2000
+        }
     }
-
+        
+    
     // using props to set status for btn from child class
 
     setBtnStatus = (child) => {
         this.setState({ btnStatus: child })
     }
+
+    //set status for choose view and waiting view
+    setStatusView = () => {
+        this.setState({
+            logoAnimation: 'zoomOut',
+            characterChooseAnimation:'fadeOut',
+    })
+        this.interval = setInterval(()=> {
+            this.setState({ show: true})
+        },2200)
+    }
+
+    UNSAFE_componentWillMount() {
+        this.interval = setInterval(
+            () => {
+                this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+                if (this.state.timer === 1) {
+                    this.setState({ animation: 'bounceOut' })
+                }
+                console.log(this.state.timer);
+            },
+            1000
+        );
+
+    }
+
 
     render() {
         return (
@@ -54,49 +86,60 @@ export default class ChooseCharacter extends Component {
                     style={styles.imageBackground}>
 
                     {/* add and design choose character box */}
+                    <View
+                        style={styles.chooseContainer}>
 
-                    <Animatable.View
-                        animation='fadeIn'
-                        delay={1000}
-                        duration={2000}
-                        style={styles.windowsChoose}>
-                        <Text
-                            style={styles.text}>
-                            P i c k    Y o u r    C h a r a c t e r !
+                        <Animatable.View
+                            animation={this.state.characterChooseAnimation}
+                            delay={1000}
+                            duration={2000}
+                            style={styles.windowsChoose}>
+                            <Text
+                                style={styles.text}>
+                                P i c k    Y o u r    C h a r a c t e r !
                         </Text>
 
-                        {/* render each of character to choose and set status for btn by using 
+                            {/* render each of character to choose and set status for btn by using 
                             props in character.js */}
-                        <Character sendData={this.setBtnStatus} />
+                            <Character sendData={this.setBtnStatus} />
 
-                        {/* btn ready view */}
+                            {/* btn ready view */}
 
-                        <View
-                            style={styles.readyContainer}>
+                            <View
+                                style={styles.readyContainer}>
 
-                            <TouchableOpacity
-                                disabled={this.state.btnStatus}
-                                //if disable is true then the button is off 
-                                style={this.state.btnStatus ? styles.buttonOff : styles.buttonOn}>
+                                <TouchableOpacity
+                                    disabled={this.state.btnStatus}
+                                    //if disable is true then the button is off 
+                                    style={this.state.btnStatus ? styles.buttonOff : styles.buttonOn}
+                                    onPress ={this.setStatusView}>
 
-                                <Text style={styles.textReady}> 
-                                    READY 
+                                    <Text style={styles.textReady}>
+                                        READY
                                 </Text>
 
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
-                        </View>
-                    </Animatable.View>
+                            </View>
+                        </Animatable.View>
 
-                    {/* add logo monopoly */}
+                        {/* add logo monopoly */}
 
-                    <Animatable.Image
-                        animation='zoomIn'
-                        delay={100}
-                        duration={1000}
-                        source={logoMonoSmall}
-                        style={styles.logoImg}>
-                    </Animatable.Image>
+                        <Animatable.Image
+                            animation={this.state.logoAnimation}
+                            delay={100}
+                            duration={1000}
+                            source={logoMonoSmall}
+                            style={styles.logoImg}>
+                        </Animatable.Image>
+
+                    </View>
+                    <View
+                        style={this.state.show ? styles.waiting : styles.hide}>
+                        <Image 
+                            source = {require('../img/background/loading.gif')}
+                            />
+                    </View>
 
                 </ImageBackground>
 
@@ -116,6 +159,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
     },
+    chooseContainer: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+
     imageBackground: {
         flex: 1,
         resizeMode: "cover",
@@ -171,7 +219,15 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    waiting: {
+        display: 'flex',
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    hide: {
+        display: 'none'
     }
-
 
 })
