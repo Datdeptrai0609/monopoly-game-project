@@ -114,13 +114,6 @@ export default class ChooseCharacter extends Component {
                         </Animatable.Image>
 
                     </View>
-                    <View
-                        style={this.state.show ? styles.waiting : styles.hide}>
-                        <Image 
-                            source = {require('../img/background/loading.gif')}
-                            />
-                    </View>
-
                 </ImageBackground>
 
             </View>
@@ -200,14 +193,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
     },
-    waiting: {
-        display: 'flex',
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    hide: {
-        display: 'none'
-    }
-
 })
