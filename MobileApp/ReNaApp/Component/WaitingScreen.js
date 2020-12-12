@@ -28,12 +28,24 @@ export default class Waiting extends Component {
         show: false,// status show or hide waiting GIF
     }
 
+    UNSAFE_componentWillMount() {
+        this.interval = setInterval(() => {
+            this.setState({show : true})
+            },1500)
+    }
+
+    componentDidUpdate() {
+        if (this.state.show == true) {
+            clearInterval(this.interval)
+        }
+    }
+
     render() {
         return (
             <View
                 style ={styles.container}>
             <View
-                style={styles.waiting}>
+                style={this.state.show ? styles.waiting : styles.hide}>
                 <Image
                     source={require('../img/background/loading.gif')}
                 />
