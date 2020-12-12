@@ -29,19 +29,16 @@ import {
 
 import * as Animatable from 'react-native-animatable';
 import Character from './Character';
+import { ActionConst, Actions } from 'react-native-router-flux';
 
 export default class ChooseCharacter extends Component {
-    constructor(props) {
-        super(props);
         state = {
             btnStatus: true,// show/hide status of btn ready
             logoAnimation: 'zoomIn',// set animation for logo
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
-            show: false,// status show or hide waiting GIF
-            move: 0, // status of move to another screen
+            move:0,
         }
-    }
         
     // using props to set status for btn from child class
     setBtnStatus = (child) => {
@@ -53,9 +50,19 @@ export default class ChooseCharacter extends Component {
         this.setState({
             logoAnimation: 'zoomOut', // use this state set and change animation for logo
             characterChooseAnimation:'fadeOut',// this state set and change animation for character
-    });
+        });
+        this.interval = setInterval(() => {
+            Actions.Waiting();// rout to waiting screen
+            this.setState({move: 1})// move = 1 when rout done
+        },2200);
     }
 
+    componentDidUpdate() {
+            if(this.state.move === 1){// if moved to waiting screen this state =1
+                // clear interval because if don't clear interval the component will forever
+                clearInterval(this.interval);
+            }
+    }
 
     render() {
         return (
