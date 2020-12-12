@@ -53,21 +53,7 @@ export default class ChooseCharacter extends Component {
         this.setState({
             logoAnimation: 'zoomOut', // use this state set and change animation for logo
             characterChooseAnimation:'fadeOut',// this state set and change animation for character
-    })
-        this.interval = setInterval(()=> { //use this interval for set something
-            this.setState({ show: true})// set state show to show waiting GIF after 2.2s
-        },2200)
-    }
-
-    //set time for delay to move to another screen
-    UNSAFE_componentWillMount() {
-        this.interval = setInterval(
-            () => {
-                
-            },
-            1000
-        );
-
+    });
     }
 
 
