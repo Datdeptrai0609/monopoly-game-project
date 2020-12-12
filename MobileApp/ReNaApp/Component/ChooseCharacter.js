@@ -37,38 +37,33 @@ export default class ChooseCharacter extends Component {
             btnStatus: true,// show/hide status of btn ready
             logoAnimation: 'zoomIn',// set animation for logo
             characterChooseAnimation: 'fadeIn', // set animation for choose character
-            waitingAnimation: 'zoomIn',
-            show: false,
-            duration: 2000
+            waitingAnimation: 'zoomIn',//animation for waiting image GIF
+            show: false,// status show or hide waiting GIF
+            move: 0, // status of move to another screen
         }
     }
         
-    
     // using props to set status for btn from child class
-
     setBtnStatus = (child) => {
         this.setState({ btnStatus: child })
     }
 
-    //set status for choose view and waiting view
+    //when onPress "Ready" button to set status for choose view and waiting view
     setStatusView = () => {
         this.setState({
-            logoAnimation: 'zoomOut',
-            characterChooseAnimation:'fadeOut',
+            logoAnimation: 'zoomOut', // use this state set and change animation for logo
+            characterChooseAnimation:'fadeOut',// this state set and change animation for character
     })
-        this.interval = setInterval(()=> {
-            this.setState({ show: true})
+        this.interval = setInterval(()=> { //use this interval for set something
+            this.setState({ show: true})// set state show to show waiting GIF after 2.2s
         },2200)
     }
 
+    //set time for delay to move to another screen
     UNSAFE_componentWillMount() {
         this.interval = setInterval(
             () => {
-                this.setState((prevState) => ({ timer: prevState.timer - 1 }));
-                if (this.state.timer === 1) {
-                    this.setState({ animation: 'bounceOut' })
-                }
-                console.log(this.state.timer);
+                
             },
             1000
         );
@@ -101,10 +96,9 @@ export default class ChooseCharacter extends Component {
 
                             {/* render each of character to choose and set status for btn by using 
                             props in character.js */}
-                            <Character sendData={this.setBtnStatus} />
+                            <Character sendData={this.setBtnStatus} />{/*receive data from child and set btn state*/}
 
                             {/* btn ready view */}
-
                             <View
                                 style={styles.readyContainer}>
 

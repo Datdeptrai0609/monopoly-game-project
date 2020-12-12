@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet,Image, ScrollView } from 'reac
 
 class Character extends Component {
     state = {
-        characters: [
+        characters: [//status of each character
             {
                 id: 0,
                 name: 'Mina',
@@ -43,7 +43,7 @@ class Character extends Component {
             
         ],
     }
-
+    // pass data from child to parent
     sendBtnStatus = () => {
         var check = false;
         this.props.sendData(check);
