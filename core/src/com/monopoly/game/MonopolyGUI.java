@@ -100,7 +100,6 @@ public class MonopolyGUI extends ApplicationAdapter {
         new Thread(new Runnable() {
           Monopoly monopoly;
 
-          //private Block propsSelect(Player player) {
           // Create BlockSelect callback to handle render
           final class BlockSelect implements Select {
             public Block select(Player player) {
