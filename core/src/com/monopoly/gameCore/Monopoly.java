@@ -1,11 +1,11 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-final class Monopoly {
+public class Monopoly {
   private final Dice dice;
   private State state;
   private boolean lost = false;
@@ -71,7 +71,7 @@ final class Monopoly {
     }
   }
 
-  private void organizeFestival(Player player, Select propsSelect) {
+  public void organizeFestival(Player player, Select propsSelect) {
     // Check can organize festival or not
     boolean canOrganize = false;
     // Player can organize festival if player has any property don't organize yet
@@ -98,7 +98,7 @@ final class Monopoly {
     }
   }
 
-  private void payTax(Player player, TaxBlock block, Select propsSelect) {
+  public void payTax(Player player, TaxBlock block, Select propsSelect) {
     int cost = block.tax(player.getAssets());
     System.out.println("You must pay $" + cost);
     if (player.getMoney() < cost) {
@@ -115,7 +115,7 @@ final class Monopoly {
       player.excMoney(cost * -1);
   }
 
-  private void buyBlock(Player player, Block block) {
+  public void buyBlock(Player player, Block block) {
     int cost = block.cost();
     System.out.println("Would you like to purchase " + block.name() + " for " + cost + " (Yes/No)?");
     if (player.inputBool()) {
@@ -128,7 +128,7 @@ final class Monopoly {
     }
   }
 
-  private void rentBlock(Player player, Block block, Select propsSelect) {
+  public void rentBlock(Player player, Block block, Select propsSelect) {
     int cost = block.rent();
     Player owner = block.owner();
     // Land on your property
@@ -238,7 +238,7 @@ final class Monopoly {
   }
 
   // Handle sell property for more money
-  private int additionMoney(Player player, Player owner, int cost, Select propsSelect) {
+  public int additionMoney(Player player, Player owner, int cost, Select propsSelect) {
     Queue<Block> props = availableAssets(player);
     int availableAssets = sellVal(props) + player.getMoney();
 
@@ -267,7 +267,7 @@ final class Monopoly {
     }
   }
 
-  private Queue<Block> availableAssets(Player player) {
+  public Queue<Block> availableAssets(Player player) {
     Iterable<Block> props = player.properties();
     Queue<Block> avail = new LinkedList<>();
     for (Block bl : props)
@@ -276,7 +276,7 @@ final class Monopoly {
   }
 
   // Calculate the price of sell all properties player has
-  private int sellVal(Queue<Block> props) {
+  public int sellVal(Queue<Block> props) {
     int totalMoney = 0;
     for (Block bl : props) {
       totalMoney += bl.cost();
@@ -290,7 +290,7 @@ final class Monopoly {
 
   // When a player lose game, change their money and property to owner if not
   // reset all property
-  private void lose(Player player, Player owner) {
+  public void lose(Player player, Player owner) {
     if (owner != null) {
       owner.excMoney(player.getMoney());
       for (Block bl : player.properties()) {
@@ -307,7 +307,7 @@ final class Monopoly {
   }
 
   // Return a Block which player select in their asset
-  //private Block propsSelect(Player player) {
+  //public Block propsSelect(Player player) {
     //System.out.println("You own the following properties:");
     //Iterable<Block> props = player.properties();
 
@@ -352,7 +352,7 @@ final class Monopoly {
   }
 
   // purchase a property
-  private void purchase(Player player, Block block) {
+  public void purchase(Player player, Block block) {
     player.addProperty(block);
     block.purchase(player);
   }

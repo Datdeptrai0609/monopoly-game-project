@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 public class BusBlock implements Block {
   private String name = "Bus";

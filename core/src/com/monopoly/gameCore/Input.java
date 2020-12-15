@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 import java.io.IOException;
 import java.util.Scanner;

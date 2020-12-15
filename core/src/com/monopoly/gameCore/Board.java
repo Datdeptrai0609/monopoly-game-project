@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
-class Board {
+public class Board {
   private final int size; // number of blocks in a board
   private final Block[] board; // representation of board
   private int busPos;

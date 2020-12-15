@@ -1,9 +1,6 @@
 package com.monopoly.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.Gdx; import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -11,29 +8,26 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 
-public class BoardScreen extends ApplicationAdapter {
+public class BoardScreen {
 
     TextureAtlas textureAtlas, backAtlas, roadHigh, roadLow, carsHigh, carsLow, things;
 
     final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
+    final char[] boardName = "abcdefg".toCharArray();
+    private Sprite[] boardSprite = new Sprite[32];
+    private boolean assignDone = false;
     SpriteBatch batch;
 
     public BoardScreen(SpriteBatch sb) {
+      textureAtlas = new TextureAtlas("playScreenAssets/block_Features.txt");
+      backAtlas = new TextureAtlas("playScreenAssets/back_.txt");
+      roadHigh = new TextureAtlas("playScreenAssets/roadHigh_.txt");
+      roadLow = new TextureAtlas("playScreenAssets/roadLow_.txt");
+      carsHigh = new TextureAtlas("playScreenAssets/carsHigh_.txt");
+      carsLow = new TextureAtlas("playScreenAssets/carsLow_.txt");
+      things = new TextureAtlas("playScreenAssets/otherThings_.txt");
+
       batch = sb;
-    }
-
-    @Override
-    public void create() {
-
-        textureAtlas = new TextureAtlas("playScreenAssets/block_Features.txt");
-        backAtlas = new TextureAtlas("playScreenAssets/back_.txt");
-        roadHigh = new TextureAtlas("playScreenAssets/roadHigh_.txt");
-        roadLow = new TextureAtlas("playScreenAssets/roadLow_.txt");
-        carsHigh = new TextureAtlas("playScreenAssets/carsHigh_.txt");
-        carsLow = new TextureAtlas("playScreenAssets/carsLow_.txt");
-        things = new TextureAtlas("playScreenAssets/otherThings_.txt");
-
-        batch = new SpriteBatch();
     }
 
     private void renderBack() {
@@ -129,6 +123,20 @@ public class BoardScreen extends ApplicationAdapter {
         }
         //render a
         drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
+
+        // Assign block sprite in order to an array 
+        if (!assignDone) {
+          int count = 0;
+          for (int i = 0; i < 4; i++) {
+            boardSprite[count] = sprites.get("" + boardName[i]);
+            count++;
+            for (int j = 0; j < 7; j++) {
+              boardSprite[count] = sprites.get("" + boardName[i] + boardName[j]);
+              count ++;
+            }
+          }
+          assignDone = true;
+        }
     }
 
     private void renderThings() {
@@ -173,13 +181,11 @@ public class BoardScreen extends ApplicationAdapter {
         sprite.draw(batch);
     }
 
-    @Override
+    public Sprite[] boardSprite() {
+      return boardSprite;
+    }
+
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-
         renderBack();
         renderRoadHigh();
         renderRoadLow();
@@ -187,13 +193,5 @@ public class BoardScreen extends ApplicationAdapter {
         renderCarsLow();
         renderBlocks();
         renderThings();
-
-        batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        textureAtlas.dispose();
-        sprites.clear();
     }
 }

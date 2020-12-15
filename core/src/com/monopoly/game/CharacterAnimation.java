@@ -5,21 +5,28 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 
 public class CharacterAnimation {
   SpriteBatch sb;
+  // Animation for player animation
   Animation<TextureRegion> walk;
   Animation<TextureRegion> stand;
   Animation<TextureRegion> jump;
   Animation<TextureRegion> die;
-  Texture flag, house;
   TextureRegion animationFrame;
-  String name;
-  Rectangle character;
-  int position, destination;
-  float x, y, angle, stateTime;
+  // Img for flag and house
+  HouseFlag houseFlag;
+  //Texture flag, house;
+
+  // Animation for arrow on the head
+  Animation<TextureRegion> arrow;  
+
+  // Attribute to handle animation
+  private String name;
+  private int position, destination;
+  private float x, y, angle, stateTime;
   private boolean lost, win;
   
   public CharacterAnimation(SpriteBatch sb, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> standAnimation, Animation<TextureRegion> jumpAnimation, Animation<TextureRegion> dieAnimation, Texture flag, Texture house, String name) {
@@ -29,10 +36,12 @@ public class CharacterAnimation {
     this.jump = jumpAnimation;
     this.die = dieAnimation;
     this.name = name;
-    this.flag = flag;
-    this.house = house;
+    houseFlag = new HouseFlag(sb, house, flag);
+    //this.flag = flag;
+    //this.house = house;
     win = lost = false;
     position = destination = 0;
+    arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
   }
 
   public float getWidth() {
@@ -69,7 +78,19 @@ public class CharacterAnimation {
     stateTime = 0f;
   }
 
-  public void draw(Sprite[] board) {
+  public String name() {
+    return name;
+  }
+
+  public void setDestinate(int des) {
+    destination = des;
+  }
+  
+  public int destination() {
+    return destination;
+  }
+
+  public void draw(Sprite[] board, String currentPlayer) {
     if (lost) {
       if (!die.isAnimationFinished(stateTime)) {
         animationFrame = die.getKeyFrame(stateTime);
@@ -124,6 +145,11 @@ public class CharacterAnimation {
       } 
     }
     sb.draw(animationFrame, x, y, animationFrame.getRegionWidth()/3, animationFrame.getRegionHeight()/3);
+    // Draw the arrow
+    if (name.equals(currentPlayer)) {
+      TextureRegion arrowFrame = arrow.getKeyFrame(stateTime, true);
+      sb.draw(arrowFrame, x + animationFrame.getRegionWidth()/6 - arrowFrame.getRegionWidth()/4, y + animationFrame.getRegionHeight()/3, arrowFrame.getRegionWidth()/2, arrowFrame.getRegionHeight()/2);
+    }
     stateTime += Gdx.graphics.getDeltaTime();
   }
 }

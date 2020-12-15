@@ -2,56 +2,43 @@ package com.monopoly.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
+import com.monopoly.gameCore.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MonopolyGUI extends ApplicationAdapter {
+    // Board and background
+    BoardScreen boardScreen;
+    Sprite[] boardSprite;
 
-    TextureAtlas textureAtlas, backAtlas, roadHigh, roadLow, carsHigh, carsLow, things;
-
-    ArrayList<CharacterAnimation> walkAnimation;
-
-    // Animation for arrow on the head of player
-    Animation<TextureRegion> arrow;  
+    // Character Animation
+    ArrayList<CharacterAnimation> characterAnimation;
 
     // Animation for dices
-    TextureAtlas diceAtlas;
-    TextureRegion diceRegion;
-    Animation<TextureRegion> dice; 
-    private boolean diceStart = false;
-    private int diceVal;
+    DiceGUI dice;
 
-    // Attribute for card
-    private boolean chanceCard, propertyCard, travelCard, isBought, selectBlock;
-    private String cardText, propName, propPrice, travelName, travelPrice, selectBlockText;
-    Texture chanceImg, propertyImg, travelImg, bought, board;
-    // Words will be draw on card picture
-    BitmapFont word, word2, whiteWord;
+    // GUI for card
+    ChanceCardGUI chanceGUI;
+    PropCardGUI propGUI;
+    TravelCardGUI travelGUI;
+    CardGUI[] listOfCards; // Save all card as an array for easy handling
+    GreenBoard board2Select;
+
+    // Name of blocks for player select
+    private String selectBlockText;
 
     // Attribute for game handle
     Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
     private String currentPlayer;
-    private Block[] boardRender;
-    private boolean assignDone = false;
+    private Block[] board;
 
-    final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
-    Sprite[] boardSprite = new Sprite[32];
-    final char[] boardName = "abcdefg".toCharArray();
     Sprite waitingScreen;
 
     SpriteBatch batch;
@@ -59,61 +46,57 @@ public class MonopolyGUI extends ApplicationAdapter {
 
     @Override
     public void create() {
-
-        textureAtlas = new TextureAtlas("playScreenAssets/block_Features.txt"); backAtlas = new TextureAtlas("playScreenAssets/back_.txt");
-        roadHigh = new TextureAtlas("playScreenAssets/roadHigh_.txt");
-        roadLow = new TextureAtlas("playScreenAssets/roadLow_.txt");
-        carsHigh = new TextureAtlas("playScreenAssets/carsHigh_.txt");
-        carsLow = new TextureAtlas("playScreenAssets/carsLow_.txt");
-        things = new TextureAtlas("playScreenAssets/otherThings_.txt");
+        batch = new SpriteBatch();
+        // Waiting Screen temporary
         waitingScreen = new Sprite(new Texture(Gdx.files.internal("WaitingScreen.jpg")));
 
-        // Create animation for dice
-        diceAtlas = new TextureAtlas("dice.txt");
-        dice = new Animation<TextureRegion>(0.1f, diceAtlas.getRegions());
+        characterAnimation = new ArrayList<CharacterAnimation>();
 
-        batch = new SpriteBatch();
+        // Create boardScreen
+        boardScreen = new BoardScreen(batch);
+        // Create dice Animation
+        dice = new DiceGUI(batch);
+        // Create word object to draw word in game
+        Word word = new Word();
 
-        // Create chance card GUI
-        chanceImg = new Texture("chance.jpg");
-        travelImg = new Texture("travelCard.jpg");
-        bought = new Texture("bought.png");
-        board = new Texture("greenBoard.png");
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 40;
-        parameter.color = Color.BLACK;
-        word = generator.generateFont(parameter);
-        parameter.size = 30;
-        word2 = generator.generateFont(parameter);
-        parameter.size = 45;
-        parameter.color = Color.WHITE;
-        whiteWord = generator.generateFont(parameter);
-        generator.dispose();
-        chanceCard = propertyCard = travelCard = isBought = selectBlock = false;
+        // Create card GUI
+        chanceGUI = new ChanceCardGUI(batch, word);
+        propGUI = new PropCardGUI(batch, word);
+        travelGUI = new TravelCardGUI(batch, word);
+        listOfCards = new CardGUI[]{chanceGUI, propGUI, travelGUI};
+
+        board2Select = new GreenBoard(batch, word);
         
-        // Create animation for arrow
-        arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
-        walkAnimation = new ArrayList<CharacterAnimation>();
-
         // Create a new thread to run monopoly not disturb render GUI
         new Thread(new Runnable() {
           Monopoly monopoly;
 
-          // Create BlockSelect callback to handle render
+          // Create BlockSelect callback function to handle render
           final class BlockSelect implements Select {
             public Block select(Player player) {
               selectBlockText = ""; 
               System.out.println("You own the following properties:");
               Iterable<Block> props = player.properties();
 
+              // List of properties to select
               int counter = 1;
               for (Block bl : props) {
                 String str = counter++ + ")" + bl.name();
                 System.out.println(str);
                 selectBlockText += (str + "   ");
               }
-              selectBlock = true;
+
+              // Find width of card which go belong with board2Select
+              float widthCard = 0f;
+              for (CardGUI card : listOfCards) {
+                // If not any card on => player in festival
+                if (card.isOn()) {
+                  widthCard = card.getWidth();
+                  break;
+                }
+              }
+              board2Select.setCardAlong(widthCard);
+              board2Select.boardOn(true);
 
               while (true) {
                 int propNum = player.inputInt();
@@ -137,28 +120,21 @@ public class MonopolyGUI extends ApplicationAdapter {
             Card card = chance.draw();
             System.out.println(card.text());
             // Render card text to screen
-            cardText = card.text();
-            chanceCard = true;
+            chanceGUI.setContent(card.text());
+            chanceGUI.cardOn(true);
             // Handle card action
             monopoly.drawCard(state.current, card, new BlockSelect());
             playerMove();
             try {
               Thread.sleep(3500);
             } catch (InterruptedException e) {}
-            chanceCard = selectBlock = false;
           }
 
           // Handle render at property block
           private void handleProp(Monopoly.State state) {
             PropertyBlock prop = (PropertyBlock) state.board.getBoard()[state.current.position()];
-            propName = prop.name();
-            propPrice = prop.priceInfo();
-            if (prop.isOwned()) {
-              isBought = true;
-            } else {
-              isBought = false;
-            }
-            propertyCard = true;
+            propGUI.setContent(prop.position(), prop.isOwned(), prop.name(), prop.priceInfo());
+            propGUI.cardOn(true);
             try {
               Thread.sleep(3500);
             } catch (InterruptedException e) {}
@@ -166,14 +142,8 @@ public class MonopolyGUI extends ApplicationAdapter {
 
           private void handleTravel(Monopoly.State state) {
             TravelBlock travel = (TravelBlock) state.board.getBoard()[state.current.position()];
-            travelName = travel.name();
-            travelPrice = travel.priceInfo();
-            if (travel.isOwned()) {
-              isBought = true;
-            } else {
-              isBought = false;
-            }
-            travelCard = true;
+            travelGUI.setContent(travel.isOwned(), travel.name(), travel.priceInfo());
+            travelGUI.cardOn(true);
             try {
               Thread.sleep(3000);
             } catch (InterruptedException e) {}
@@ -181,9 +151,9 @@ public class MonopolyGUI extends ApplicationAdapter {
 
           // Render player move
           private void playerMove() {
-            for (CharacterAnimation player : walkAnimation) {
-              if (player.name.equals(currentPlayer)) {
-                player.destination = monopoly.getState().current.position();
+            for (CharacterAnimation player : characterAnimation) {
+              if (player.name().equals(currentPlayer)) {
+                player.setDestinate(monopoly.getState().current.position());
                 break;
               }
             }
@@ -193,6 +163,13 @@ public class MonopolyGUI extends ApplicationAdapter {
             } catch (InterruptedException e) {
               System.out.println("Thread interrupted");
             }
+          }
+
+          private void turnOffCards() {
+            for (CardGUI card : listOfCards) {
+              card.cardOn(false);
+            }
+            board2Select.boardOn(false);
           }
 
           @Override
@@ -209,27 +186,41 @@ public class MonopolyGUI extends ApplicationAdapter {
               @Override
               public void run() {
                 for (Player player : monopoly.getState().players) {
-                  Animation<TextureRegion> walkAnimationIn = new Animation<TextureRegion>(0.05f, new TextureAtlas(String.format("%sRun.txt", player.name())).getRegions());
+                  Animation<TextureRegion> characterAnimationIn = new Animation<TextureRegion>(0.05f, new TextureAtlas(String.format("%sRun.txt", player.name())).getRegions());
                   Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("%sStand.txt", player.name())).getRegions());
                   Animation<TextureRegion> jumpAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sJump.txt", player.name())).getRegions());
                   Animation<TextureRegion> dieAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sDie.txt", player.name())).getRegions());
                   Texture flagIn = new Texture(String.format("%sFlag.png", player.name()));
                   Texture houseIn = new Texture(String.format("%sHouse.png", player.name()));
-                  walkAnimation.add(new CharacterAnimation(batch, walkAnimationIn, standAnimationIn, jumpAnimationIn, dieAnimationIn, flagIn, houseIn, player.name()));
+                  characterAnimation.add(new CharacterAnimation(batch, characterAnimationIn, standAnimationIn, jumpAnimationIn, dieAnimationIn, flagIn, houseIn, player.name()));
                 }
+                gameStatus = monopoly.getStatus();
               }
             });
-            gameStatus = monopoly.getStatus();
 
             // Run
             int doubleCount = 0;
             Monopoly.State state = monopoly.getState();
-            Block[] board = state.board.getBoard();
+            board = state.board.getBoard();
+            boardSprite = boardScreen.boardSprite(); 
             while (state.players.size() > 1) {
-              boardRender = board;
               state.current = state.players.peek();
               // Pass the current player who is playing
               currentPlayer = monopoly.getState().current.name();
+
+              // Swap character animation current to front
+              Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                  int size = characterAnimation.size();
+                  for (int i = 0; i < size; ++i) {
+                    if (characterAnimation.get(i).name().equals(currentPlayer)) {
+                      characterAnimation.add(characterAnimation.remove(i));
+                      break;
+                    }
+                  }
+                }
+              });
 
               // Handle action if player in BusBlock
               if (state.current.position() == state.board.busPos()) {
@@ -248,14 +239,14 @@ public class MonopolyGUI extends ApplicationAdapter {
                 }
 
                 monopoly.handleBlock(state.current, board[state.current.position()], new BlockSelect());
-                propertyCard = travelCard = selectBlock = false;
+                turnOffCards();
                 // Check lost
                 if (monopoly.getLost()) {
                   monopoly.setLost();
                   doubleCount = 0;
                   Player loser = state.players.remove(); 
-                  for (CharacterAnimation character : walkAnimation) {
-                    if (character.name.equals(loser.name())) {
+                  for (CharacterAnimation character : characterAnimation) {
+                    if (character.name().equals(loser.name())) {
                       character.lost();
                       break;
                     }
@@ -272,11 +263,10 @@ public class MonopolyGUI extends ApplicationAdapter {
                 }
               }
 
-              diceStart = true;
+              dice.setDiceRoll(true);
               monopoly.turn();
               // Pass the current player who is playing
-              diceVal = monopoly.getDice().getVal();
-              diceStart = false;
+              dice.setDiceVal(monopoly.getDice().getVal());
               if (monopoly.getDouble()) {
                 doubleCount++;
               }
@@ -302,19 +292,17 @@ public class MonopolyGUI extends ApplicationAdapter {
 
               // Handle Block at destination
               monopoly.handleBlock(state.current, board[state.current.position()], new BlockSelect());
-              propertyCard = travelCard = selectBlock = false;
+              turnOffCards();
 
               if (!monopoly.getDouble() && !monopoly.getLost()) {
-                //System.out.println("Not play again and not lost");
                 state.players.add(state.players.remove());
                 doubleCount = 0;
               } else if (monopoly.getLost()) {
-                //System.out.println("Lost");
                 monopoly.setLost();
                 doubleCount = 0;
                 Player loser = state.players.remove(); 
-                for (CharacterAnimation character : walkAnimation) {
-                  if (character.name.equals(loser.name())) {
+                for (CharacterAnimation character : characterAnimation) {
+                  if (character.name().equals(loser.name())) {
                     character.lost();
                     break;
                   }
@@ -325,8 +313,8 @@ public class MonopolyGUI extends ApplicationAdapter {
             }
             Player winner = monopoly.getState().players.remove();
             currentPlayer = winner.name();
-            for (CharacterAnimation character : walkAnimation) {
-              if (character.name.equals(winner.name())) {
+            for (CharacterAnimation character : characterAnimation) {
+              if (character.name().equals(winner.name())) {
                 character.win();
                 break;
               }
@@ -336,301 +324,35 @@ public class MonopolyGUI extends ApplicationAdapter {
         }).start();
     }
 
-    private void renderBack() {
-        Array<TextureAtlas.AtlasRegion> regions = backAtlas.getRegions();
-        //render background
-        drawThing(regions, backAtlas, 0, 0, 0);
-        //render School
-        drawThing(regions, backAtlas, 1, 315, 700, 0.8f, 0.8f);
-    }
-
-    private void renderRoadHigh() {
-        Array<TextureAtlas.AtlasRegion> regions = roadHigh.getRegions();
-        //render roadHigh a_Left
-        for (int i = 0, x = -50, y = 850; i < 14; i++) {
-            drawThing(regions, roadHigh, 0, x, y);
-            x += 47;
-            y -= 27;
-        }
-        //render roadHigh d_Right
-        for (int i = 0, x = 1351+47*3, y = 900+27*3; i < 17; i++) {
-            drawThing(regions, roadHigh, 3, x, y);
-            x -= 47;
-            y -= 27;
-        }
-        //render roadHigh c_Range
-        drawThing(regions, roadHigh, 2, 608+47, 472+27, 0.62f, 0.62f);
-        //render roadHigh b_To
-        drawThing(regions, roadHigh, 1, 608,472);
-    }
-
-    private void renderRoadLow() {
-        Array<TextureAtlas.AtlasRegion> regions = roadLow.getRegions();
-        //render roadLow
-        for (int i = 0, x= -52, y= 310; i < 3; i++) {
-            drawThing(regions, roadLow, 0, x, y);
-            x += 610;
-            y -= 351;
-        }
-    }
-
-    private void renderCarsHigh() {
-        Array<TextureAtlas.AtlasRegion> regions = carsHigh.getRegions();
-        //render cars for high road
-        drawThing(regions, carsHigh, 0, 100, 745);
-        drawThing(regions, carsHigh, 1, 300, 696);
-        drawThing(regions, carsHigh, 2, 600, 525);
-        drawThing(regions, carsHigh, 3, 900, 655);
-        drawThing(regions, carsHigh, 3, 1155, 800);
-    }
-
-    private void renderCarsLow() {
-        Array<TextureAtlas.AtlasRegion> regions = carsLow.getRegions();
-        // render cars for Low road
-        drawThing(regions, carsLow, 0, 60, 660);
-        drawThing(regions, carsLow, 1, 600, 390);
-        drawThing(regions, carsLow, 2, 560, 390);
-        drawThing(regions, carsLow, 3, 905, 210);
-        drawThing(regions, carsLow, 0, 845, 210);
-        drawThing(regions, carsLow, 3, 1230, 20);
-    }
-
-    private void renderBlocks() {
-        Array<AtlasRegion> regions;
-        // render c
-        drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*2, (Gdx.graphics.getWidth()/2)-176, Gdx.graphics.getHeight()-206, 0.9f, 0.9f);
-        // render c list
-        for (int i = regions.size/4*2+1, x_position_blocks_small = 900, y_position_blocks_small = Gdx.graphics.getHeight()-250; i < regions.size/4*3; i++) {
-            drawThing(regions = textureAtlas.getRegions(), textureAtlas, i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small+=73;
-            y_position_blocks_small-=42;
-        }
-        // render d
-        drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*3, 1410, Gdx.graphics.getHeight()/2-114, 0.9f, 0.9f);
-        //render d list
-        for (int i = regions.size/4*3+1, x_position_blocks_small = 1337, y_position_blocks_small = Gdx.graphics.getHeight()/2-132; i < regions.size; i++) {
-            drawThing(regions = textureAtlas.getRegions(), textureAtlas, i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small-=73;
-            y_position_blocks_small-=42;
-        }
-        //render b list
-        for (int i = regions.size/4*2-1, x_position_blocks_small = 680, y_position_blocks_small = Gdx.graphics.getHeight()-251; i > regions.size/4*1; i--) {
-            drawThing(regions = textureAtlas.getRegions(), textureAtlas, i, x_position_blocks_small, y_position_blocks_small); x_position_blocks_small-=73;
-            y_position_blocks_small-=42;
-        }
-        // render b
-        drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*1, 36, Gdx.graphics.getHeight()/2-105, 0.9f, 0.9f);
-        // render a list
-        for (int i = regions.size/4*1-1, x_position_blocks_small = 240, y_position_blocks_small = Gdx.graphics.getHeight()/2-133; i > regions.size/4*0; i--) {
-            drawThing(regions = textureAtlas.getRegions(), textureAtlas, i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small+=73;
-            y_position_blocks_small-=42;
-        }
-        //render a
-        drawThing(regions = textureAtlas.getRegions(), textureAtlas, regions.size/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
-
-        // Assign block sprite in order to an array 
-        if (!assignDone) {
-          int count = 0;
-          for (int i = 0; i < 4; i++) {
-            boardSprite[count] = sprites.get("" + boardName[i]);
-            count++;
-            for (int j = 0; j < 7; j++) {
-              boardSprite[count] = sprites.get("" + boardName[i] + boardName[j]);
-              count ++;
-            }
-          }
-          assignDone = true;
-        }
-    }
-
-    private void renderThings() {
-        Array<TextureAtlas.AtlasRegion> regions = things.getRegions();
-        //render otherThings
-        //mountain
-        drawThing(regions, things, 7, 700, 250);
-        // adv
-        drawThing(regions, things, 5, 910, 241);
-        // fence
-        drawThing(regions, things, 4, 1120, 90);
-        drawThing(regions, things, 4, 1227, 30);
-        // light SE
-        drawThing(regions, things, 0, 50, 685);
-        drawThing(regions, things, 0, 900, 195);
-        drawThing(regions, things, 0, 380, 496);
-        drawThing(regions, things, 0, 1190, 30);
-        // light NE
-        drawThing(regions, things, 1, 1039, Gdx.graphics.getHeight()-122);
-        drawThing(regions, things, 1, 1544, 588);
-        // tree and trees
-        drawThing(regions, things, 2, 1332, 23);
-        drawThing(regions, things, 3, 580, 440, 0.7f, 0.7f);
-        // mountain
-        drawThing(regions, things, 6, -20, 50);
-    }
-
-    protected void drawThing(Array<TextureAtlas.AtlasRegion> regions, TextureAtlas drawAtlas, int texture_ordinal, float x_position, float y_position, float x_Scale, float y_Scale) {
-        TextureAtlas.AtlasRegion region = regions.get(texture_ordinal);
-        Sprite sprite = drawAtlas.createSprite(region.name);
-        sprite.setPosition(x_position, y_position);
-        sprite.setSize(sprite.getWidth()*x_Scale, sprite.getHeight()*y_Scale);
-        sprites.put(region.name, sprite);
-        sprite.draw(batch);
-    }
-
-    protected void drawThing(Array<TextureAtlas.AtlasRegion> regions, TextureAtlas drawAtlas, int texture_ordinal, float x_position, float y_position) {
-        TextureAtlas.AtlasRegion region = regions.get(texture_ordinal);
-        Sprite sprite = drawAtlas.createSprite(region.name);
-        sprite.setPosition(x_position, y_position);
-        sprites.put(region.name, sprite);
-        sprite.draw(batch);
-    }
-
     private void renderPlayer() {
-      int size = walkAnimation.size();
+      int size = characterAnimation.size();
       for (int i = 0; i < size; i++) {
-        // Swap the current player to front
-        if (walkAnimation.get(i).name.equals(currentPlayer)) {
-          walkAnimation.add(walkAnimation.remove(i));
-        }
         // Draw player
-        walkAnimation.get(i).draw(boardSprite);
+        characterAnimation.get(i).draw(boardSprite, currentPlayer);
       }
-      // Draw the arrow on the current player
-      TextureRegion arrowFrame = arrow.getKeyFrame(stateTime, true);
-      batch.draw(arrowFrame, walkAnimation.get(size-1).x + walkAnimation.get(size-1).getWidth()/2 - arrowFrame.getRegionWidth()/4, walkAnimation.get(size-1).y + walkAnimation.get(size-1).getHeight(), arrowFrame.getRegionWidth()/2, arrowFrame.getRegionHeight()/2);
-    }
-
-    private void renderDice() {
-      TextureRegion diceFrame = dice.getKeyFrame(stateTime, true);
-      if (diceStart) {
-        diceFrame = dice.getKeyFrame(stateTime, true);
-      }
-      else {
-        diceFrame = diceAtlas.findRegion(String.format("dice%d", diceVal)); 
-      }
-      batch.draw(diceFrame, Gdx.graphics.getWidth()/2 - diceFrame.getRegionWidth()/2, Gdx.graphics.getHeight()/2 - diceFrame.getRegionHeight()/2, diceFrame.getRegionWidth()*2, diceFrame.getRegionHeight()*2);
     }
 
     private void renderCard() {
-      float x, y;
-      if (chanceCard) {
-        if (selectBlock) {
-          x = Gdx.graphics.getWidth()/2 - (chanceImg.getWidth()+board.getWidth())/2;
-        } else {
-          x = Gdx.graphics.getWidth()/2 - chanceImg.getWidth()/2;
-        }
-        y = Gdx.graphics.getHeight()/2 - chanceImg.getHeight()/2;
-        batch.draw(chanceImg, x, y);
-        word.draw(batch, cardText, x, y + chanceImg.getHeight()*2/3, chanceImg.getWidth()/2, Align.center, true);
-      } else if (propertyCard) {
-        propertyImg = new Texture(String.format("propCard%s.png", walkAnimation.get(walkAnimation.size()-1).destination));
-        //float x, y;
-        if (selectBlock) {
-          x = Gdx.graphics.getWidth()/2 - (propertyImg.getWidth()+board.getWidth())/2;
-        } else {
-          x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
-        }
-        y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
-        batch.draw(propertyImg, x, y);
-        if (isBought) {
-          batch.draw(bought, x + propertyImg.getWidth() - bought.getWidth(), y);
-        }
-        word.draw(batch, propName, x, y + propertyImg.getHeight() * 6/7, propertyImg.getWidth(), Align.center, false);
-        word2.draw(batch, propPrice, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight() * 0.72f);
-      } else if (travelCard) {
-        if (selectBlock) {
-          x = Gdx.graphics.getWidth()/2 - (travelImg.getWidth()+board.getWidth())/2;
-        } else {
-          x = Gdx.graphics.getWidth()/2 - travelImg.getWidth()/2;
-        }
-        y = Gdx.graphics.getHeight()/2 - travelImg.getHeight()/2;
-        batch.draw(travelImg, x, y);
-        if (isBought) {
-          batch.draw(bought, x + travelImg.getWidth() - bought.getWidth(), y);
-        }
-        word.draw(batch, travelName, x, y + travelImg.getHeight()* 2/3, travelImg.getWidth(), Align.center, false);
-        word2.draw(batch, travelPrice, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
+      for (CardGUI card : listOfCards) {
+        card.render(board2Select.getWidth(), board2Select.isOn());
       }
-      // Render board to select block
-      if (selectBlock) {
-        //float x, y;
-        String description = "Choose a property to sell and pay money";
-        if (chanceCard) {
-          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + chanceImg.getWidth()/2;
-        } else if (propertyCard) {
-          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + propertyImg.getWidth()/2;
-        } else if (travelCard) {
-          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2 + travelImg.getWidth()/2;
-        } else {
-          x = Gdx.graphics.getWidth()/2 - board.getWidth()/2;
-          description = "Organize festival in?";
-        }
-        y = Gdx.graphics.getHeight()/2 - board.getHeight()/2;
-        batch.draw(board, x, y);
-        whiteWord.draw(batch, description, x + board.getWidth()*0.05f, y + board.getHeight()*0.9f, board.getWidth() * 0.9f, Align.left, true);
-        whiteWord.draw(batch, selectBlockText, x + board.getWidth()*0.05f, y + board.getHeight()*0.6f, board.getWidth() * 0.9f, Align.left, true);
-      }
+      // Render board2Select
+      board2Select.render(selectBlockText);
     }
 
     private void renderHouse() {
       // Render flag if purchase prop and house if build
-      for (int i = 0; i < boardRender.length; i++) {
-        if (boardRender[i].isOwned()) {
-          for (CharacterAnimation character : walkAnimation) {
-            if (character.name.equals(boardRender[i].owner().name())) {
-              Texture flag = character.flag;
-              Texture house = character.house;
-              float x, y;
-              if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
-                x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.6f;
-                y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.7f;
-              } else {
-                x = boardSprite[i].getX() + boardSprite[i].getWidth() * 0.2f;
-                y = boardSprite[i].getY() + boardSprite[i].getHeight() * 0.65f;
+      for (int i = 0; i < board.length; i++) {
+        Block block = board[i];
+        if (block.isOwned()) {
+          for (CharacterAnimation character : characterAnimation) {
+            if (character.name().equals(block.owner().name())) {
+              int numHouse = 0;
+              if (block instanceof PropertyBlock) {
+                PropertyBlock prop = (PropertyBlock) block;
+                numHouse = prop.numHouses();
               }
-              if (boardRender[i] instanceof PropertyBlock) {
-                PropertyBlock prop = (PropertyBlock) boardRender[i];
-                if (prop.isOwned() && prop.numHouses() == 0) {
-                  batch.draw(flag, x, y);
-                } else {
-                  float xHouse2, yHouse2, xHouse3, yHouse3, xHouse4, yHouse4;
-                  yHouse2 = y - house.getHeight()/5;
-                  yHouse3 = y - house.getHeight()/4.5f;
-                  yHouse4 = yHouse3 - house.getHeight()/5;
-                  if ((i > 0 && i < 8) || (i > 16 && i < 24)) {
-                    xHouse2 = x + house.getWidth()/3;
-                    xHouse3 = x - house.getWidth()/2.5f;
-                    xHouse4 = xHouse3 + house.getWidth()/3;
-                  } else {
-                    xHouse2 = x - house.getWidth()/3;
-                    xHouse3 = x + house.getWidth()/2.5f;
-                    xHouse4 = xHouse3 - house.getWidth()/3;
-                  }
-                  switch (prop.numHouses()) {
-                    case 1:
-                      batch.draw(house, x, y);
-                      break;
-                    case 2:
-                      batch.draw(house, x, y);
-                      batch.draw(house, xHouse2, yHouse2);
-                      break;
-                    case 3:
-                      batch.draw(house, x, y);
-                      batch.draw(house, xHouse2, yHouse2);
-                      batch.draw(house, xHouse3, yHouse3);
-                      break;
-                    case 4:
-                      batch.draw(house, x, y);
-                      batch.draw(house, xHouse2, yHouse2);
-                      batch.draw(house, xHouse3, yHouse3);
-                      batch.draw(house, xHouse4, yHouse4);
-                      break;
-                  }
-                }
-              } else {
-                batch.draw(flag, x, y);
-              }
+              character.houseFlag.render(boardSprite, i, numHouse);
               break;
             }
           }
@@ -645,23 +367,17 @@ public class MonopolyGUI extends ApplicationAdapter {
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         batch.begin();
+        // Render board game behind anything
+        boardScreen.render();
         switch (gameStatus) {
           case WAITING:
             waitingScreen.draw(batch);
             break;
           case PLAYING:
-            // Render board all thing behind
-            renderBack();
-            renderRoadHigh();
-            renderRoadLow();
-            renderCarsHigh();
-            renderCarsLow();
-            renderBlocks();
-            renderThings();
             renderHouse();
             // Render Player and dice
             renderPlayer();
-            renderDice();
+            dice.render(stateTime);
             renderCard();
         }
         batch.end();
@@ -669,7 +385,5 @@ public class MonopolyGUI extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        textureAtlas.dispose();
-        sprites.clear();
     }
 }

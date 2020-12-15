@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 public interface Block {
   int position();

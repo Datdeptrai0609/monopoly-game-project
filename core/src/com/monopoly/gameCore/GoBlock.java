@@ -1,27 +1,26 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
-public class JailBlock implements Block {
-
+public class GoBlock implements Block {
   private final int pos;
-  private final String name = "Jail";
+  private final String name = "Go";
 
-  public JailBlock(int pos) {
+  public GoBlock(int pos) {
     this.pos = pos;
-  }
-
-  public String name() {
-    return name;
-  }
-
-  public boolean isOwned() {
-    return false;
   }
 
   public int position() {
     return pos;
   }
 
+  public String name() {
+    return name;
+  }
+
   public boolean isOwnable() {
+    return false;
+  }
+
+  public boolean isOwned() {
     return false;
   }
 

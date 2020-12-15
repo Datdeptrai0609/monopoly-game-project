@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.gameCore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
