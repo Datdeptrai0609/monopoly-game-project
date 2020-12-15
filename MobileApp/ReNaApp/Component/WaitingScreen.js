@@ -31,7 +31,8 @@ export default class Waiting extends Component {
     UNSAFE_componentWillMount() {
         this.interval = setInterval(() => {
             this.setState({show : true})
-            },1500)
+            },1500);
+        
     }
 
     componentDidUpdate() {
