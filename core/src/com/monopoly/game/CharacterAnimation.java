@@ -27,6 +27,7 @@ public class CharacterAnimation {
   private String name;
   private int position, destination;
   private float x, y, angle, stateTime;
+  private boolean resetTime;
   private boolean lost, win;
   
   public CharacterAnimation(SpriteBatch sb, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> standAnimation, Animation<TextureRegion> jumpAnimation, Animation<TextureRegion> dieAnimation, Texture flag, Texture house, String name) {
@@ -41,6 +42,7 @@ public class CharacterAnimation {
     //this.house = house;
     win = lost = false;
     position = destination = 0;
+    resetTime = true;
     arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
   }
 
@@ -70,12 +72,11 @@ public class CharacterAnimation {
 
   public void lost() {
     lost = true;
-    stateTime = 0f;
+    resetTime = true;
   }
    
   public void win() {
     win = true;
-    stateTime = 0f;
   }
 
   public String name() {
@@ -91,11 +92,15 @@ public class CharacterAnimation {
   }
 
   public void draw(Sprite[] board, String currentPlayer) {
-    if (lost) {
+    if (lost && position == destination) {
+      if (resetTime) {
+        stateTime = 0f;
+        resetTime = false;
+      }
       if (!die.isAnimationFinished(stateTime)) {
         animationFrame = die.getKeyFrame(stateTime);
       }
-    } else if (win) {
+    } else if (win && position == destination) {
       animationFrame = jump.getKeyFrame(stateTime, true);
     } else {
       float xPosition = coordinates(board, position)[0]; 

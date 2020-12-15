@@ -53,7 +53,7 @@ public class TravelCardGUI implements CardGUI {
       }
       sb.draw(travelImg, x, y);
       if (isBought) {
-        sb.draw(bought, x + travelImg.getWidth() - bought.getWidth(), y);
+        sb.draw(bought, x + travelImg.getWidth() - bought.getWidth()*2/3, y, bought.getWidth()*2/3, bought.getHeight()*2/3);
       }
       wordName.draw(sb, name, x, y + travelImg.getHeight() * 2/3, travelImg.getWidth(), Align.center, false);
       wordPrice.draw(sb, price, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
