@@ -27,6 +27,8 @@ import Login from './Component/Login';
 import ChooseCharater from './Component/ChooseCharacter';
 import * as Animatable from 'react-native-animatable';
 import Welcome from './Component/Welcome';
+import Waiting from './Component/WaitingScreen';
+
 
 export default class App extends Component {
   backAction = () => {
@@ -66,6 +68,11 @@ export default class App extends Component {
             key="chooseCharacter"
             component={ChooseCharater}
             onback = {() => {return false}}
+            hideNavBar
+          />
+          <Scene
+            key="Waiting"
+            component={Waiting}
             hideNavBar
           />
         </Scene>
