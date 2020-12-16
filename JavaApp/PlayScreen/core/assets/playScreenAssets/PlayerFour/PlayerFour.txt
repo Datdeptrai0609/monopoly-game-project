@@ -1,0 +1,19 @@
+PlayerFour.png
+size: 1487, 776
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a
+  rotate: true
+  xy: 1402, 1
+  size: 110, 84
+  orig: 110, 84
+  offset: 0, 0
+  index: -1
+b
+  rotate: false
+  xy: 1, 1
+  size: 1399, 774
+  orig: 1875, 1335
+  offset: 238, 133
+  index: -1

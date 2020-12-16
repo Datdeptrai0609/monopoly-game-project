@@ -17,10 +17,13 @@ public class WaitingRoom implements Screen {
 
     private MonopolyOOP monopoly;
 
+    // Get the name of character
+    public final String playerNameReceive[] = { "Mina", "Eng Veit", "Mei Mei", "Laughing", "Kuerl", "Tei Tei"};
+    // Player connected player
+    public int playerConnected = 0;
+    public int[] playerConnectedOrder = {0, 0, 0, 0};
+
     // Define parameters area ------------------------------------------------------------------------------------------
-        // Player connected player
-        public int playerConnected = 0;
-        public int[] playerConnectedOrder = {0, 0, 0, 0};
             // For core game
             public int getPlayerConnected() {
                 return playerConnected;
@@ -43,12 +46,13 @@ public class WaitingRoom implements Screen {
     // HashMap:
     private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
-    TextureAtlas waitingRoomAtlas;
+    TextureAtlas waitingRoomAtlas, playerImage;
 
     public WaitingRoom(MonopolyOOP monopoly) {
         this.monopoly = monopoly;
 
-        waitingRoomAtlas = new TextureAtlas("waitingRoom/waitingRoom_.txt");
+        waitingRoomAtlas = new TextureAtlas("waitingRoom/items/WaitingRoom.txt");
+        playerImage = new TextureAtlas("waitingRoom/WaitingCharOff/charOff.txt");
     }
 
     // Layout: to get the width of text
@@ -59,42 +63,59 @@ public class WaitingRoom implements Screen {
 
     }
 
-    // render waiting MQTT client --------------------------------------------------------------------------------------
+    // Function for render player character image
+
+
+    // Render waiting MQTT client --------------------------------------------------------------------------------------
     public void renderWaitingRoom() {
         // (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)) : ratio
         RenderCore renderWaitingRoom = new RenderCore(sprites, waitingRoomAtlas, monopoly.batch);
         // Render background
         renderWaitingRoom.drawThing(0, 0, 0, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
-        // Render connected player status
-        if (getPlayerConnected() == 4) {
-            renderWaitingRoom.drawThing(2, 0, 900, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
-        }
-        else {
-            renderWaitingRoom.drawThing(1, 0, 900, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
-        }
+
+        // Render Player Avatar
+        RenderCore renderPlayerImage = new RenderCore(sprites, playerImage, monopoly.batch);
 
         // Render player Information Status
-        for (float i = 0, compareVar = 50, times = 1, x_position = 146.16f, y_position = Gdx.graphics.getHeight()/2-190;
+        for (float i = 0, compareVar = 50, times = 1, x_position = 146.16f, y_position = Gdx.graphics.getHeight()/2-220;
              i < 4;
              i++, x_position = 146.16f + 413.46f*(times - 1)) {
+
+            // Render Player Status
             if (SPEED > compareVar*times && playerConnectedOrder[(int) times - 1] == 1) {
-                renderWaitingRoom.drawThing(6, x_position, y_position, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
-                System.out.println(renderWaitingRoom.getSpritesWidth(6)*(float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)));
+                renderWaitingRoom.drawThing(6, x_position, y_position, 0.95f, 0.95f);
             }
             if (SPEED > compareVar*times && playerConnectedOrder[(int) times - 1] == 0) {
-                renderWaitingRoom.drawThing(5, x_position, y_position, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
+                renderWaitingRoom.drawThing(5, x_position, y_position, 0.95f, 0.95f);
+            }
+
+            // Render Player Avatar
+            if (SPEED > compareVar*times && playerConnectedOrder[(int) times - 1] == 0) {
+                renderPlayerImage.drawThing(0, x_position + 10, (float) (y_position + renderWaitingRoom.getSpritesHeight(6)/2 - renderPlayerImage.getSpritesHeight(0)/2*0.21), 0.21f, 0.21f);
+            }
+            // Render Name Block
+            if (SPEED > compareVar*times) {
+                renderWaitingRoom.drawThing(7, x_position, y_position + 70, 0.945f, 0.945f);
             }
             times++;
+
+            // Render Game Play Button
             if (SPEED > compareVar*4 && playerConnectedOrder[3] == 0 ) {
-                renderWaitingRoom.drawThing(3, (float) (Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2), 100, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
+                renderWaitingRoom.drawThing(3,
+                        (float) ((Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2*0.6)), 80,
+                        0.6f, 0.6f);
             }
             if (SPEED > compareVar*4 && playerConnectedOrder[3] == 1 ) {
                 System.out.println(playerConnectedOrder[3]);
-                renderWaitingRoom.drawThing(4, (float) (Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2), 100, (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)));
+                renderWaitingRoom.drawThing(4,
+                        (float) ((Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2*0.6)), 80,
+                        0.6f, 0.6f);
                 if (Gdx.input.getX() < Gdx.graphics.getWidth()/2 + renderWaitingRoom.getSpritesWidth(3) && Gdx.input.getX() > Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)
                         && Gdx.input.getY() < Gdx.graphics.getHeight() - 100 && Gdx.input.getY() > Gdx.graphics.getHeight() - 100 - renderWaitingRoom.getSpritesHeight(3)
                 ) {
-                    renderWaitingRoom.drawThing(4, (float) (Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2*1.2f), 90.55f, 1.2f, 1.2f);
+                    renderWaitingRoom.drawThing(4,
+                            (float) ((Gdx.graphics.getWidth()/2 - renderWaitingRoom.getSpritesWidth(3)/2*0.7)), 60,
+                            0.7f, 0.7f);
                     if (Gdx.input.isTouched()) {
                         dispose();
                         monopoly.setScreen(new GamePlay(monopoly));
@@ -109,6 +130,7 @@ public class WaitingRoom implements Screen {
         // Render player name
         for (float i = 0, compareVar = 50, times = 1, x = 146.16f + 133.65f, y = Gdx.graphics.getHeight()/2 - 105; i < 4;
              i++, x = (2*i+1)*133.65f + (i+1)*146.16f, times++) {
+            
             if (SPEED > compareVar*times && playerConnectedOrder[(int) i] == 1) {
                 layout.setText(onPlayer, playerName[(int) i]);
                 onPlayer.draw(monopoly.batch, playerName[(int) i], x - layout.width/2, y);
@@ -120,11 +142,36 @@ public class WaitingRoom implements Screen {
         }
         if (SPEED>50*4) {}
         else {SPEED++;}
+
+        // Render Status
+        renderStatus();
     }
 
     // Render Status Area
     public void renderStatus() {
+        // (float)(Gdx.graphics.getWidth()/renderWaitingRoom.getSpritesWidth(0)), (float)(Gdx.graphics.getHeight()/renderWaitingRoom.getSpritesHeight(0)) : ratio
+        RenderCore renderWaitingRoom = new RenderCore(sprites, waitingRoomAtlas, monopoly.batch);
+
+        for (int i = 0; i < 4; i++) {
+            if (playerConnectedOrder[i] == 1 ) {
+                playerConnected++;
+            }
+        }
+
+        // Render connected player status
+        if (playerConnected == 4) {
+            renderWaitingRoom.drawThing(2, 0, 900, 0.9f, 0.9f);
+        }
+        else {
+            renderWaitingRoom.drawThing(1, 0, 900, 0.9f, 0.9f);
+        }
+
         font.draw(monopoly.batch, Integer.toString(playerConnected) + checkConnected, 30, 950);
+        playerConnected = 0;
+    }
+
+    // Render Player Image
+    public void renderPlayerImage(float x_position, float y_position) {
     }
 
     @Override
@@ -133,7 +180,6 @@ public class WaitingRoom implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         monopoly.batch.begin();
         renderWaitingRoom();
-        renderStatus();
         monopoly.batch.end();
     }
 

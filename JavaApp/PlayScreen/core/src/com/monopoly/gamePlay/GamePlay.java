@@ -9,15 +9,28 @@ import com.monopoly.MonopolyOOP;
 import com.monopoly.renderFunction.RenderCore;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class GamePlay implements Screen {
 
+    //Random
+    Random random = new Random();
+
+    // Player 3 render items
+    int times3 = 0, ignore;
+    int[] x_position_p3 = {1735, 1721, 1663, 1695, 1629, 1675, 1724, 1635, 1573, 1518, 1525, 1535},
+            y_position_p3 = {934, 892, 925, 851, 885, 792, 777, 781, 828, 890, 809, 770}, ordinal3 = new int[12],
+            x_position_p3v2 = new int[10], y_position_p3v2 = new int[10], ordinal3v2 = new int[10];
+
     MonopolyOOP mono = new MonopolyOOP();
+
+    // Testing Parameter
+    int X = 63;
 
     // HashMap:
     private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
-    public TextureAtlas backAtlas, textureAtlas, roadHigh, roadLow, carsHigh, carsLow, things;
+    public TextureAtlas backAtlas, textureAtlas, roadHigh, roadLow, carsHigh, carsLow, things, playerOne, playerTwo, playerThree, playerFour;
 
     // SPEED:
     private int SPEED = 0;
@@ -29,13 +42,18 @@ public class GamePlay implements Screen {
     @Override
     public void show() {
 
-        textureAtlas = new TextureAtlas("playScreenAssets/block_Features.txt");
-        backAtlas = new TextureAtlas("playScreenAssets/back_.txt");
-        roadHigh = new TextureAtlas("playScreenAssets/roadHigh_.txt");
-        roadLow = new TextureAtlas("playScreenAssets/roadLow_.txt");
-        carsHigh = new TextureAtlas("playScreenAssets/carsHigh_.txt");
-        carsLow = new TextureAtlas("playScreenAssets/carsLow_.txt");
-        things = new TextureAtlas("playScreenAssets/otherThings_.txt");
+        textureAtlas = new TextureAtlas("playScreenAssets/blockFeature/block_Features.txt");
+        backAtlas = new TextureAtlas("playScreenAssets/back/back_.txt");
+        roadHigh = new TextureAtlas("playScreenAssets/roadHigh/roadHigh_.txt");
+        roadLow = new TextureAtlas("playScreenAssets/roadLow/roadLow_.txt");
+        carsHigh = new TextureAtlas("playScreenAssets/carsHigh/carsHigh_.txt");
+        carsLow = new TextureAtlas("playScreenAssets/carsLow/carsLow_.txt");
+        things = new TextureAtlas("playScreenAssets/otherThings/otherThings_.txt");
+
+        playerOne = new TextureAtlas("playScreenAssets/PlayerOne/PlayerOne.txt/");
+        playerTwo = new TextureAtlas("playScreenAssets/PlayerTwo/PlayerTwo.txt/");
+        playerThree = new TextureAtlas("playScreenAssets/PlayerThree/PlayerThree.txt/");
+        playerFour = new TextureAtlas("playScreenAssets/PlayerFour/PlayerFour.txt/");
     }
 
     // render game play ---------------------------------------------------------------------
@@ -43,8 +61,6 @@ public class GamePlay implements Screen {
         RenderCore renderBack = new RenderCore(sprites, backAtlas, mono.batch);
         //render background
         renderBack.drawThing(0, 0, 0);
-        //render School
-        renderBack.drawThing(1, 315, 700, 0.8f, 0.8f);
     }
     private void renderRoadHigh() {
         RenderCore renderCore = new RenderCore(sprites, roadHigh, mono.batch);
@@ -149,17 +165,88 @@ public class GamePlay implements Screen {
         // tree and trees
         renderCore.drawThing(2, 1332, 23);
         renderCore.drawThing(3, 580, 440, 0.7f, 0.7f);
-        // mountain
-        renderCore.drawThing(6, -20, 50);
     }
+
+
+    // TODO: Render Player 1 Area
+    private void renderPlayerOneArea() {
+        RenderCore renderPlayerOneArea = new RenderCore(sprites, playerOne, mono.batch);
+        renderPlayerOneArea.drawThing(0,-50,650, 0.6f, 0.6f);
+        renderPlayerOneArea.drawThing(1,300,900);
+    }
+
+    // TODO: Render player 2 Area
+    private void renderPlayerTwoArea() {
+        RenderCore renderPlayerTwoArea = new RenderCore(sprites, playerTwo, mono.batch);
+        for (int i = 0, x_position = 1740, y_position = 460; i < 9; i++, x_position -= 58, y_position -= 33) {
+            renderPlayerTwoArea.drawThing(0,x_position,y_position);
+        }
+        renderPlayerTwoArea.drawThing(1, 1223,135);
+        for (int i = 0, x_position = 1259, y_position = 102; i < 9; i++, x_position += 58, y_position -= 33) {
+            renderPlayerTwoArea.drawThing(2,x_position,y_position);
+        }
+        renderPlayerTwoArea.drawThing(3,1300,-50, 0.6f, 0.6f);
+    }
+
+    // TODO: Render player 3 Area
+    private void renderPlayerThreeArea() {
+        RenderCore renderPlayerThreeArea = new RenderCore(sprites, playerThree, mono.batch);
+        renderPlayerThreeArea.drawThing(0,1100,450, 0.6f, 0.6f);
+        // Random Items
+        if (times3*300<SPEED) {
+            for (int i = 0; i < 12; i++) {
+                ordinal3[i] = random.nextInt(3)+6;
+            }
+            ignore = random.nextInt(13);
+            for (int i = 0; i<10; i++) {
+                ordinal3v2[i] = random.nextInt(5) + 1;
+                x_position_p3v2[i] = random.nextInt(501) + 1300;
+                y_position_p3v2[i] = random.nextInt(401)+600;
+            }
+            times3++;
+        }
+        for (int i = 0; i < 12; i++) {
+            if (i == ignore) {
+            }
+            else {
+                renderPlayerThreeArea.drawThing(ordinal3[i], x_position_p3[i], y_position_p3[i]);
+            }
+        }
+        for (int i = 0, count; i<10; i++) {
+            renderPlayerThreeArea.drawThing(ordinal3v2[i], x_position_p3v2[i], y_position_p3v2[i]);
+        }
+    }
+
+    // TODO: Render player 4 Area
+    private void renderPlayerFourArea() {
+        RenderCore renderPlayerFourArea = new RenderCore(sprites, playerFour, mono.batch);
+        renderPlayerFourArea.drawThing(1,-350,-150, 0.6f, 0.6f);
+        for (int i = 0, x_position = 0, y_position = 400; i < 8; i++, x_position += 108 , y_position -= 61 ) {
+            renderPlayerFourArea.drawThing(0,x_position,y_position);
+        }
+    }
+
+    // TODO: Render character area
+    private void renderCharacterArea() {
+        // Player One
+        // Player Two
+        // Player Three
+        // Player Four
+    }
+
     public void renderFullMap() {
         renderBack();
+        renderPlayerOneArea();
+        renderPlayerThreeArea();
         renderRoadHigh();
         renderRoadLow();
         renderCarsHigh();
         renderCarsLow();
         renderBlocks();
+        renderPlayerTwoArea();
+        renderPlayerFourArea();
         renderThings();
+        SPEED++;
     }
 
     @Override

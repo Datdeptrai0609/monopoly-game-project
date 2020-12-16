@@ -35,14 +35,14 @@ public class WelcomeScreen implements Screen {
         loadingBar = new TextureAtlas("welcomeScreen/loadingBar/loadingBar.txt");
     }
 
-    // Render welcome screen -------------------------------------------------------------------------------------------------------------------------------------
+    // Render welcome screen -------------------------------------------------------------------------------------------
     public void renderWelcome() {
         RenderCore renderWelcomeScreen = new RenderCore(sprites, welcomeScreenAtlas, monopoly.batch);
         // Render Background
         renderWelcomeScreen.drawThing( 0, 0, 0, (float) (Gdx.graphics.getWidth()/renderWelcomeScreen.getSpritesWidth(0)), (float) (Gdx.graphics.getHeight()/renderWelcomeScreen.getSpritesHeight(0)));
 
         // Render MonoLogo
-        renderWelcomeScreen.drawThing( 3, (float) (Gdx.graphics.getWidth()/2 - renderWelcomeScreen.getSpritesWidth(3)/2), (float) (Gdx.graphics.getHeight()/2 - renderWelcomeScreen.getSpritesHeight(3)/2));
+        renderWelcomeScreen.drawThing( 3, (float) (Gdx.graphics.getWidth()/2 - renderWelcomeScreen.getSpritesWidth(3)/2), (float) (Gdx.graphics.getHeight()/2 - renderWelcomeScreen.getSpritesHeight(3)/2)+100);
 
         // Render Logos:
         renderWelcomeScreen.drawThing(2, 15, Gdx.graphics.getHeight() - 130, 0.12f, 0.12f);
@@ -50,22 +50,23 @@ public class WelcomeScreen implements Screen {
 
         RenderCore renderLoadingBar = new RenderCore(sprites, loadingBar, monopoly.batch);
         // Render loading
-        for (float i = 0, compareVar = 50, times = 1;
-             i < 7;
-             i++) {
-            if (LOADING_SPEED_GAME_PLAY > compareVar*times && i != 4) {
-                renderLoadingBar.drawThing((int) i, (float) (Gdx.graphics.getWidth()/2 - renderLoadingBar.getSpritesWidth((int) i)*0.6/2), Gdx.graphics.getHeight()/2 - 350, 0.6f, 0.6f);
+        for (int i = 0, compareVar = 50, times = 1; i < 5; i++) {
+            if (i == 0 && LOADING_SPEED_GAME_PLAY > compareVar*times) {
+                renderLoadingBar.drawThing((int) 0, (float) (Gdx.graphics.getWidth()/2 - renderLoadingBar.getSpritesWidth((int) 0)*0.6/2), Gdx.graphics.getHeight()/2 - 300, 0.6f, 0.6f);
             }
-            if (LOADING_SPEED_GAME_PLAY > compareVar*times && i == 4) {
-                renderLoadingBar.drawThing((int) i, (float) (Gdx.graphics.getWidth()/2 - renderLoadingBar.getSpritesWidth((int) i)*0.6/2), Gdx.graphics.getHeight()/2 - 350 - 25*0.6f, 0.6f, 0.6f);
+            if (i == 1 && LOADING_SPEED_GAME_PLAY > compareVar*times) {
+                renderLoadingBar.drawThing(1, (float) (Gdx.graphics.getWidth()/2 - renderLoadingBar.getSpritesWidth((int) 0)*0.6/2 + 9),  (float) (Gdx.graphics.getHeight()/2 - 300 + renderLoadingBar.getSpritesHeight(0)*0.6/2 - renderLoadingBar.getSpritesHeight(1)*0.6/2), 0.6f, 0.6f);
+            }
+            if (i > 1 && LOADING_SPEED_GAME_PLAY > compareVar*times){
+                renderLoadingBar.drawThing(2, (float) (Gdx.graphics.getWidth()/2 - renderLoadingBar.getSpritesWidth((int) 0)*0.6/2 + 9 + 443*(i-1)*0.6),  (float) (Gdx.graphics.getHeight()/2 - 300 + renderLoadingBar.getSpritesHeight(0)*0.6/2 - renderLoadingBar.getSpritesHeight(1)*0.6/2), 0.6f, 0.6f);
             }
             times++;
         }
 
         LOADING_SPEED_GAME_PLAY += 1;
 
-        // Handle change screen to WaitingRoom(auto), 75 is compareVar in render loading loop
-        if(LOADING_SPEED_GAME_PLAY == 50*9) {
+//         Handle change screen to WaitingRoom(auto), 75 is compareVar in render loading loop
+        if(LOADING_SPEED_GAME_PLAY == 50*6) {
             dispose();
             monopoly.setScreen(new WaitingRoom(monopoly));
         }
