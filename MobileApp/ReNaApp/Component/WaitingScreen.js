@@ -26,19 +26,29 @@ import { Actions } from 'react-native-router-flux';
 export default class Waiting extends Component {
     state= {
         show: false,// status show or hide waiting GIF
+        move:false,
     }
 
     UNSAFE_componentWillMount() {
         this.interval = setInterval(() => {
             this.setState({show : true})
-            },1500);
-        
+        },1500);
+        this.intervalMove = setInterval(() => {
+            this.setState({move: true})
+            if (this.state.move == true) {
+                console.log('moved');
+            }
+        },3500);
     }
 
     componentDidUpdate() {
         if (this.state.show == true) {
             clearInterval(this.interval)
         }
+        if(this.state.move == true) {
+            clearInterval(this.intervalMove)
+        }
+        
     }
 
     render() {
