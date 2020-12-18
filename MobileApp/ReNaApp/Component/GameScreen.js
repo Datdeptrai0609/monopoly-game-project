@@ -21,3 +21,24 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+export default class GameScreen extends Component {
+    render() {
+        return (
+            <ImageBackground
+                style = { styles.container}
+                source ={gameImageBackground}>
+
+            </ImageBackground>
+        )
+    }
+}
+
+const gameImageBackground = require('../img/background/playBackground.jpg');
+const styles = StyleSheet.create ({
+    container: {
+        flex:1,
+        resizeMode:'cover',
+        justifyContent:'center',
+        alignItems:'center',
+    }
+})
