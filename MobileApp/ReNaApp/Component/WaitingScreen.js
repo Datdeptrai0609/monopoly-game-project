@@ -36,7 +36,7 @@ export default class Waiting extends Component {
         this.intervalMove = setInterval(() => {
             this.setState({move: true})
             if (this.state.move == true) {
-                console.log('moved');
+                Actions.gameScreen();
             }
         },3500);
     }
