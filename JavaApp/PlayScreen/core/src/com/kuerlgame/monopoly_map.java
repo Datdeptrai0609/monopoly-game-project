@@ -194,3 +194,4 @@ public class monopoly_map extends ApplicationAdapter {
         sprites.clear();
     }
 }
+// Text
