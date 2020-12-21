@@ -20,7 +20,7 @@ public class Player {
   public Player(String playerName) throws IOException {
     input = new Input();
     // Read config.ini file and get player's money
-    Wini ini = new Wini(new File(".\\config.ini"));
+    Wini ini = new Wini(new File("./config.ini"));
     money = Integer.parseInt(ini.get("player", "money").toString());
     properties = new LinkedList<>();
     travelList = new ArrayList<TravelBlock>();

@@ -13,7 +13,7 @@ public class Card {
   private String text;
 
   public Card(int i) throws IOException {
-    Wini ini = new Wini(new File(".\\config.ini"));
+    Wini ini = new Wini(new File("./config.ini"));
     // Create Profile.Section of BANK_MONEY
     Profile.Section section = (Profile.Section) ini.get("BANK_MONEY");
     // get size of section BANK_MONEY b/c have value and content so / 2

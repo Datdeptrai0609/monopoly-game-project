@@ -16,7 +16,7 @@ public class GreenBoard {
 
   public GreenBoard(SpriteBatch sb, Word word) {
     this.sb = sb;
-    boardImg = new Texture("greenboard.png");
+    boardImg = new Texture("greenBoard.png");
     this.word = word.word(45, Color.WHITE);
     boardOn = false;
   }

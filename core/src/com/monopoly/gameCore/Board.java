@@ -19,7 +19,7 @@ public class Board {
   // constructor for a new board of squares
   public Board() throws IOException {
     // Starting to read config.ini file
-    ini = new Wini(new File(".\\config.ini"));
+    ini = new Wini(new File("./config.ini"));
     size = castNum(ini.get("monopoly", "size"));
     busPos = castNum(ini.get("bus", "pos"));
     jailPos = castNum(ini.get("jail", "pos"));

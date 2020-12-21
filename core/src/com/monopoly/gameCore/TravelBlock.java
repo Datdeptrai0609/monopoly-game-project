@@ -16,7 +16,7 @@ public class TravelBlock implements Block {
   // constructor
   public TravelBlock(String name, int pos) throws IOException {
     // Read config.ini file
-    Wini ini = new Wini(new File(".\\config.ini"));
+    Wini ini = new Wini(new File("./config.ini"));
     cost = Integer.parseInt(ini.get("travel", "buy").toString());
     owned = false;
     festivalStatus = false;

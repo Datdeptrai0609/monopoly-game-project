@@ -36,7 +36,7 @@ public class ChanceBlock implements Block {
   // Create cards assign to deck and shuffle them
   private void chance() throws IOException {
     // Open file config.ini
-    Wini ini = new Wini(new File(".\\config.ini"));
+    Wini ini = new Wini(new File("./config.ini"));
     // Get number of all chance cards
     int cardSize = Integer.parseInt(ini.get("cards", "size").toString());
     Card[] cards = new Card[cardSize];
