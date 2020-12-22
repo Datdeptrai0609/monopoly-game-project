@@ -42,7 +42,6 @@ public class MonopolyGUI extends ApplicationAdapter {
     Sprite waitingScreen;
 
     SpriteBatch batch;
-    float stateTime;
 
     @Override
     public void create() {
@@ -364,7 +363,6 @@ public class MonopolyGUI extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         batch.begin();
         // Render board game behind anything
@@ -377,7 +375,7 @@ public class MonopolyGUI extends ApplicationAdapter {
             renderHouse();
             // Render Player and dice
             renderPlayer();
-            dice.render(stateTime);
+            dice.render();
             renderCard();
         }
         batch.end();

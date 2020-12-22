@@ -13,12 +13,14 @@ public class DiceGUI {
   SpriteBatch sb;
   private int diceVal;
   private boolean diceRoll;
+  private float stateTime;
 
   public DiceGUI(SpriteBatch sb) {
     diceAtlas = new TextureAtlas("dice.txt");
     dice = new Animation<TextureRegion>(0.1f, diceAtlas.getRegions());
     this.sb = sb;
     diceRoll = false;
+    stateTime = 0f;
   }
 
   public void setDiceVal(int val) {
@@ -30,12 +32,14 @@ public class DiceGUI {
     diceRoll = roll;
   }
 
-  public void render(float stateTime) {
+  public void render() {
     TextureRegion diceFrame = dice.getKeyFrame(stateTime, true);
     if (diceRoll) {
       diceFrame = dice.getKeyFrame(stateTime, true);
+      stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
     } else {
       diceFrame = diceAtlas.findRegion(String.format("dice%d", diceVal));
+      stateTime = 0f;
     }
     sb.draw(diceFrame, Gdx.graphics.getWidth()/2 - diceFrame.getRegionWidth()/2, Gdx.graphics.getHeight()/2 - diceFrame.getRegionHeight()/2, diceFrame.getRegionWidth()*2, diceFrame.getRegionHeight()*2);
   }
