@@ -3,6 +3,8 @@ package com.monopoly.gamePlay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.monopoly.MonopolyOOP;
@@ -13,31 +15,45 @@ import java.util.Random;
 
 public class GamePlay implements Screen {
 
-    //Random
-    Random random = new Random();
+    // Creator area -----------------------------------------------------------------------------------------------------
 
-    // Player 3 render items
-    int times3 = 0, ignore;
-    int[] x_position_p3 = {1735, 1721, 1663, 1695, 1629, 1675, 1724, 1635, 1573, 1518, 1525, 1535},
-            y_position_p3 = {934, 892, 925, 851, 885, 792, 777, 781, 828, 890, 809, 770}, ordinal3 = new int[12],
+    // Random effects:
+    private Random random = new Random();
+
+    // Player 3 render items: Constants: Coordinates
+    private int times3 = 0, ignore;
+    private int[] x_position_p3 = {1635, 1621, 1563, 1595, 1529, 1575, 1624, 1535, 1473, 1418, 1425, 1435},
+            y_position_p3 = {834, 792, 825, 751, 785, 892, 677, 681, 728, 790, 709, 670}, ordinal3 = new int[12],
             x_position_p3v2 = new int[10], y_position_p3v2 = new int[10], ordinal3v2 = new int[10];
 
-    MonopolyOOP mono = new MonopolyOOP();
+    // Character: Constants: Coordinates
+    private float[] x_characterCoordinates = {140*0.7f, 140*0.7f, 1800 - 140*0.7f, 1800 - 140*0.7f},
+            y_characterCoordinates = {70, 1000 - 428*0.7f + 100*0.7f, 1000 - 428*0.7f + 100*0.7f, 70},
+            y_moneyCoordinates = {55, 1000 - 428*0.7f + 75*0.7f, 1000 - 428*0.7f + 75*0.7f, 55};
 
-    // Testing Parameter
-    int X = 63;
+    // Render money:
+        // Money Render
+        private BitmapFont moneyPlayer = new BitmapFont(Gdx.files.internal("Font/commicMoney.fnt"));
+        // Layout: to get the width of text
+        private GlyphLayout layout = new GlyphLayout();
+        // Money parameters:
+        private int[] money = {2000, 2000, 2000, 2000};
+
+    // Get monopoly:
+    MonopolyOOP monopoly;
 
     // HashMap:
     private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
+    // Sprites:
     public TextureAtlas backAtlas, textureAtlas, roadHigh, roadLow, carsHigh, carsLow, things, playerOne, playerTwo, playerThree, playerFour;
+    public TextureAtlas characterAtlas, kAtlas;
 
     // SPEED:
     private int SPEED = 0;
 
-    public GamePlay (MonopolyOOP mono) {
-        this.mono = mono;
-    }
+    // Constructor:
+    public GamePlay (MonopolyOOP monopoly) { this.monopoly = monopoly; }
 
     @Override
     public void show() {
@@ -54,187 +70,208 @@ public class GamePlay implements Screen {
         playerTwo = new TextureAtlas("playScreenAssets/PlayerTwo/PlayerTwo.txt/");
         playerThree = new TextureAtlas("playScreenAssets/PlayerThree/PlayerThree.txt/");
         playerFour = new TextureAtlas("playScreenAssets/PlayerFour/PlayerFour.txt/");
+
+        characterAtlas = new TextureAtlas("playScreenAssets/Character/Character.txt");
+        kAtlas = new TextureAtlas("playScreenAssets/Character/K.txt");
     }
 
-    // render game play ---------------------------------------------------------------------
-    public void renderBack() {
-        RenderCore renderBack = new RenderCore(sprites, backAtlas, mono.batch);
-        //render background
-        renderBack.drawThing(0, 0, 0);
-    }
-    private void renderRoadHigh() {
-        RenderCore renderCore = new RenderCore(sprites, roadHigh, mono.batch);
-        //render roadHigh a_Left
-        for (int i = 0, x = -50, y = 850; i < 14; i++) {
-            renderCore.drawThing(0, x, y);
-            x += 47;
-            y -= 27;
+    // Render game play ------------------------------------------------------------------------------------------------
+        // Render Maps: w/out player area
+        public void renderBack() {
+            RenderCore renderBack = new RenderCore(sprites, backAtlas, monopoly.batch);
+            //render background
+            renderBack.drawThing(0, 0, 0);
         }
-        //render roadHigh d_Right
-        for (int i = 0, x = 1351+47*3, y = 900+27*3; i < 17; i++) {
-            renderCore.drawThing(3, x, y);
-            x -= 47;
-            y -= 27;
+        private void renderRoadHigh() {
+            RenderCore renderCore = new RenderCore(sprites, roadHigh, monopoly.batch);
+            //render roadHigh a_Left
+            for (int i = 0, x = -50, y = 850; i < 14; i++) {
+                renderCore.drawThing(0, x, y);
+                x += 47;
+                y -= 27;
+            }
+            //render roadHigh d_Right
+            for (int i = 0, x = 1351+47*3, y = 900+27*3; i < 17; i++) {
+                renderCore.drawThing(3, x, y);
+                x -= 47;
+                y -= 27;
+            }
+            //render roadHigh c_Range
+            renderCore.drawThing(2, 608+47, 472+27, 0.62f, 0.62f);
+            //render roadHigh b_To
+            renderCore.drawThing(1, 608,472);
         }
-        //render roadHigh c_Range
-        renderCore.drawThing(2, 608+47, 472+27, 0.62f, 0.62f);
-        //render roadHigh b_To
-        renderCore.drawThing(1, 608,472);
-    }
-    private void renderRoadLow() {
-        RenderCore renderCore = new RenderCore(sprites, roadLow, mono.batch);
-        //render roadLow
-        for (int i = 0, x= -52, y= 310; i < 3; i++) {
-            renderCore.drawThing(0, x, y);
-            x += 610;
-            y -= 351;
+        private void renderRoadLow() {
+            RenderCore renderCore = new RenderCore(sprites, roadLow, monopoly.batch);
+            //render roadLow
+            for (int i = 0, x= -52, y= 310; i < 3; i++) {
+                renderCore.drawThing(0, x, y);
+                x += 610;
+                y -= 351;
+            }
         }
-    }
-    private void renderCarsHigh() {
-        RenderCore renderCore = new RenderCore(sprites, carsHigh, mono.batch);
-        //render cars for high road
-        renderCore.drawThing(0, 100, 745);
-        renderCore.drawThing(1, 300, 696);
-        renderCore.drawThing(2, 600, 525);
-        renderCore.drawThing(3, 900, 655);
-        renderCore.drawThing(3, 1155, 800);
-    }
-    private void renderCarsLow() {
-        RenderCore renderCore = new RenderCore(sprites, carsLow, mono.batch);
-        // render cars for Low road
-        renderCore.drawThing(0, 60, 660);
-        renderCore.drawThing(1, 600, 390);
-        renderCore.drawThing(2, 560, 390);
-        renderCore.drawThing(3, 905, 210);
-        renderCore.drawThing(0, 845, 210);
-        renderCore.drawThing(3, 1230, 20);
-    }
-    private void renderBlocks() {
-        RenderCore renderCore = new RenderCore(sprites, textureAtlas, mono.batch);
-        // render c
-        renderCore.drawThing(renderCore.getRegionsAtlas()/4*2, (Gdx.graphics.getWidth()/2)-176, Gdx.graphics.getHeight()-206, 0.9f, 0.9f);
-        // render c list
-        for (int i = renderCore.getRegionsAtlas()/4*2+1, x_position_blocks_small = 900, y_position_blocks_small = Gdx.graphics.getHeight()-250; i < renderCore.getRegionsAtlas()/4*3; i++) {
-            renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small+=73;
-            y_position_blocks_small-=42;
+        private void renderCarsHigh() {
+            RenderCore renderCore = new RenderCore(sprites, carsHigh, monopoly.batch);
+            //render cars for high road
+            renderCore.drawThing(0, 100, 745);
+            renderCore.drawThing(1, 300, 696);
+            renderCore.drawThing(2, 600, 525);
+            renderCore.drawThing(3, 900, 655);
+            renderCore.drawThing(3, 1155, 800);
         }
-        // render d
-        renderCore.drawThing(renderCore.getRegionsAtlas()/4*3,1410, Gdx.graphics.getHeight()/2-114, 0.9f, 0.9f);
-        //render d list
-        for (int i = renderCore.getRegionsAtlas()/4*3+1, x_position_blocks_small = 1337, y_position_blocks_small = Gdx.graphics.getHeight()/2-132; i < renderCore.getRegionsAtlas(); i++) {
-            renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small-=73;
-            y_position_blocks_small-=42;
+        private void renderCarsLow() {
+            RenderCore renderCore = new RenderCore(sprites, carsLow, monopoly.batch);
+            // render cars for Low road
+            renderCore.drawThing(0, 60, 660);
+            renderCore.drawThing(1, 600, 390);
+            renderCore.drawThing(2, 560, 390);
+            renderCore.drawThing(3, 905, 210);
+            renderCore.drawThing(0, 845, 210);
+            renderCore.drawThing(3, 1230, 20);
         }
-        //render b list
-        for (int i = renderCore.getRegionsAtlas()/4*2-1, x_position_blocks_small = 680, y_position_blocks_small = Gdx.graphics.getHeight()-251; i > renderCore.getRegionsAtlas()/4*1; i--) {
-            renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small-=73;
-            y_position_blocks_small-=42;
+        private void renderBlocks() {
+            RenderCore renderCore = new RenderCore(sprites, textureAtlas, monopoly.batch);
+            // render c
+            renderCore.drawThing(renderCore.getRegionsAtlas()/4*2, (Gdx.graphics.getWidth()/2)-176, Gdx.graphics.getHeight()-206, 0.9f, 0.9f);
+            // render c list
+            for (int i = renderCore.getRegionsAtlas()/4*2+1, x_position_blocks_small = 900, y_position_blocks_small = Gdx.graphics.getHeight()-250; i < renderCore.getRegionsAtlas()/4*3; i++) {
+                renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
+                x_position_blocks_small+=73;
+                y_position_blocks_small-=42;
+            }
+            // render d
+            renderCore.drawThing(renderCore.getRegionsAtlas()/4*3,1410, Gdx.graphics.getHeight()/2-114, 0.9f, 0.9f);
+            //render d list
+            for (int i = renderCore.getRegionsAtlas()/4*3+1, x_position_blocks_small = 1337, y_position_blocks_small = Gdx.graphics.getHeight()/2-132; i < renderCore.getRegionsAtlas(); i++) {
+                renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
+                x_position_blocks_small-=73;
+                y_position_blocks_small-=42;
+            }
+            //render b list
+            for (int i = renderCore.getRegionsAtlas()/4*2-1, x_position_blocks_small = 680, y_position_blocks_small = Gdx.graphics.getHeight()-251; i > renderCore.getRegionsAtlas()/4*1; i--) {
+                renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
+                x_position_blocks_small-=73;
+                y_position_blocks_small-=42;
+            }
+            // render b
+            renderCore.drawThing(renderCore.getRegionsAtlas()/4*1, 36, Gdx.graphics.getHeight()/2-105, 0.9f, 0.9f);
+            // render a list
+            for (int i = renderCore.getRegionsAtlas()/4*1-1, x_position_blocks_small = 240, y_position_blocks_small = Gdx.graphics.getHeight()/2-133; i > renderCore.getRegionsAtlas()/4*0; i--) {
+                renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
+                x_position_blocks_small+=73;
+                y_position_blocks_small-=42;
+            }
+            //render a
+            renderCore.drawThing(renderCore.getRegionsAtlas()/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
         }
-        // render b
-        renderCore.drawThing(renderCore.getRegionsAtlas()/4*1, 36, Gdx.graphics.getHeight()/2-105, 0.9f, 0.9f);
-        // render a list
-        for (int i = renderCore.getRegionsAtlas()/4*1-1, x_position_blocks_small = 240, y_position_blocks_small = Gdx.graphics.getHeight()/2-133; i > renderCore.getRegionsAtlas()/4*0; i--) {
-            renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
-            x_position_blocks_small+=73;
-            y_position_blocks_small-=42;
+        private void renderThings() {
+            RenderCore renderCore = new RenderCore(sprites, things, monopoly.batch);
+            //render otherThings
+            //mountain
+            renderCore.drawThing(7, 700, 250);
+            // adv
+            renderCore.drawThing(5, 910, 241);
+            // fence
+            renderCore.drawThing(4, 1120, 90);
+            renderCore.drawThing(4, 1227, 30);
+            // light SE
+            renderCore.drawThing(0, 50, 685);
+            renderCore.drawThing(0, 900, 195);
+            renderCore.drawThing(0, 380, 496);
+            renderCore.drawThing(0, 1190, 30);
+            // light NE
+            renderCore.drawThing(1, 1039, Gdx.graphics.getHeight()-122);
+            renderCore.drawThing(1, 1544, 588);
+            // tree and trees
+            renderCore.drawThing(2, 1332, 23);
+            renderCore.drawThing(3, 580, 440, 0.7f, 0.7f);
         }
-        //render a
-        renderCore.drawThing(renderCore.getRegionsAtlas()/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
-    }
-    private void renderThings() {
-        RenderCore renderCore = new RenderCore(sprites, things, mono.batch);
-        //render otherThings
-        //mountain
-        renderCore.drawThing(7, 700, 250);
-        // adv
-        renderCore.drawThing(5, 910, 241);
-        // fence
-        renderCore.drawThing(4, 1120, 90);
-        renderCore.drawThing(4, 1227, 30);
-        // light SE
-        renderCore.drawThing(0, 50, 685);
-        renderCore.drawThing(0, 900, 195);
-        renderCore.drawThing(0, 380, 496);
-        renderCore.drawThing(0, 1190, 30);
-        // light NE
-        renderCore.drawThing(1, 1039, Gdx.graphics.getHeight()-122);
-        renderCore.drawThing(1, 1544, 588);
-        // tree and trees
-        renderCore.drawThing(2, 1332, 23);
-        renderCore.drawThing(3, 580, 440, 0.7f, 0.7f);
-    }
 
-
-    // TODO: Render Player 1 Area
-    private void renderPlayerOneArea() {
-        RenderCore renderPlayerOneArea = new RenderCore(sprites, playerOne, mono.batch);
-        renderPlayerOneArea.drawThing(0,-50,650, 0.6f, 0.6f);
-        renderPlayerOneArea.drawThing(1,300,900);
-    }
-
-    // TODO: Render player 2 Area
-    private void renderPlayerTwoArea() {
-        RenderCore renderPlayerTwoArea = new RenderCore(sprites, playerTwo, mono.batch);
-        for (int i = 0, x_position = 1740, y_position = 460; i < 9; i++, x_position -= 58, y_position -= 33) {
-            renderPlayerTwoArea.drawThing(0,x_position,y_position);
+        // Render player area:
+        // TODO: Render Player 1 Area
+        private void renderPlayerOneArea() {
+            RenderCore renderPlayerOneArea = new RenderCore(sprites, playerOne, monopoly.batch);
+            renderPlayerOneArea.drawThing(0,-50,650, 0.6f, 0.6f);
+            renderPlayerOneArea.drawThing(1,500,900);
         }
-        renderPlayerTwoArea.drawThing(1, 1223,135);
-        for (int i = 0, x_position = 1259, y_position = 102; i < 9; i++, x_position += 58, y_position -= 33) {
-            renderPlayerTwoArea.drawThing(2,x_position,y_position);
+        // TODO: Render player 2 Area
+        private void renderPlayerTwoArea() {
+            RenderCore renderPlayerTwoArea = new RenderCore(sprites, playerTwo, monopoly.batch);
+            for (int i = 0, x_position = 1740, y_position = 460; i < 9; i++, x_position -= 58, y_position -= 33) {
+                renderPlayerTwoArea.drawThing(0,x_position,y_position);
+            }
+            renderPlayerTwoArea.drawThing(1, 1223,135);
+            for (int i = 0, x_position = 1259, y_position = 102; i < 9; i++, x_position += 58, y_position -= 33) {
+                renderPlayerTwoArea.drawThing(2,x_position,y_position);
+            }
+            renderPlayerTwoArea.drawThing(3,1300,-50, 0.6f, 0.6f);
         }
-        renderPlayerTwoArea.drawThing(3,1300,-50, 0.6f, 0.6f);
-    }
-
-    // TODO: Render player 3 Area
-    private void renderPlayerThreeArea() {
-        RenderCore renderPlayerThreeArea = new RenderCore(sprites, playerThree, mono.batch);
-        renderPlayerThreeArea.drawThing(0,1100,450, 0.6f, 0.6f);
-        // Random Items
-        if (times3*300<SPEED) {
+        // TODO: Render player 3 Area
+        private void renderPlayerThreeArea() {
+            RenderCore renderPlayerThreeArea = new RenderCore(sprites, playerThree, monopoly.batch);
+            renderPlayerThreeArea.drawThing(0,1100,450, 0.6f, 0.6f);
+            // Random Items
+            if (times3*300<SPEED) {
+                for (int i = 0; i < 12; i++) {
+                    ordinal3[i] = random.nextInt(3)+6;
+                }
+                ignore = random.nextInt(13);
+                for (int i = 0; i<10; i++) {
+                    ordinal3v2[i] = random.nextInt(5) + 1;
+                    x_position_p3v2[i] = random.nextInt(501) + 1300;
+                    y_position_p3v2[i] = random.nextInt(401)+600;
+                }
+                times3++;
+            }
             for (int i = 0; i < 12; i++) {
-                ordinal3[i] = random.nextInt(3)+6;
+                if (i == ignore) {
+                }
+                else {
+                    renderPlayerThreeArea.drawThing(ordinal3[i], x_position_p3[i], y_position_p3[i]);
+                }
             }
-            ignore = random.nextInt(13);
-            for (int i = 0; i<10; i++) {
-                ordinal3v2[i] = random.nextInt(5) + 1;
-                x_position_p3v2[i] = random.nextInt(501) + 1300;
-                y_position_p3v2[i] = random.nextInt(401)+600;
-            }
-            times3++;
-        }
-        for (int i = 0; i < 12; i++) {
-            if (i == ignore) {
-            }
-            else {
-                renderPlayerThreeArea.drawThing(ordinal3[i], x_position_p3[i], y_position_p3[i]);
+            for (int i = 0, count; i<10; i++) {
+                renderPlayerThreeArea.drawThing(ordinal3v2[i], x_position_p3v2[i], y_position_p3v2[i]);
             }
         }
-        for (int i = 0, count; i<10; i++) {
-            renderPlayerThreeArea.drawThing(ordinal3v2[i], x_position_p3v2[i], y_position_p3v2[i]);
+        // TODO: Render player 4 Area
+        private void renderPlayerFourArea() {
+            RenderCore renderPlayerFourArea = new RenderCore(sprites, playerFour, monopoly.batch);
+            renderPlayerFourArea.drawThing(1,-350,-150, 0.6f, 0.6f);
+            for (int i = 0, x_position = 0, y_position = 400; i < 8; i++, x_position += 108 , y_position -= 61 ) {
+                renderPlayerFourArea.drawThing(0,x_position,y_position);
+            }
         }
+
+        // Render character:
+        // TODO: Render character area:
+        private  void setCharacterPlace(RenderCore render, int ordinal) {
+            render.drawThing(ordinal, (float) (x_characterCoordinates[ordinal] - render.getSpritesWidth(ordinal)/2*0.7), y_characterCoordinates[ordinal], 0.7f, 0.7f);
+            layout.setText(moneyPlayer, Integer.toString(money[0]) + "$");
+            moneyPlayer.draw(monopoly.batch, Integer.toString(money[0]) + "$",
+                    (float) (x_characterCoordinates[ordinal]- render.getSpritesWidth(ordinal)/2*0.7 + render.getSpritesWidth(1)/2*0.7 - layout.width/2),
+                    y_moneyCoordinates[ordinal]);
+        }
+        private void renderCharacterArea() {
+            RenderCore renderK = new RenderCore(sprites, kAtlas, monopoly.batch);
+            if (SPEED > 30) renderK.drawThing(0,0,0, 0.7f, 0.7f);
+            if (SPEED > 60) renderK.drawThing(1,0, (float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(1)*0.7), 0.7f, 0.7f);
+            if (SPEED > 90) renderK.drawThing(2,(float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(2)*0.7),(float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(2)*0.7), 0.7f, 0.7f);
+            if (SPEED > 120) renderK.drawThing(3,(float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(3)*0.7),0, 0.7f, 0.7f);
+
+            RenderCore renderCharacter = new RenderCore(sprites, characterAtlas, monopoly.batch);
+            // Player One and Money
+            if (SPEED > 40) setCharacterPlace(renderCharacter, 0);
+            // Player Two and Money
+            if (SPEED > 80) setCharacterPlace(renderCharacter, 1);
+            // Player Three and Money
+            if (SPEED > 120) setCharacterPlace(renderCharacter, 2);
+            // Player Four and Money
+            if (SPEED > 160) setCharacterPlace(renderCharacter, 3);
     }
 
-    // TODO: Render player 4 Area
-    private void renderPlayerFourArea() {
-        RenderCore renderPlayerFourArea = new RenderCore(sprites, playerFour, mono.batch);
-        renderPlayerFourArea.drawThing(1,-350,-150, 0.6f, 0.6f);
-        for (int i = 0, x_position = 0, y_position = 400; i < 8; i++, x_position += 108 , y_position -= 61 ) {
-            renderPlayerFourArea.drawThing(0,x_position,y_position);
-        }
-    }
-
-    // TODO: Render character area
-    private void renderCharacterArea() {
-        // Player One
-        // Player Two
-        // Player Three
-        // Player Four
-    }
-
-    public void renderFullMap() {
+        // To put in render():
+        public void renderFullMap() {
         renderBack();
         renderPlayerOneArea();
         renderPlayerThreeArea();
@@ -246,6 +283,7 @@ public class GamePlay implements Screen {
         renderPlayerTwoArea();
         renderPlayerFourArea();
         renderThings();
+        renderCharacterArea();
         SPEED++;
     }
 
@@ -253,9 +291,9 @@ public class GamePlay implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        mono.batch.begin();
+        monopoly.batch.begin();
         renderFullMap();
-        mono.batch.end();
+        monopoly.batch.end();
     }
 
     @Override

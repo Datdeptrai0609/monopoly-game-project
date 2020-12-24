@@ -8,7 +8,7 @@
         // put the function to render character and color here!
 
         // put the counter here
-        font.draw(monopoly.batch, Integer.toString(playerConnected) + text, 25, 980);
+        font.draw(monopoly.batch, Integer.(playerConnected) + text, 25, 980);
 
         if (playerConnected == 4) {
             monopoly.batch.draw(playBtnOn, Gdx.graphics.getWidth()/2 - 200, 70, 450, 229);
