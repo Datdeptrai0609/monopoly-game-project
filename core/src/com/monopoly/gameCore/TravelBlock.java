@@ -1,8 +1,5 @@
 package com.monopoly.gameCore;
 
-import org.ini4j.Wini; 
-
-import java.io.File;
 import java.io.IOException;
 
 public class TravelBlock implements Block {
@@ -16,8 +13,8 @@ public class TravelBlock implements Block {
   // constructor
   public TravelBlock(String name, int pos) throws IOException {
     // Read config.ini file
-    Wini ini = new Wini(new File("./config.ini"));
-    cost = Integer.parseInt(ini.get("travel", "buy").toString());
+    ReadIni ini = new ReadIni();
+    cost = ini.getNumValue("travel", "buy");
     owned = false;
     festivalStatus = false;
     this.name = name;

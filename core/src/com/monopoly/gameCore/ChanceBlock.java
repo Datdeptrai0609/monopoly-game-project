@@ -1,8 +1,5 @@
 package com.monopoly.gameCore;
 
-import org.ini4j.Wini;
-
-import java.io.File;
 import java.io.IOException;
 
 public class ChanceBlock implements Block {
@@ -36,9 +33,9 @@ public class ChanceBlock implements Block {
   // Create cards assign to deck and shuffle them
   private void chance() throws IOException {
     // Open file config.ini
-    Wini ini = new Wini(new File("./config.ini"));
+    ReadIni ini = new ReadIni();
     // Get number of all chance cards
-    int cardSize = Integer.parseInt(ini.get("cards", "size").toString());
+    int cardSize = ini.getNumValue("cards", "size");
     Card[] cards = new Card[cardSize];
 
     // Create Card object and save to cards array

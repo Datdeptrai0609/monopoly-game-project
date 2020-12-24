@@ -1,9 +1,7 @@
 package com.monopoly.gameCore;
 
-import org.ini4j.Wini;
 import org.ini4j.Profile;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Card {
@@ -13,22 +11,22 @@ public class Card {
   private String text;
 
   public Card(int i) throws IOException {
-    Wini ini = new Wini(new File("./config.ini"));
+    ReadIni ini = new ReadIni();
     // Create Profile.Section of BANK_MONEY
-    Profile.Section section = (Profile.Section) ini.get("BANK_MONEY");
+    Profile.Section section = ini.getSection("BANK_MONEY");
     // get size of section BANK_MONEY b/c have value and content so / 2
     int bankMoneySize = section.size() / 2;
     // If the number of cards bigger than BANK_MONEY size, section will change
     // to MOVE_TO
     if (i <= bankMoneySize) {
-      value = Integer.parseInt(section.get(String.format("value%d", i)).toString());
+      value = ini.getNumValue(section.getName(), String.format("value%d", i));
     } else {
-      section = (Profile.Section) ini.get("MOVE_TO");
+      section = ini.getSection("MOVE_TO");
       // Now i is bigger than BANK_MONEY size so we must minus to it
       i -= bankMoneySize;
-      travelTo = Integer.parseInt(section.fetch(String.format("travelTo%d", i)).toString());
+      travelTo = ini.fetchNumVal(section.getName(), String.format("travelTo%d", i));
     }
-    text = section.get(String.format("content%d", i)).toString();
+    text = ini.getStrValue(section.getName(), String.format("content%d", i));
     action = CardAction.valueOf(section.getName());
   }
 

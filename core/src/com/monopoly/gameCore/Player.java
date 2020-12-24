@@ -1,8 +1,5 @@
 package com.monopoly.gameCore;
 
-import org.ini4j.Wini; 
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,8 +17,8 @@ public class Player {
   public Player(String playerName) throws IOException {
     input = new Input();
     // Read config.ini file and get player's money
-    Wini ini = new Wini(new File("./config.ini"));
-    money = Integer.parseInt(ini.get("player", "money").toString());
+    ReadIni ini = new ReadIni();
+    money = ini.getNumValue("player", "money");
     properties = new LinkedList<>();
     travelList = new ArrayList<TravelBlock>();
     position = 0;
@@ -60,10 +57,6 @@ public class Player {
       excMoney(200);
     }
     position = pos;
-
-    //if (position == board.jailPos()) {
-      //inJail = true;
-    //}
   }
 
   public int position() {

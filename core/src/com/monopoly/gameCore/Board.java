@@ -1,11 +1,7 @@
 package com.monopoly.gameCore;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import org.ini4j.Wini;
 import org.ini4j.Profile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -14,15 +10,15 @@ public class Board {
   private final Block[] board; // representation of board
   private int busPos;
   private int jailPos;
-  private Wini ini;
+  private ReadIni ini;
 
   // constructor for a new board of squares
   public Board() throws IOException {
     // Starting to read config.ini file
-    ini = new Wini(new File("./config.ini"));
-    size = castNum(ini.get("monopoly", "size"));
-    busPos = castNum(ini.get("bus", "pos"));
-    jailPos = castNum(ini.get("jail", "pos"));
+    ini = new ReadIni();
+    size = ini.getNumValue("monopoly", "size");
+    busPos = ini.getNumValue("bus", "pos");
+    jailPos = ini.getNumValue("jail", "pos");
 
     board = new Block[size];
     makeBoard();
@@ -43,43 +39,43 @@ public class Board {
 
   private void makeBoard() throws IOException {
     // create a list of section in config.ini
-    Collection<Profile.Section> list = ini.values();
+    Collection<Profile.Section> listSections = ini.listOfSection();
     int pos, buy, build, oneH, twoH, threeH, hotel, rent;
     Block bl;
     // loop through the list to create object of block
-    for (Profile.Section section : list) {
+    for (Profile.Section section : listSections) {
       String sectionName = section.getName();
       // monopoly and player are not blocks but place in top of file
       if (sectionName.equals("monopoly") || sectionName.equals("player")) {
         continue;
       } else if (sectionName.equals("go")) {
-        pos = castNum(section.get("pos"));
+        pos = ini.getNumValue(sectionName, "pos");
         bl = new GoBlock(pos);
       } else if (sectionName.equals("jail")) {
-        pos = castNum(section.get("pos"));
+        pos = ini.getNumValue(sectionName, "pos");
         bl = new JailBlock(pos);
       } else if (sectionName.equals("tax")) {
-        pos = castNum(section.get("pos"));
+        pos = ini.getNumValue(sectionName, "pos");
         bl = new TaxBlock(pos);
       } else if (sectionName.equals("festival")) {
-        pos = castNum(section.get("pos"));
+        pos = ini.getNumValue(sectionName, "pos");
         bl = new FestivalBlock(pos);
       } else if (sectionName.equals("bus")) {
-        pos = castNum(section.get("pos"));
+        pos = ini.getNumValue(sectionName, "pos");
         bl = new BusBlock(pos);
       } else if (sectionName.equals("chance")) {
         for (int i = 0; i < section.size(); i++) {
-          pos = castNum(section.get(String.format("pos%d", i + 1)));
+          pos = ini.getNumValue(sectionName, String.format("pos%d", i + 1));
           bl = new ChanceBlock(pos);
           board[pos] = bl;
         }
         continue;
       } else if (sectionName.equals("travel")) {
-        buy = castNum(section.get("buy"));
-        int size = castNum(section.get("size"));
+        buy = ini.getNumValue(sectionName, "buy");
+        int size = ini.getNumValue(sectionName, "size");
         for (int i = 0; i < size; i++) {
-          String name = (String) section.get(String.format("name%d", i + 1));
-          pos = castNum(section.get(String.format("pos%d", i + 1)));
+          String name = ini.getStrValue(sectionName, String.format("name%d", i + 1));
+          pos = ini.getNumValue(sectionName, String.format("pos%d", i + 1));
           bl = new TravelBlock(name, pos);
           board[pos] = bl;
         }
@@ -88,14 +84,14 @@ public class Board {
         // This will go to the section of cards. The block is done.
         break;
       } else {
-        pos = castNum(section.get("pos"));
-        buy = castNum(section.get("buy"));
-        build = castNum(section.get("build"));
-        rent = castNum(section.get("rent"));
-        oneH = castNum(section.get("1H"));
-        twoH = castNum(section.get("2H"));
-        threeH = castNum(section.get("3H"));
-        hotel = castNum(section.get("HT"));
+        pos = ini.getNumValue(sectionName, "pos");
+        buy = ini.getNumValue(sectionName, "buy");
+        build = ini.getNumValue(sectionName, "build");
+        rent = ini.getNumValue(sectionName, "rent");
+        oneH = ini.getNumValue(sectionName, "1H");
+        twoH = ini.getNumValue(sectionName, "2H");
+        threeH = ini.getNumValue(sectionName, "3H");
+        hotel = ini.getNumValue(sectionName, "HT");
         bl = new PropertyBlock(sectionName, pos, rent, oneH, twoH, threeH, hotel, buy, build);
       }
       // Assign block to array board
@@ -109,12 +105,5 @@ public class Board {
 
   public int jailPos() {
     return jailPos;
-  }
-
-  static int castNum(final Object o) {
-    return Integer.parseInt(o.toString());
-  }
-
-  public void draw(SpriteBatch sb) {
   }
 }
