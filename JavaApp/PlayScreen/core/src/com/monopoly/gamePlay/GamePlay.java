@@ -46,7 +46,7 @@ public class GamePlay implements Screen {
     private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
     // Sprites:
-    public TextureAtlas backAtlas, textureAtlas, roadHigh, roadLow, carsHigh, carsLow, things, playerOne, playerTwo, playerThree, playerFour;
+    public TextureAtlas backAtlas, textureAtlas, handleOnStatus, roadHigh, roadLow, carsHigh, carsLow, things, playerOne, playerTwo, playerThree, playerFour;
     public TextureAtlas characterAtlas, kAtlas;
 
     // SPEED:
@@ -59,6 +59,8 @@ public class GamePlay implements Screen {
     public void show() {
 
         textureAtlas = new TextureAtlas("playScreenAssets/blockFeature/block_Features.txt");
+        handleOnStatus = new TextureAtlas("playScreenAssets/blockFeature/handleOnStatus/handleOnStatus.txt");
+
         backAtlas = new TextureAtlas("playScreenAssets/back/back_.txt");
         roadHigh = new TextureAtlas("playScreenAssets/roadHigh/roadHigh_.txt");
         roadLow = new TextureAtlas("playScreenAssets/roadLow/roadLow_.txt");
@@ -138,6 +140,7 @@ public class GamePlay implements Screen {
                 renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
                 x_position_blocks_small+=73;
                 y_position_blocks_small-=42;
+                // at block 3
             }
             // render d
             renderCore.drawThing(renderCore.getRegionsAtlas()/4*3,1410, Gdx.graphics.getHeight()/2-114, 0.9f, 0.9f);
@@ -146,12 +149,15 @@ public class GamePlay implements Screen {
                 renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
                 x_position_blocks_small-=73;
                 y_position_blocks_small-=42;
+                // at block 5
+
             }
             //render b list
             for (int i = renderCore.getRegionsAtlas()/4*2-1, x_position_blocks_small = 680, y_position_blocks_small = Gdx.graphics.getHeight()-251; i > renderCore.getRegionsAtlas()/4*1; i--) {
                 renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
                 x_position_blocks_small-=73;
                 y_position_blocks_small-=42;
+                // at block 3
             }
             // render b
             renderCore.drawThing(renderCore.getRegionsAtlas()/4*1, 36, Gdx.graphics.getHeight()/2-105, 0.9f, 0.9f);
@@ -160,6 +166,8 @@ public class GamePlay implements Screen {
                 renderCore.drawThing(i, x_position_blocks_small, y_position_blocks_small);
                 x_position_blocks_small+=73;
                 y_position_blocks_small-=42;
+                //at block 1
+
             }
             //render a
             renderCore.drawThing(renderCore.getRegionsAtlas()/4*0, (Gdx.graphics.getWidth()/2)-189, -12, 0.9f, 0.9f);
