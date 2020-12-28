@@ -21,13 +21,15 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import TurnCard from './TurnCard';
+
 export default class GameScreen extends Component {
     render() {
         return (
             <ImageBackground
                 style = { styles.container}
                 source ={gameImageBackground}>
-
+                <TurnCard/>
             </ImageBackground>
         )
     }
