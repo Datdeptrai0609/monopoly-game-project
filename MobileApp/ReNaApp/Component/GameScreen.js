@@ -30,6 +30,7 @@ export default class GameScreen extends Component {
                 style = { styles.container}
                 source ={gameImageBackground}>
                 <TurnCard/>
+                
             </ImageBackground>
         )
     }
