@@ -143,37 +143,44 @@ public class Monopoly {
         }
         System.out.println("Would you like to build houses here?");
         if (player.inputBool()) {
-          // when first build can build 2 houses, then only 1 house
-          switch (propsBlock.numHouses()) {
-            case 0:
-            case 1:
-              System.out.println("You can only build up to 2 houses now. How many houses would you like to build?");
-              while (true) {
-                int houseInput = player.inputInt();
-                if (propsBlock.numHouses() + houseInput >= 0 && propsBlock.numHouses() + houseInput <= 2) {
-                  if (player.getMoney() < propsBlock.houseCost() * houseInput) {
-                    System.out.println("You don't have enough money!");
-                    continue;
-                  }
-                  propsBlock.build(houseInput);
-                  player.excMoney(propsBlock.houseCost() * houseInput * -1);
-                  break;
-                }
-              }
-              break;
-            case 2:
-            case 3:
-              if (player.getMoney() < propsBlock.houseCost()) {
-                System.out.println("You don't have enough money!");
-              } else {
-                System.out.println("You can only build a house per building time!");
-                propsBlock.build(1);
-                player.excMoney(propsBlock.houseCost() * -1);
-              }
-              break;
-            default:
-              System.out.println("You cannot build houses in this property anymore!");
+          if (player.getMoney() < propsBlock.houseCost()) {
+            System.out.println("You don't have enough money!");
+          } else {
+            System.out.println("You can only build a house per building time!");
+            propsBlock.build(1);
+            player.excMoney(propsBlock.houseCost() * -1);
           }
+          // when first build can build 2 houses, then only 1 house
+          //switch (propsBlock.numHouses()) {
+            //case 0:
+            //case 1:
+              //System.out.println("You can only build up to 2 houses now. How many houses would you like to build?");
+              //while (true) {
+                //int houseInput = player.inputInt();
+                //if (propsBlock.numHouses() + houseInput >= 0 && propsBlock.numHouses() + houseInput <= 2) {
+                  //if (player.getMoney() < propsBlock.houseCost() * houseInput) {
+                    //System.out.println("You don't have enough money!");
+                    //continue;
+                  //}
+                  //propsBlock.build(houseInput);
+                  //player.excMoney(propsBlock.houseCost() * houseInput * -1);
+                  //break;
+                //}
+              //}
+              //break;
+            //case 2:
+            //case 3:
+              //if (player.getMoney() < propsBlock.houseCost()) {
+                //System.out.println("You don't have enough money!");
+              //} else {
+                //System.out.println("You can only build a house per building time!");
+                //propsBlock.build(1);
+                //player.excMoney(propsBlock.houseCost() * -1);
+              //}
+              //break;
+            //default:
+              //System.out.println("You cannot build houses in this property anymore!");
+          //}
         }
       }
       return;
