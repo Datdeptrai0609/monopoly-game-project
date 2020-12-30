@@ -11,7 +11,7 @@ public class Word {
   FreeTypeFontParameter parameter;
 
   public Word() {
-    generator = new FreeTypeFontGenerator(Gdx.files.internal("NerkoOne-Regular.ttf"));
+    generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/NerkoOne-Regular.ttf"));
     parameter = new FreeTypeFontParameter();
   }
 
