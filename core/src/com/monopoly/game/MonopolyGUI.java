@@ -185,12 +185,12 @@ public class MonopolyGUI extends ApplicationAdapter {
               @Override
               public void run() {
                 for (Player player : monopoly.getState().players) {
-                  Animation<TextureRegion> characterAnimationIn = new Animation<TextureRegion>(0.05f, new TextureAtlas(String.format("%sRun.txt", player.name())).getRegions());
-                  Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("%sStand.txt", player.name())).getRegions());
-                  Animation<TextureRegion> jumpAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sJump.txt", player.name())).getRegions());
-                  Animation<TextureRegion> dieAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("%sDie.txt", player.name())).getRegions());
-                  Texture flagIn = new Texture(String.format("%sFlag.png", player.name()));
-                  Texture houseIn = new Texture(String.format("%sHouse.png", player.name()));
+                  Animation<TextureRegion> characterAnimationIn = new Animation<TextureRegion>(0.05f, new TextureAtlas(String.format("character/%sRun.txt", player.name())).getRegions());
+                  Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.07f, new TextureAtlas(String.format("character/%sStand.txt", player.name())).getRegions());
+                  Animation<TextureRegion> jumpAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("character/%sJump.txt", player.name())).getRegions());
+                  Animation<TextureRegion> dieAnimationIn = new Animation<TextureRegion>(0.1f, new TextureAtlas(String.format("character/%sDie.txt", player.name())).getRegions());
+                  Texture flagIn = new Texture(String.format("house/%sFlag.png", player.name()));
+                  Texture houseIn = new Texture(String.format("house/%sHouse.png", player.name()));
                   characterAnimation.add(new CharacterAnimation(batch, characterAnimationIn, standAnimationIn, jumpAnimationIn, dieAnimationIn, flagIn, houseIn, player.name()));
                 }
                 gameStatus = monopoly.getStatus();

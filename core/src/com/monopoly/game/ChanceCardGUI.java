@@ -15,7 +15,7 @@ public class ChanceCardGUI implements CardGUI {
   private String cardText;
 
   public ChanceCardGUI(SpriteBatch sb, Word wordIn) {
-    chanceImg = new Texture("chance.jpg");
+    chanceImg = new Texture("card/chance.jpg");
     this.sb = sb;
     cardOn = false;
     this.word = wordIn.word(40, Color.BLACK);

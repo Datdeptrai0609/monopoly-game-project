@@ -18,8 +18,8 @@ public class TravelCardGUI implements CardGUI {
 
   public TravelCardGUI(SpriteBatch sb, Word word) {
     this.sb = sb;
-    travelImg = new Texture("travelCard.jpg");
-    bought = new Texture("bought.png");
+    travelImg = new Texture("card/travelCard.jpg");
+    bought = new Texture("card/bought.png");
     cardOn = false;
     isBought = false;
     wordName = word.word(40, Color.BLACK);

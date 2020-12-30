@@ -19,7 +19,7 @@ public class PropCardGUI implements CardGUI{
 
   public PropCardGUI(SpriteBatch sb, Word word) {
     this.sb = sb;
-    bought = new Texture("bought.png");
+    bought = new Texture("card/bought.png");
     cardOn = false;
     isBought = false;
     wordName = word.word(40, Color.BLACK);
@@ -47,7 +47,7 @@ public class PropCardGUI implements CardGUI{
 
   public void render(float moreWidth, boolean renderMore) {
     if (cardOn) {
-      propertyImg = new Texture(String.format("propCard%s.png", position));
+      propertyImg = new Texture(String.format("card/propCard%s.png", position));
       float x = Gdx.graphics.getWidth()/2 - propertyImg.getWidth()/2;
       float y = Gdx.graphics.getHeight()/2 - propertyImg.getHeight()/2;
       if (renderMore) {
