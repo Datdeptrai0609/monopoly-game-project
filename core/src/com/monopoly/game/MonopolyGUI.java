@@ -2,7 +2,7 @@ package com.monopoly.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.monopoly.game.gameGUI.MonopolyPlay;
+import com.monopoly.game.gameGUI.WelcomeScreen;
 
 public class MonopolyGUI extends Game {
 
@@ -11,7 +11,7 @@ public class MonopolyGUI extends Game {
   @Override
   public void create() {
     batch = new SpriteBatch();
-    this.setScreen(new MonopolyPlay(this));
+    this.setScreen(new WelcomeScreen(this));
   }
 
   @Override
