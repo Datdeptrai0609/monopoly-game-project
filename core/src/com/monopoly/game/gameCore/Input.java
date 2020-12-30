@@ -1,12 +1,9 @@
 package com.monopoly.game.gameCore;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 class Input {
   private final Scanner scanner;
-  // list name of characters
-  private String[] names = {"girl", "cat", "ninja", "santa", "dinasour", "boy"};
 
   public Input() {
     scanner = new Scanner(System.in);
@@ -50,34 +47,34 @@ class Input {
   }
 
   // Player input their names and check if duplicated at the beginning of game
-  public Player inputPlayer(Monopoly.State state) throws IOException {
-    Player player = null;
-    do {
-      boolean check = false;
-      String name = inputString();
-      for (String nameCheck : names) {
-        if (name.equals(nameCheck)) {
-          check = true;
-          break;
-        }
-      }
-      if (check) {
-        if (state.players.size() == 0) {
-          return new Player(name);
-        }
-        for (Player p : state.players) {
-          if (name.equals(p.name())) {
-            player = null;
-            break;
-          }
-          player = new Player(name);
-        }
-      }
-      if (player == null) {
-        System.out.println("Invalid player's name, please enter another name.");
-      }
-    } while (player == null);
+  //public Player inputPlayer(Monopoly.State state, int id) throws IOException {
+    //Player player = null;
+    //do {
+      //boolean check = false;
+      //String name = names[id];
+      //for (String nameCheck : names) {
+        //if (name.equals(nameCheck)) {
+          //check = true;
+          //break;
+        //}
+      //}
+      //if (check) {
+        //if (state.players.size() == 0) {
+          //return new Player(name);
+        //}
+        //for (Player p : state.players) {
+          //if (name.equals(p.name())) {
+            //player = null;
+            //break;
+          //}
+          //player = new Player(name);
+        //}
+      //}
+      //if (player == null) {
+        //System.out.println("Invalid player's name, please enter another name.");
+      //}
+    //} while (player == null);
 
-    return player;
-  }
+    //return player;
+  //}
 }

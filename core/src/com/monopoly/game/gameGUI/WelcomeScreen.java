@@ -82,7 +82,8 @@ public class WelcomeScreen implements Screen {
     // loop
     if (LOADING_SPEED_GAME_PLAY == 50 * 6) {
       dispose();
-      gui.setScreen(new MonopolyPlay(gui));
+      gui.setScreen(new WaitingRoom(gui));
+      return;
     }
   }
 

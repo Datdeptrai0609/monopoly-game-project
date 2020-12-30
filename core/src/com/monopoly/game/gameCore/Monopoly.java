@@ -9,7 +9,7 @@ public class Monopoly {
   private final Dice dice;
   private State state;
   private boolean lost = false;
-  private GameStatus gameStatus;
+  private String[] names = {"girl", "cat", "ninja", "santa", "dinasour", "boy"};
 
   public Monopoly() throws IOException {
     // Create board and initialize players as well as some neccessary state
@@ -18,8 +18,6 @@ public class Monopoly {
     state.current = null;
     dice = new Dice();
     state.board = new Board();
-    gameStatus = GameStatus.WAITING;
-    initialize();
   }
 
   // Handle each turn of each player
@@ -365,11 +363,10 @@ public class Monopoly {
   }
 
   // initialize player and random at the beginning of the game
-  public void initialize() throws IOException {
-    Input input = new Input();
+  public void initialize(int[] playerId) throws IOException {
     for (int i = 0; i < 4; ++i) {
-      System.out.println("Player " + (i + 1) + " name?");
-      state.players.add(input.inputPlayer(state));
+      //System.out.println("Player " + (i + 1) + " name?");
+      state.players.add(new Player(names[playerId[i]]));
     }
     // Find the person who go first
     int first = new Random().nextInt(2) + 1;
@@ -377,8 +374,6 @@ public class Monopoly {
     // Swap the first person to the first queue
     for (int i = 0; i < first; i++)
       state.players.add(state.players.remove());
-
-    gameStatus = GameStatus.PLAYING;
 
     printState();
   }
@@ -426,17 +421,6 @@ public class Monopoly {
     public Queue<Player> players;
     public Board board; // game board
     public Player current;
-  }
-
-  public enum GameStatus {
-    WAITING, 
-    PLAYING, 
-    DICE_DONE, 
-    END,
-  }
-
-  public GameStatus getStatus() {
-    return gameStatus;
   }
 
   public State getState() {

@@ -15,9 +15,11 @@ import com.monopoly.game.MonopolyGUI;
 import java.util.ArrayList;
 
 public class MonopolyPlay implements Screen {
+  private int[] playerId;
   // Board and background
   GamePlay boardScreen;
   Sprite[] boardSprite;
+  private boolean boardAssignDone = false;
 
   // Character Animation
   ArrayList<CharacterAnimation> characterAnimation;
@@ -36,7 +38,6 @@ public class MonopolyPlay implements Screen {
   private String selectBlockText;
 
   // Attribute for game handle
-  Monopoly.GameStatus gameStatus = Monopoly.GameStatus.WAITING;
   private String currentPlayer;
   private Block[] board;
 
@@ -44,8 +45,9 @@ public class MonopolyPlay implements Screen {
 
   SpriteBatch batch;
 
-  public MonopolyPlay(MonopolyGUI gui) {
+  public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
+    this.playerId = playerId;
   }
 
   @Override
@@ -184,6 +186,7 @@ public class MonopolyPlay implements Screen {
         try {
           // Create an instance of Monopoly
           monopoly = new Monopoly();
+          monopoly.initialize(playerId);
         } catch (Exception e) {
           System.out.println(e);
         }
@@ -206,7 +209,6 @@ public class MonopolyPlay implements Screen {
               characterAnimation.add(new CharacterAnimation(batch, characterAnimationIn, standAnimationIn,
                   jumpAnimationIn, dieAnimationIn, flagIn, houseIn, player.name()));
             }
-            gameStatus = monopoly.getStatus();
           }
         });
 
@@ -215,6 +217,7 @@ public class MonopolyPlay implements Screen {
         Monopoly.State state = monopoly.getState();
         board = state.board.getBoard();
         boardSprite = boardScreen.boardSprite();
+        boardAssignDone = true;
         while (state.players.size() > 1) {
           state.current = state.players.peek();
           // Pass the current player who is playing
@@ -379,16 +382,12 @@ public class MonopolyPlay implements Screen {
     batch.begin();
     // Render board game behind anything
     boardScreen.render();
-    switch (gameStatus) {
-      case WAITING:
-        waitingScreen.draw(batch);
-        break;
-      case PLAYING:
-        renderHouse();
-        // Render Player and dice
-        renderPlayer();
-        dice.render();
-        renderCard();
+    if (boardAssignDone) {
+      renderHouse();
+      // Render Player and dice
+      renderPlayer();
+      dice.render();
+      renderCard();
     }
     batch.end();
   }
