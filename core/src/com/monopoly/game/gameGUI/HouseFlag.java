@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

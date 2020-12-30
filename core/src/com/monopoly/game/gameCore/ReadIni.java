@@ -1,4 +1,4 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
 import java.io.File;
 import java.io.IOException;

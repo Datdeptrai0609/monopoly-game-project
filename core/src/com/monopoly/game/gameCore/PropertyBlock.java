@@ -1,4 +1,4 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
 public class PropertyBlock implements Block {
   // costs of rent for all possible property states

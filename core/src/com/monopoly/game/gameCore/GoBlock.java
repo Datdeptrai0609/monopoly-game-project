@@ -1,15 +1,11 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
-public class TaxBlock implements Block {
-  private final String name = "Tax";
+public class GoBlock implements Block {
   private final int pos;
+  private final String name = "Go";
 
-  public TaxBlock(int pos) {
+  public GoBlock(int pos) {
     this.pos = pos;
-  }
-
-  public boolean isOwned() {
-    return false;
   }
 
   public int position() {
@@ -24,9 +20,8 @@ public class TaxBlock implements Block {
     return false;
   }
 
-  // tax is 10% of all assets of player
-  public int tax(int value) {
-    return (int) (value * 10 / 100);
+  public boolean isOwned() {
+    return false;
   }
 
   public int cost() {

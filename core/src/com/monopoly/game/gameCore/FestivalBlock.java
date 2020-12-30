@@ -1,16 +1,15 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
-public class JailBlock implements Block {
-
+public class FestivalBlock implements Block {
+  private String name = "Festival";
   private final int pos;
-  private final String name = "Jail";
 
-  public JailBlock(int pos) {
+  public FestivalBlock(int pos) {
     this.pos = pos;
   }
 
-  public String name() {
-    return name;
+  public boolean isOwnable() {
+    return false;
   }
 
   public boolean isOwned() {
@@ -21,15 +20,12 @@ public class JailBlock implements Block {
     return pos;
   }
 
-  public boolean isOwnable() {
-    return false;
+  public String name() {
+    return name;
   }
 
   public int cost() {
     return 0;
-  }
-
-  public void purchase(Player player) {
   }
 
   public int rent() {
@@ -45,6 +41,9 @@ public class JailBlock implements Block {
 
   public Player owner() {
     return null;
+  }
+
+  public void purchase(Player player) {
   }
 
   public void reset() {

@@ -1,4 +1,4 @@
-package com.monopoly.game;
+package com.monopoly.game.gameGUI;
 
 public interface CardGUI {
   void cardOn(boolean on);

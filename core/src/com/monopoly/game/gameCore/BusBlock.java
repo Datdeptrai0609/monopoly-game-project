@@ -1,10 +1,10 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
-public class FestivalBlock implements Block {
-  private String name = "Festival";
+public class BusBlock implements Block {
+  private String name = "Bus";
   private final int pos;
 
-  public FestivalBlock(int pos) {
+  public BusBlock(int pos) {
     this.pos = pos;
   }
 

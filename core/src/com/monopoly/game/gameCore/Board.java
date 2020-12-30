@@ -1,4 +1,4 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
 import org.ini4j.Profile;
 

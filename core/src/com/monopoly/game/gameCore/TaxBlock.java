@@ -1,15 +1,11 @@
-package com.monopoly.gameCore;
+package com.monopoly.game.gameCore;
 
-public class BusBlock implements Block {
-  private String name = "Bus";
+public class TaxBlock implements Block {
+  private final String name = "Tax";
   private final int pos;
 
-  public BusBlock(int pos) {
+  public TaxBlock(int pos) {
     this.pos = pos;
-  }
-
-  public boolean isOwnable() {
-    return false;
   }
 
   public boolean isOwned() {
@@ -24,8 +20,20 @@ public class BusBlock implements Block {
     return name;
   }
 
+  public boolean isOwnable() {
+    return false;
+  }
+
+  // tax is 10% of all assets of player
+  public int tax(int value) {
+    return (int) (value * 10 / 100);
+  }
+
   public int cost() {
     return 0;
+  }
+
+  public void purchase(Player player) {
   }
 
   public int rent() {
@@ -41,9 +49,6 @@ public class BusBlock implements Block {
 
   public Player owner() {
     return null;
-  }
-
-  public void purchase(Player player) {
   }
 
   public void reset() {

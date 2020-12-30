@@ -1,6 +1,7 @@
-package com.monopoly.game;
+package com.monopoly.game.gameGUI;
 
-import com.badlogic.gdx.Gdx; import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.Gdx; 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
