@@ -1,15 +1,15 @@
 package com.monopoly.game.gameCore;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 public class Monopoly {
   private final Dice dice;
   private State state;
   private boolean lost = false;
-  private String[] names = {"girl", "cat", "ninja", "santa", "dinasour", "boy"};
+  private String[] names = {"girl", "ninja", "cat", "santa", "boy", "dinasour"};
 
   public Monopoly() throws IOException {
     // Create board and initialize players as well as some neccessary state
@@ -364,18 +364,25 @@ public class Monopoly {
 
   // initialize player and random at the beginning of the game
   public void initialize(int[] playerId) throws IOException {
-    for (int i = 0; i < 4; ++i) {
-      //System.out.println("Player " + (i + 1) + " name?");
-      state.players.add(new Player(names[playerId[i]]));
+    // Convert array playerId to ArrayList to shuffle
+    ArrayList<Integer> playerIdList = new ArrayList<Integer>();
+    for (int id : playerId) {
+      playerIdList.add(id);
     }
-    // Find the person who go first
-    int first = new Random().nextInt(2) + 1;
-
-    // Swap the first person to the first queue
-    for (int i = 0; i < first; i++)
-      state.players.add(state.players.remove());
+    // Shuffle the list of playerId
+    java.util.Collections.shuffle(playerIdList);
+    int[] playerIdSwapped = new int[4];
+    int index = 0;
+    for (int id : playerIdList) {
+      playerIdSwapped[index] = id;
+      ++index;
+    }
+    for (int i = 0; i < playerIdSwapped.length; ++i) {
+      state.players.add(new Player(names[playerIdSwapped[i]]));
+    }
 
     printState();
+    //return playerIdSwapped;
   }
 
   // Method to print information each turn

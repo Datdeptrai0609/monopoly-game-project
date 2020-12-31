@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class WaitingRoom implements Screen {
   private MonopolyGUI gui;
   private SpriteBatch sb;
+  // playerId: 0 -> 5
   private int[] playerId = { 1, 3, 2, 5 };
 
   // Get the name of character
@@ -62,13 +63,8 @@ public class WaitingRoom implements Screen {
 
   @Override
   public void show() {
-    // new Thread(new Runnable() {
-    // @Override
-    // public void run() {
     //// TODO: initialize mqtt
 
-    // }
-    // }).start();
   }
 
   // Function for render player character image

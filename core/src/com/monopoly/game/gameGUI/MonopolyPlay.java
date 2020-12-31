@@ -41,8 +41,6 @@ public class MonopolyPlay implements Screen {
   private String currentPlayer;
   private Block[] board;
 
-  Sprite waitingScreen;
-
   SpriteBatch batch;
 
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
@@ -52,10 +50,6 @@ public class MonopolyPlay implements Screen {
 
   @Override
   public void show() {
-    // batch = new SpriteBatch();
-    // Waiting Screen temporary
-    waitingScreen = new Sprite(new Texture(Gdx.files.internal("WaitingScreen.jpg")));
-
     characterAnimation = new ArrayList<CharacterAnimation>();
 
     // Create boardScreen

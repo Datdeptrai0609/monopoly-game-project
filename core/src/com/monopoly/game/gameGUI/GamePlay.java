@@ -287,15 +287,16 @@ public class GamePlay {
 
   // Render character:
   // TODO: Render character area:
-  private void setCharacterPlace(RenderCore render, int ordinal) {
-    render.drawThing(ordinal, (float) (x_characterCoordinates[ordinal] - render.getSpritesWidth(ordinal) / 2 * 0.7),
-        y_characterCoordinates[ordinal], 0.7f, 0.7f);
-    layout.setText(moneyPlayer, Integer.toString(money[0]) + "$");
-    moneyPlayer.draw(
-        sb, Integer.toString(money[0]) + "$", (float) (x_characterCoordinates[ordinal]
-            - render.getSpritesWidth(ordinal) / 2 * 0.7 + render.getSpritesWidth(1) / 2 * 0.7 - layout.width / 2),
-        y_moneyCoordinates[ordinal]);
-  }
+  //private void setCharacterPlace(RenderCore render, int ordinal) {
+    //int playerIdVal = playerId[ordinal];
+    //render.drawThing(playerIdVal, (float) (x_characterCoordinates[ordinal] - render.getSpritesWidth(playerIdVal) / 2 * 0.7),
+        //y_characterCoordinates[ordinal], 0.7f, 0.7f);
+    //layout.setText(moneyPlayer, Integer.toString(money[0]) + "$");
+    //moneyPlayer.draw(
+        //sb, Integer.toString(money[0]) + "$", (float) (x_characterCoordinates[ordinal]
+            //- render.getSpritesWidth(ordinal) / 2 * 0.7 + render.getSpritesWidth(1) / 2 * 0.7 - layout.width / 2),
+        //y_moneyCoordinates[ordinal]);
+  //}
 
   private void renderCharacterArea() {
     RenderCore renderK = new RenderCore(sprites, kAtlas, sb);
@@ -309,19 +310,19 @@ public class GamePlay {
     if (SPEED > 120)
       renderK.drawThing(3, (float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(3) * 0.7), 0, 0.7f, 0.7f);
 
-    RenderCore renderCharacter = new RenderCore(sprites, characterAtlas, sb);
-    // Player One and Money
-    if (SPEED > 40)
-      setCharacterPlace(renderCharacter, 0);
-    // Player Two and Money
-    if (SPEED > 80)
-      setCharacterPlace(renderCharacter, 1);
-    // Player Three and Money
-    if (SPEED > 120)
-      setCharacterPlace(renderCharacter, 2);
-    // Player Four and Money
-    if (SPEED > 160)
-      setCharacterPlace(renderCharacter, 3);
+    //RenderCore renderCharacter = new RenderCore(sprites, characterAtlas, sb);
+    //// Player One and Money
+    //if (SPEED > 40)
+      //setCharacterPlace(renderCharacter, 0);
+    //// Player Two and Money
+    //if (SPEED > 80)
+      //setCharacterPlace(renderCharacter, 1);
+    //// Player Three and Money
+    //if (SPEED > 120)
+      //setCharacterPlace(renderCharacter, 2);
+    //// Player Four and Money
+    //if (SPEED > 160)
+      //setCharacterPlace(renderCharacter, 3);
   }
 
   // To put in render():
