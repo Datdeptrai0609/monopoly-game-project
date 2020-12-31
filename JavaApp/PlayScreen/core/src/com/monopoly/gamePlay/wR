@@ -1,0 +1,42 @@
+
+        RenderCore renderCore = new RenderCore(sprites, waitingRoomAtlas, monopoly.batch);
+        renderCore.drawThing(0,0,0);
+        for (float i = 0, x = 140, y = 375, texture_ordinal = 2; i < 4; i++) {
+            renderCore.drawThing((int)texture_ordinal,x,y, 0.7f, 0.7f);
+            x += 126.4f + 292;
+        }
+        // put the function to render character and color here!
+
+        // put the counter here
+        font.draw(monopoly.batch, Integer.(playerConnected) + text, 25, 980);
+
+        if (playerConnected == 4) {
+            monopoly.batch.draw(playBtnOn, Gdx.graphics.getWidth()/2 - 200, 70, 450, 229);
+        }
+        else {
+            monopoly.batch.draw(playBtnOff, Gdx.graphics.getWidth()/2 - 200, 70, 450, 229);
+        }
+        if (playerConnected == 4) {
+            if (Gdx.input.getX() < Gdx.graphics.getWidth()/2 + 229/2 && Gdx.input.getX() > Gdx.graphics.getWidth()/2 - 229/2
+                    && Gdx.input.getY() < Gdx.graphics.getHeight() - 70 && Gdx.input.getY() > Gdx.graphics.getHeight() - 70 - 229
+            ) {
+                if (Gdx.input.isTouched()) {
+                    dispose();
+                    monopoly.setScreen(new GamePlay(monopoly));
+                }
+            }
+        }
+        x += 0.5f;
+        //debug
+        if (x==50) {
+            playerConnected = 1;
+        }
+        if (x==100) {
+            playerConnected = 2;
+        }
+        if (x == 150) {
+            playerConnected = 3;
+        }
+        if (x == 200) {
+            playerConnected = 4;
+        }
