@@ -20,3 +20,14 @@ import {
     DebugInstructions,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import * as Animatable from 'react-native-animatable';
+
+export default class Alert extends Component {
+    render() {
+        return (
+            <Animatable.View>
+                
+            </Animatable.View>
+        )
+    }
+}
