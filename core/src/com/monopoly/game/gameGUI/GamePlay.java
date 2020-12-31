@@ -1,8 +1,8 @@
 package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+//import com.badlogic.gdx.graphics.g2d.BitmapFont;
+//import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -27,17 +27,17 @@ public class GamePlay {
       x_position_p3v2 = new int[10], y_position_p3v2 = new int[10], ordinal3v2 = new int[10];
 
   // Character: Constants: Coordinates
-  private float[] x_characterCoordinates = { 140 * 0.7f, 140 * 0.7f, 1800 - 140 * 0.7f, 1800 - 140 * 0.7f },
-      y_characterCoordinates = { 70, 1000 - 428 * 0.7f + 100 * 0.7f, 1000 - 428 * 0.7f + 100 * 0.7f, 70 },
-      y_moneyCoordinates = { 55, 1000 - 428 * 0.7f + 75 * 0.7f, 1000 - 428 * 0.7f + 75 * 0.7f, 55 };
+  //private float[] x_characterCoordinates = { 140 * 0.7f, 140 * 0.7f, 1800 - 140 * 0.7f, 1800 - 140 * 0.7f },
+      //y_characterCoordinates = { 70, 1000 - 428 * 0.7f + 100 * 0.7f, 1000 - 428 * 0.7f + 100 * 0.7f, 70 },
+      //y_moneyCoordinates = { 55, 1000 - 428 * 0.7f + 75 * 0.7f, 1000 - 428 * 0.7f + 75 * 0.7f, 55 };
 
   // Render money:
   // Money Render
-  private BitmapFont moneyPlayer = new BitmapFont(Gdx.files.internal("Font/commicMoney.fnt"));
+  //private BitmapFont moneyPlayer = new BitmapFont(Gdx.files.internal("Font/commicMoney.fnt"));
   // Layout: to get the width of text
-  private GlyphLayout layout = new GlyphLayout();
+  //private GlyphLayout layout = new GlyphLayout();
   // Money parameters:
-  private int[] money = { 2000, 2000, 2000, 2000 };
+  //private int[] money = { 2000, 2000, 2000, 2000 };
 
   // HashMap:
   private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
@@ -271,7 +271,7 @@ public class GamePlay {
         renderPlayerThreeArea.drawThing(ordinal3[i], x_position_p3[i], y_position_p3[i]);
       }
     }
-    for (int i = 0, count; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
       renderPlayerThreeArea.drawThing(ordinal3v2[i], x_position_p3v2[i], y_position_p3v2[i]);
     }
   }
@@ -298,17 +298,17 @@ public class GamePlay {
         //y_moneyCoordinates[ordinal]);
   //}
 
-  private void renderCharacterArea() {
-    RenderCore renderK = new RenderCore(sprites, kAtlas, sb);
-    if (SPEED > 30)
-      renderK.drawThing(0, 0, 0, 0.7f, 0.7f);
-    if (SPEED > 60)
-      renderK.drawThing(1, 0, (float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(1) * 0.7), 0.7f, 0.7f);
-    if (SPEED > 90)
-      renderK.drawThing(2, (float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(2) * 0.7),
-          (float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(2) * 0.7), 0.7f, 0.7f);
-    if (SPEED > 120)
-      renderK.drawThing(3, (float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(3) * 0.7), 0, 0.7f, 0.7f);
+  //private void renderCharacterArea() {
+    //RenderCore renderK = new RenderCore(sprites, kAtlas, sb);
+    //if (SPEED > 30)
+      //renderK.drawThing(0, 0, 0, 0.7f, 0.7f);
+    //if (SPEED > 60)
+      //renderK.drawThing(1, 0, (float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(1) * 0.7), 0.7f, 0.7f);
+    //if (SPEED > 90)
+      //renderK.drawThing(2, (float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(2) * 0.7),
+          //(float) (Gdx.graphics.getHeight() - renderK.getSpritesHeight(2) * 0.7), 0.7f, 0.7f);
+    //if (SPEED > 120)
+      //renderK.drawThing(3, (float) (Gdx.graphics.getWidth() - renderK.getSpritesWidth(3) * 0.7), 0, 0.7f, 0.7f);
 
     //RenderCore renderCharacter = new RenderCore(sprites, characterAtlas, sb);
     //// Player One and Money
@@ -323,7 +323,7 @@ public class GamePlay {
     //// Player Four and Money
     //if (SPEED > 160)
       //setCharacterPlace(renderCharacter, 3);
-  }
+  //}
 
   // To put in render():
   public void render() {
@@ -338,7 +338,7 @@ public class GamePlay {
     renderPlayerTwoArea();
     renderPlayerFourArea();
     renderThings();
-    renderCharacterArea();
+    //renderCharacterArea();
     SPEED++;
   }
 }

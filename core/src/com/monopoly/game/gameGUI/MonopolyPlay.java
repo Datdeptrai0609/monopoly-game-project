@@ -21,6 +21,9 @@ public class MonopolyPlay implements Screen {
   Sprite[] boardSprite;
   private boolean boardAssignDone = false;
 
+  // PlayerInfo
+  PlayerInfo[] listOfInfos;
+
   // Character Animation
   ArrayList<CharacterAnimation> characterAnimation;
 
@@ -50,6 +53,7 @@ public class MonopolyPlay implements Screen {
 
   @Override
   public void show() {
+    listOfInfos = new PlayerInfo[4];
     characterAnimation = new ArrayList<CharacterAnimation>();
 
     // Create boardScreen
@@ -179,8 +183,7 @@ public class MonopolyPlay implements Screen {
       public void run() {
         try {
           // Create an instance of Monopoly
-          monopoly = new Monopoly();
-          monopoly.initialize(playerId);
+          monopoly = new Monopoly(playerId);
         } catch (Exception e) {
           System.out.println(e);
         }
@@ -189,7 +192,12 @@ public class MonopolyPlay implements Screen {
         Gdx.app.postRunnable(new Runnable() {
           @Override
           public void run() {
+            int i = 0;
             for (Player player : monopoly.getState().players) {
+              // Initialize playerInfo before
+              listOfInfos[i] = new PlayerInfo(i, player.name(), player.getMoney(), batch);
+              ++i;
+              // Animation
               Animation<TextureRegion> characterAnimationIn = new Animation<TextureRegion>(0.05f,
                   new TextureAtlas(String.format("character/%sRun.txt", player.name())).getRegions());
               Animation<TextureRegion> standAnimationIn = new Animation<TextureRegion>(0.07f,
@@ -368,6 +376,14 @@ public class MonopolyPlay implements Screen {
     }
   }
 
+  private void renderInfo() {
+    for (PlayerInfo info : listOfInfos) {
+      if (info != null) {
+        info.render();
+      }
+    }
+  }
+
   @Override
   public void render(float delta) {
     Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -376,6 +392,7 @@ public class MonopolyPlay implements Screen {
     batch.begin();
     // Render board game behind anything
     boardScreen.render();
+    renderInfo();
     if (boardAssignDone) {
       renderHouse();
       // Render Player and dice

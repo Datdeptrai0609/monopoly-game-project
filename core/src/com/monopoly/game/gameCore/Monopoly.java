@@ -11,13 +11,14 @@ public class Monopoly {
   private boolean lost = false;
   private String[] names = {"girl", "ninja", "cat", "santa", "boy", "dinasour"};
 
-  public Monopoly() throws IOException {
+  public Monopoly(int[] playerId) throws IOException {
     // Create board and initialize players as well as some neccessary state
     state = new State();
     state.players = new LinkedList<>();
     state.current = null;
     dice = new Dice();
     state.board = new Board();
+    initialize(playerId);
   }
 
   // Handle each turn of each player
