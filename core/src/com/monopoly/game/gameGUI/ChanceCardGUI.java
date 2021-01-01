@@ -14,11 +14,11 @@ public class ChanceCardGUI implements CardGUI {
   private boolean cardOn;
   private String cardText;
 
-  public ChanceCardGUI(SpriteBatch sb, Word wordIn) {
+  public ChanceCardGUI(SpriteBatch sb) {
     chanceImg = new Texture("card/chance.jpg");
     this.sb = sb;
     cardOn = false;
-    this.word = wordIn.word(40, Color.BLACK);
+    this.word = new Word().word(40, Color.BLACK, "NerkoOne-Regular.ttf");
   }
 
   public void cardOn(boolean on) {

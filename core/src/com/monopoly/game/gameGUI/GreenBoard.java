@@ -14,10 +14,10 @@ public class GreenBoard {
   private boolean boardOn;
   private float widthCard; // Width of card which board go along with if equal 0 => festival
 
-  public GreenBoard(SpriteBatch sb, Word word) {
+  public GreenBoard(SpriteBatch sb) {
     this.sb = sb;
     boardImg = new Texture("greenBoard.png");
-    this.word = word.word(45, Color.WHITE);
+    this.word = new Word().word(45, Color.WHITE, "NerkoOne-Regular.ttf");
     boardOn = false;
   }
 

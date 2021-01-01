@@ -11,11 +11,12 @@ public class Word {
   FreeTypeFontParameter parameter;
 
   public Word() {
-    generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/NerkoOne-Regular.ttf"));
+    //generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/NerkoOne-Regular.ttf"));
     parameter = new FreeTypeFontParameter();
   }
 
-  public BitmapFont word(int size, Color color) {
+  public BitmapFont word(int size, Color color, String fontName) {
+    generator = new FreeTypeFontGenerator(Gdx.files.internal(String.format("Font/%s", fontName)));
     parameter.size = size;
     parameter.color = color;
     return generator.generateFont(parameter);

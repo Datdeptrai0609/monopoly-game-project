@@ -17,13 +17,13 @@ public class PropCardGUI implements CardGUI{
   private boolean isBought;
   private int position;
 
-  public PropCardGUI(SpriteBatch sb, Word word) {
+  public PropCardGUI(SpriteBatch sb) {
     this.sb = sb;
     bought = new Texture("card/bought.png");
     cardOn = false;
     isBought = false;
-    wordName = word.word(40, Color.BLACK);
-    wordPrice = word.word(30, Color.BLACK);
+    wordName = new Word().word(40, Color.BLACK, "NerkoOne-Regular.ttf");
+    wordPrice = new Word().word(30, Color.BLACK, "NerkoOne-Regular.ttf");
   }
 
   public void setContent(int pos, boolean bought, String name, String price) {

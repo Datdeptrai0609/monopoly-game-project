@@ -47,4 +47,8 @@ public class PlayerInfo {
     sb.draw(backGround, xBackGround, yBackGround, backGround.getWidth() * scale, backGround.getHeight() * scale);
     sb.draw(playerImg, xPlayer, yPlayer, playerImg.getWidth() * scale, playerImg.getHeight() * scale);
   }
+
+  public void updateMoney(int money) {
+    this.money = money;
+  }
 }

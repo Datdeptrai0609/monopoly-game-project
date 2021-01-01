@@ -17,25 +17,23 @@ import java.util.ArrayList;
 public class MonopolyPlay implements Screen {
   private int[] playerId;
   // Board and background
-  GamePlay boardScreen;
-  Sprite[] boardSprite;
-  private boolean boardAssignDone = false;
+  private GamePlay boardScreen;
+  private Sprite[] boardSprite;
 
   // PlayerInfo
-  PlayerInfo[] listOfInfos;
+  private PlayerInfo[] listOfInfos;
 
   // Character Animation
-  ArrayList<CharacterAnimation> characterAnimation;
+  private ArrayList<CharacterAnimation> characterAnimation;
 
   // Animation for dices
-  DiceGUI dice;
-
-  // GUI for card
-  ChanceCardGUI chanceGUI;
-  PropCardGUI propGUI;
-  TravelCardGUI travelGUI;
-  CardGUI[] listOfCards; // Save all card as an array for easy handling
-  GreenBoard board2Select;
+  private DiceGUI dice;
+// GUI for card
+  private ChanceCardGUI chanceGUI;
+  private PropCardGUI propGUI;
+  private TravelCardGUI travelGUI;
+  private CardGUI[] listOfCards; // Save all card as an array for easy handling
+  private GreenBoard board2Select;
 
   // Name of blocks for player select
   private String selectBlockText;
@@ -44,7 +42,7 @@ public class MonopolyPlay implements Screen {
   private String currentPlayer;
   private Block[] board;
 
-  SpriteBatch batch;
+  private SpriteBatch batch;
 
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
@@ -61,15 +59,15 @@ public class MonopolyPlay implements Screen {
     // Create dice Animation
     dice = new DiceGUI(batch);
     // Create word object to draw word in game
-    Word word = new Word();
+    //Word word = new Word();
 
     // Create card GUI
-    chanceGUI = new ChanceCardGUI(batch, word);
-    propGUI = new PropCardGUI(batch, word);
-    travelGUI = new TravelCardGUI(batch, word);
+    chanceGUI = new ChanceCardGUI(batch);
+    propGUI = new PropCardGUI(batch);
+    travelGUI = new TravelCardGUI(batch);
     listOfCards = new CardGUI[] { chanceGUI, propGUI, travelGUI };
 
-    board2Select = new GreenBoard(batch, word);
+    board2Select = new GreenBoard(batch);
 
     // Create a new thread to run monopoly not disturb render GUI
     new Thread(new Runnable() {
@@ -123,8 +121,7 @@ public class MonopolyPlay implements Screen {
         // Draw a card
         Card card = chance.draw();
         System.out.println(card.text());
-        // Render card text to screen
-        chanceGUI.setContent(card.text());
+        // Render card text to screen chanceGUI.setContent(card.text());
         chanceGUI.cardOn(true);
         // Handle card action
         monopoly.drawCard(state.current, card, new BlockSelect());
@@ -219,7 +216,6 @@ public class MonopolyPlay implements Screen {
         Monopoly.State state = monopoly.getState();
         board = state.board.getBoard();
         boardSprite = boardScreen.boardSprite();
-        boardAssignDone = true;
         while (state.players.size() > 1) {
           state.current = state.players.peek();
           // Pass the current player who is playing
@@ -393,7 +389,7 @@ public class MonopolyPlay implements Screen {
     // Render board game behind anything
     boardScreen.render();
     renderInfo();
-    if (boardAssignDone) {
+    if (boardSprite != null) {
       renderHouse();
       // Render Player and dice
       renderPlayer();
