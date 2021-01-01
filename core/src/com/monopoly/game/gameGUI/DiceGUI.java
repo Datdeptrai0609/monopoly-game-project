@@ -19,7 +19,7 @@ public class DiceGUI {
     diceAtlas = new TextureAtlas("dice.txt");
     dice = new Animation<TextureRegion>(0.1f, diceAtlas.getRegions());
     this.sb = sb;
-    diceRoll = false;
+    diceRoll = true;
     stateTime = 0f;
   }
 

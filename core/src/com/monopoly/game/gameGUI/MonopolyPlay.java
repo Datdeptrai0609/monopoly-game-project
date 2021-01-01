@@ -13,6 +13,7 @@ import com.monopoly.game.gameCore.*;
 import com.monopoly.game.MonopolyGUI;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class MonopolyPlay implements Screen {
   private int[] playerId;
@@ -40,6 +41,7 @@ public class MonopolyPlay implements Screen {
 
   // Attribute for game handle
   private String currentPlayer;
+  private Queue<Player> listOfPlayers;
   private Block[] board;
 
   private SpriteBatch batch;
@@ -121,7 +123,8 @@ public class MonopolyPlay implements Screen {
         // Draw a card
         Card card = chance.draw();
         System.out.println(card.text());
-        // Render card text to screen chanceGUI.setContent(card.text());
+        // Render card text to screen 
+        chanceGUI.setContent(card.text());
         chanceGUI.cardOn(true);
         // Handle card action
         monopoly.drawCard(state.current, card, new BlockSelect());
@@ -217,6 +220,7 @@ public class MonopolyPlay implements Screen {
         board = state.board.getBoard();
         boardSprite = boardScreen.boardSprite();
         while (state.players.size() > 1) {
+          listOfPlayers = state.players;
           state.current = state.players.peek();
           // Pass the current player who is playing
           currentPlayer = monopoly.getState().current.name();
@@ -375,6 +379,12 @@ public class MonopolyPlay implements Screen {
   private void renderInfo() {
     for (PlayerInfo info : listOfInfos) {
       if (info != null) {
+        for (Player player : listOfPlayers) {
+          if (player.name().equals(info.getName())) {
+            info.updateMoney(player.getMoney());
+            break;
+          }
+        }
         info.render();
       }
     }

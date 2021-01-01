@@ -15,7 +15,6 @@ public class GamePlay {
   // Get board Sprites
   final char[] boardName = "abcdefg".toCharArray();
   private Sprite[] boardSprite = new Sprite[32];
-  private boolean assignDone = false;
 
   // Random effects:
   private Random random = new Random();
@@ -180,7 +179,7 @@ public class GamePlay {
     renderCore.drawThing(renderCore.getRegionsAtlas() / 4 * 0, (Gdx.graphics.getWidth() / 2) - 189, -12, 0.9f, 0.9f);
 
     // Render done assign board Sprite to array
-    if (!assignDone) {
+    if (boardSprite[boardSprite.length - 1] == null) {
       addBoardSprite(renderCore);
     }
   }
@@ -196,7 +195,6 @@ public class GamePlay {
         boardSprite[count] = sprites.get("" + boardName[i] + boardName[j]);
         count ++;
       }
-      assignDone = true;
     }
   }
 
