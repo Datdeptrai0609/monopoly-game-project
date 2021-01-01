@@ -1,0 +1,19 @@
+arrow.png
+size: 98, 364
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tank_arrowEmpty
+  rotate: false
+  xy: 1, 1
+  size: 96, 180
+  orig: 96, 180
+  offset: 0, 0
+  index: -1
+tank_arrowFull
+  rotate: false
+  xy: 1, 183
+  size: 96, 180
+  orig: 96, 180
+  offset: 0, 0
+  index: -1

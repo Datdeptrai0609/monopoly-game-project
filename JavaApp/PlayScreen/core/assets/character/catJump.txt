@@ -1,0 +1,61 @@
+catJump.png
+size: 877, 1304
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+catJump (1)
+  rotate: false
+  xy: 0, 0
+  size: 294, 452
+  orig: 547, 481
+  offset: 137, 13
+  index: -1
+catJump (2)
+  rotate: false
+  xy: 294, 0
+  size: 294, 450
+  orig: 547, 481
+  offset: 101, 23
+  index: -1
+catJump (3)
+  rotate: false
+  xy: 0, 452
+  size: 293, 418
+  orig: 547, 481
+  offset: 65, 53
+  index: -1
+catJump (4)
+  rotate: false
+  xy: 293, 452
+  size: 292, 423
+  orig: 547, 481
+  offset: 67, 47
+  index: -1
+catJump (5)
+  rotate: false
+  xy: 585, 452
+  size: 292, 429
+  orig: 547, 481
+  offset: 68, 40
+  index: -1
+catJump (6)
+  rotate: false
+  xy: 0, 881
+  size: 292, 423
+  orig: 547, 481
+  offset: 67, 47
+  index: -1
+catJump (7)
+  rotate: false
+  xy: 292, 881
+  size: 293, 418
+  orig: 547, 481
+  offset: 65, 53
+  index: -1
+catJump (8)
+  rotate: false
+  xy: 585, 881
+  size: 292, 423
+  orig: 547, 481
+  offset: 67, 47
+  index: -1

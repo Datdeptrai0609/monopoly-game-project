@@ -1,0 +1,110 @@
+boyRun.png
+size: 1580, 1396
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Run (1)
+  rotate: false
+  xy: 293, 923
+  size: 287, 470
+  orig: 614, 564
+  offset: 69, 61
+  index: -1
+Run (2)
+  rotate: false
+  xy: 580, 923
+  size: 288, 470
+  orig: 614, 564
+  offset: 67, 64
+  index: -1
+Run (3)
+  rotate: false
+  xy: 610, 456
+  size: 305, 460
+  orig: 614, 564
+  offset: 48, 76
+  index: -1
+Run (4)
+  rotate: false
+  xy: 626, 0
+  size: 322, 454
+  orig: 614, 564
+  offset: 29, 83
+  index: -1
+Run (5)
+  rotate: false
+  xy: 948, 0
+  size: 324, 454
+  orig: 614, 564
+  offset: 25, 79
+  index: -1
+Run (6)
+  rotate: false
+  xy: 0, 456
+  size: 310, 456
+  orig: 614, 564
+  offset: 41, 71
+  index: -1
+Run (7)
+  rotate: false
+  xy: 915, 456
+  size: 296, 465
+  orig: 614, 564
+  offset: 58, 66
+  index: -1
+Run (8)
+  rotate: false
+  xy: 868, 923
+  size: 288, 470
+  orig: 614, 564
+  offset: 68, 62
+  index: -1
+Run (9)
+  rotate: false
+  xy: 1156, 923
+  size: 288, 473
+  orig: 614, 564
+  offset: 68, 60
+  index: -1
+Run (10)
+  rotate: false
+  xy: 0, 923
+  size: 293, 469
+  orig: 614, 564
+  offset: 62, 66
+  index: -1
+Run (11)
+  rotate: false
+  xy: 1272, 0
+  size: 308, 456
+  orig: 614, 564
+  offset: 45, 82
+  index: -1
+Run (12)
+  rotate: false
+  xy: 0, 0
+  size: 316, 445
+  orig: 614, 564
+  offset: 34, 94
+  index: -1
+Run (13)
+  rotate: false
+  xy: 316, 0
+  size: 310, 447
+  orig: 614, 564
+  offset: 40, 85
+  index: -1
+Run (14)
+  rotate: false
+  xy: 310, 456
+  size: 300, 458
+  orig: 614, 564
+  offset: 53, 72
+  index: -1
+Run (15)
+  rotate: false
+  xy: 1211, 456
+  size: 289, 467
+  orig: 614, 564
+  offset: 66, 65
+  index: -1
