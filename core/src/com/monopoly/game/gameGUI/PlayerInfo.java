@@ -11,6 +11,7 @@ public class PlayerInfo {
   private Texture backGround;
   private SpriteBatch sb;
   private float xBackGround, yBackGround, xPlayer, yPlayer;
+  private float scale;
 
   public PlayerInfo(int id, String name, int money, SpriteBatch sb) {
     this.id = id;
@@ -18,6 +19,7 @@ public class PlayerInfo {
     playerImg = new Texture(String.format("character/%sInfo.png", name));
     backGround = new Texture(String.format("playScreenAssets/Character/k%d.png", id));
     this.sb = sb;
+    scale = 0.7f;
   }
 
   public void render() {
@@ -27,19 +29,22 @@ public class PlayerInfo {
         break;
       case 1:
         xBackGround = 0f;
-        yBackGround = Gdx.graphics.getHeight() - backGround.getHeight() * 0.7f;
+        yBackGround = Gdx.graphics.getHeight() - backGround.getHeight() * scale;
         break;
       case 2:
-        xBackGround = Gdx.graphics.getWidth() - backGround.getWidth() * 0.7f;
-        yBackGround = Gdx.graphics.getHeight() - backGround.getHeight() * 0.7f;
+        xBackGround = Gdx.graphics.getWidth() - backGround.getWidth() * scale;
+        yBackGround = Gdx.graphics.getHeight() - backGround.getHeight() * scale;
         break;
       case 3:
-        xBackGround = Gdx.graphics.getWidth() - backGround.getWidth() * 0.7f;
+        xBackGround = Gdx.graphics.getWidth() - backGround.getWidth() * scale;
         yBackGround = 0f;
         break;
       default:
         return;
     }
-    sb.draw(backGround, xBackGround, yBackGround, backGround.getWidth() * 0.7f, backGround.getHeight() * 0.7f);
+    xPlayer = xBackGround + backGround.getWidth() * scale / 2 - playerImg.getWidth() * scale / 2;
+    yPlayer = yBackGround + backGround.getHeight() * scale / 4;
+    sb.draw(backGround, xBackGround, yBackGround, backGround.getWidth() * scale, backGround.getHeight() * scale);
+    sb.draw(playerImg, xPlayer, yPlayer, playerImg.getWidth() * scale, playerImg.getHeight() * scale);
   }
 }
