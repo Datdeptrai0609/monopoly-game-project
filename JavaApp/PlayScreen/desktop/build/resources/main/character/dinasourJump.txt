@@ -1,0 +1,89 @@
+dinasourJump.png
+size: 1640, 1227
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Jump (1)
+  rotate: false
+  xy: 416, 383
+  size: 371, 396
+  orig: 680, 472
+  offset: 6, 46
+  index: -1
+Jump (2)
+  rotate: false
+  xy: 382, 0
+  size: 384, 339
+  orig: 680, 472
+  offset: 70, 46
+  index: -1
+Jump (3)
+  rotate: false
+  xy: 0, 0
+  size: 382, 335
+  orig: 680, 472
+  offset: 72, 46
+  index: -1
+Jump (4)
+  rotate: false
+  xy: 1169, 0
+  size: 385, 383
+  orig: 680, 472
+  offset: 66, 12
+  index: -1
+Jump (5)
+  rotate: false
+  xy: 0, 782
+  size: 415, 403
+  orig: 680, 472
+  offset: 34, 50
+  index: -1
+Jump (6)
+  rotate: false
+  xy: 1203, 383
+  size: 416, 399
+  orig: 680, 472
+  offset: 33, 55
+  index: -1
+Jump (7)
+  rotate: false
+  xy: 0, 383
+  size: 416, 395
+  orig: 680, 472
+  offset: 31, 60
+  index: -1
+Jump (8)
+  rotate: false
+  xy: 787, 383
+  size: 416, 398
+  orig: 680, 472
+  offset: 32, 56
+  index: -1
+Jump (9)
+  rotate: false
+  xy: 415, 782
+  size: 414, 403
+  orig: 680, 472
+  offset: 34, 50
+  index: -1
+Jump (10)
+  rotate: false
+  xy: 1236, 782
+  size: 404, 445
+  orig: 680, 472
+  offset: 32, 0
+  index: -1
+Jump (11)
+  rotate: false
+  xy: 829, 782
+  size: 407, 410
+  orig: 680, 472
+  offset: 30, 18
+  index: -1
+Jump (12)
+  rotate: false
+  xy: 766, 0
+  size: 403, 379
+  orig: 680, 472
+  offset: 25, 42
+  index: -1

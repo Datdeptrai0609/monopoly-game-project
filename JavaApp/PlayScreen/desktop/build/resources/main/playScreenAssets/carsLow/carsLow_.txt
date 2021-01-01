@@ -1,0 +1,33 @@
+carsLow_.png
+size: 27, 88
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a
+  rotate: false
+  xy: 1, 1
+  size: 25, 23
+  orig: 66, 74
+  offset: 21, 23
+  index: -1
+b
+  rotate: false
+  xy: 1, 47
+  size: 23, 19
+  orig: 46, 52
+  offset: 12, 15
+  index: -1
+c
+  rotate: false
+  xy: 1, 68
+  size: 21, 19
+  orig: 41, 45
+  offset: 10, 13
+  index: -1
+d
+  rotate: false
+  xy: 1, 26
+  size: 24, 19
+  orig: 55, 62
+  offset: 16, 19
+  index: -1

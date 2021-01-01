@@ -1,0 +1,117 @@
+girlStand.png
+size: 1746, 1314
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+girlStand (1)
+  rotate: false
+  xy: 0, 0
+  size: 287, 440
+  orig: 416, 454
+  offset: 76, 1
+  index: -1
+girlStand (2)
+  rotate: false
+  xy: 296, 440
+  size: 296, 438
+  orig: 416, 454
+  offset: 72, 1
+  index: -1
+girlStand (3)
+  rotate: false
+  xy: 0, 878
+  size: 304, 436
+  orig: 416, 454
+  offset: 68, 1
+  index: -1
+girlStand (4)
+  rotate: false
+  xy: 1224, 878
+  size: 311, 434
+  orig: 416, 454
+  offset: 65, 1
+  index: -1
+girlStand (5)
+  rotate: false
+  xy: 915, 878
+  size: 309, 434
+  orig: 416, 454
+  offset: 66, 1
+  index: -1
+girlStand (6)
+  rotate: false
+  xy: 608, 878
+  size: 307, 435
+  orig: 416, 454
+  offset: 67, 1
+  index: -1
+girlStand (7)
+  rotate: false
+  xy: 304, 878
+  size: 304, 436
+  orig: 416, 454
+  offset: 68, 1
+  index: -1
+girlStand (8)
+  rotate: false
+  xy: 1190, 440
+  size: 302, 436
+  orig: 416, 454
+  offset: 69, 1
+  index: -1
+girlStand (9)
+  rotate: false
+  xy: 890, 440
+  size: 300, 436
+  orig: 416, 454
+  offset: 70, 1
+  index: -1
+girlStand (10)
+  rotate: false
+  xy: 592, 440
+  size: 298, 437
+  orig: 416, 454
+  offset: 71, 1
+  index: -1
+girlStand (11)
+  rotate: false
+  xy: 0, 440
+  size: 296, 437
+  orig: 416, 454
+  offset: 72, 1
+  index: -1
+girlStand (12)
+  rotate: false
+  xy: 1451, 0
+  size: 295, 438
+  orig: 416, 454
+  offset: 72, 1
+  index: -1
+girlStand (13)
+  rotate: false
+  xy: 1158, 0
+  size: 293, 438
+  orig: 416, 454
+  offset: 73, 1
+  index: -1
+girlStand (14)
+  rotate: false
+  xy: 576, 0
+  size: 291, 439
+  orig: 416, 454
+  offset: 74, 1
+  index: -1
+girlStand (15)
+  rotate: false
+  xy: 867, 0
+  size: 291, 439
+  orig: 416, 454
+  offset: 74, 1
+  index: -1
+girlStand (16)
+  rotate: false
+  xy: 287, 0
+  size: 289, 439
+  orig: 416, 454
+  offset: 75, 1
+  index: -1
