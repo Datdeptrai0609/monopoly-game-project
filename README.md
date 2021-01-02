@@ -1,6 +1,6 @@
 # :fire: MONOPOLY PLUSUBTRACT :fire: 
 
-![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg) ![react-native-android-build-apk](https://github.com/Laughing6901/monopoly-game-project/workflows/react-native-android-build-apk/badge.svg)
+![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg)   ![react-native-android-build-apk](https://github.com/Laughing6901/monopoly-game-project/workflows/react-native-android-build-apk/badge.svg)
 
 ## Summary
 
