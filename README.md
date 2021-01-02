@@ -1,6 +1,6 @@
 # :fire: MONOPOLY PLUSUBTRACT :fire: 
 
-![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg)     ![react-native-android-build-apk](https://github.com/Laughing6901/monopoly-game-project/workflows/react-native-android-build-apk/badge.svg)
+![Java CI](https://github.com/Laughing6901/monopoly-game-project/workflows/Java%20CI/badge.svg) ![react-native-android-build-apk](https://github.com/Laughing6901/monopoly-game-project/workflows/react-native-android-build-apk/badge.svg)
 
 ## Summary
 
@@ -27,7 +27,11 @@ Then, run the game by using gradle:
 
     ./gradlew desktop:run
     
-Next step, move to another device to launch mobile app. Have fun with our Monopoly Plusubtract !!! :smirk_cat:
+Troubleshooting, if you don't have permission to run ./gradlew, try this command before run gradlew:
+    
+    chmod +x gradlew
+    
+Next step, move to another devices to launch mobile app. Have fun with our Monopoly Plusubtract !!! :smirk_cat:
   
 ### Launch Mobile App
 
