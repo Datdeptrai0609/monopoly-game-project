@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import mqtt from 'mqtt/dist/mqtt';
+import React, { Component, useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -34,7 +35,8 @@ export default class Login extends Component {
     state = {
         placeholder: 'game PIN',
         roomNumber: 0,
-        count: 0
+        count: 0,
+        client: mqtt.connect("ws://hcmiuiot.tech:8080")
     }
 
     setRoomNumber = (text) => {
@@ -88,7 +90,10 @@ export default class Login extends Component {
                                 style={styles.textInput} 
                                 />
                             <TouchableOpacity
-                                onPress={() => this.state.count == 4 ? Actions.chooseCharacter() : Alert.alert("Wrong Room Number")}
+                                onPress={() => {
+                                    this.state.count == 4 ? Actions.chooseCharacter() : Alert.alert("Wrong Room Number");
+                                    if (this.state.count == 4) {this.state.client.publish("onConnect", "1");}
+                                }}
                                 style={styles.btnPress}
                             >
                                 <Text
