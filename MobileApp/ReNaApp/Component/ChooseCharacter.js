@@ -1,3 +1,4 @@
+import mqtt from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
     SafeAreaView,
@@ -38,8 +39,29 @@ export default class ChooseCharacter extends Component {
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
             move:0,
+            client: mqtt.connect("ws://hcmiuiot.tech:8080")
         }
-        
+    
+        constructor(props) {
+            super(props);
+            this.state.client.on('connect', () => {
+                // Handle PIN!
+              this.state.client.subscribe("pin/connect/order", function (err) {
+                if (!err) {
+                }
+              });
+        });
+
+        // Handle comming msg:
+        this.state.client.on('message', (topic, message) => {
+            // message is Buffer
+            console.log(`[${topic}] ${message.toString()}`);
+            if (message == "1") {
+                //Hanlde Btn
+            }
+          });
+    };
+
     // using props to set status for btn from child class
     setBtnStatus = (child) => {
         this.setState({ btnStatus: child })
@@ -63,6 +85,7 @@ export default class ChooseCharacter extends Component {
                 clearInterval(this.interval);
             }
     }
+
 
     render() {
         return (
