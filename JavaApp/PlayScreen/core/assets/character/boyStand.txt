@@ -1,0 +1,110 @@
+boyStand.png
+size: 1995, 1425
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Idle (1)
+  rotate: false
+  xy: 1423, 0
+  size: 286, 479
+  orig: 614, 564
+  offset: 8, 61
+  index: -1
+Idle (2)
+  rotate: false
+  xy: 0, 479
+  size: 286, 478
+  orig: 614, 564
+  offset: 8, 61
+  index: -1
+Idle (3)
+  rotate: false
+  xy: 568, 0
+  size: 285, 478
+  orig: 614, 564
+  offset: 9, 61
+  index: -1
+Idle (4)
+  rotate: false
+  xy: 853, 0
+  size: 285, 478
+  orig: 614, 564
+  offset: 9, 61
+  index: -1
+Idle (5)
+  rotate: false
+  xy: 0, 0
+  size: 284, 477
+  orig: 614, 564
+  offset: 10, 61
+  index: -1
+Idle (6)
+  rotate: false
+  xy: 284, 0
+  size: 284, 476
+  orig: 614, 564
+  offset: 11, 61
+  index: -1
+Idle (7)
+  rotate: false
+  xy: 1138, 0
+  size: 285, 474
+  orig: 614, 564
+  offset: 12, 61
+  index: -1
+Idle (8)
+  rotate: false
+  xy: 286, 479
+  size: 286, 473
+  orig: 614, 564
+  offset: 14, 61
+  index: -1
+Idle (9)
+  rotate: false
+  xy: 572, 479
+  size: 286, 471
+  orig: 614, 564
+  offset: 16, 61
+  index: -1
+Idle (10)
+  rotate: false
+  xy: 858, 479
+  size: 287, 470
+  orig: 614, 564
+  offset: 17, 61
+  index: -1
+Idle (11)
+  rotate: false
+  xy: 0, 957
+  size: 288, 468
+  orig: 614, 564
+  offset: 16, 61
+  index: -1
+Idle (12)
+  rotate: false
+  xy: 288, 957
+  size: 288, 468
+  orig: 614, 564
+  offset: 14, 61
+  index: -1
+Idle (13)
+  rotate: false
+  xy: 1145, 479
+  size: 287, 471
+  orig: 614, 564
+  offset: 13, 61
+  index: -1
+Idle (14)
+  rotate: false
+  xy: 1432, 479
+  size: 287, 474
+  orig: 614, 564
+  offset: 11, 61
+  index: -1
+Idle (15)
+  rotate: false
+  xy: 1709, 0
+  size: 286, 477
+  orig: 614, 564
+  offset: 10, 61
+  index: -1

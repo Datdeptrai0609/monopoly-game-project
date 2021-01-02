@@ -1,0 +1,82 @@
+santaRun.png
+size: 2009, 1123
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+santaRun (1)
+  rotate: false
+  xy: 0, 0
+  size: 332, 551
+  orig: 934, 641
+  offset: 218, 60
+  index: -1
+santaRun (2)
+  rotate: false
+  xy: 1668, 0
+  size: 341, 551
+  orig: 934, 641
+  offset: 212, 63
+  index: -1
+santaRun (3)
+  rotate: false
+  xy: 341, 554
+  size: 370, 550
+  orig: 934, 641
+  offset: 208, 65
+  index: -1
+santaRun (4)
+  rotate: false
+  xy: 0, 554
+  size: 341, 556
+  orig: 934, 641
+  offset: 212, 58
+  index: -1
+santaRun (5)
+  rotate: false
+  xy: 1332, 0
+  size: 336, 548
+  orig: 934, 641
+  offset: 215, 64
+  index: -1
+santaRun (6)
+  rotate: false
+  xy: 332, 0
+  size: 332, 550
+  orig: 934, 641
+  offset: 218, 61
+  index: -1
+santaRun (7)
+  rotate: false
+  xy: 1101, 554
+  size: 400, 569
+  orig: 934, 641
+  offset: 198, 45
+  index: -1
+santaRun (8)
+  rotate: false
+  xy: 1501, 554
+  size: 452, 556
+  orig: 934, 641
+  offset: 161, 59
+  index: -1
+santaRun (9)
+  rotate: false
+  xy: 711, 554
+  size: 390, 562
+  orig: 934, 641
+  offset: 204, 52
+  index: -1
+santaRun (10)
+  rotate: false
+  xy: 997, 0
+  size: 335, 554
+  orig: 934, 641
+  offset: 215, 58
+  index: -1
+santaRun (11)
+  rotate: false
+  xy: 664, 0
+  size: 333, 552
+  orig: 934, 641
+  offset: 217, 59
+  index: -1

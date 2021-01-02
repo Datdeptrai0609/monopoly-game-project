@@ -1,0 +1,33 @@
+welcomeScreen.png
+size: 1798, 1858
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Background
+  rotate: false
+  xy: 1, 1
+  size: 1266, 712
+  orig: 1266, 712
+  offset: 0, 0
+  index: -1
+IoTLogo
+  rotate: false
+  xy: 904, 963
+  size: 893, 894
+  orig: 893, 894
+  offset: 0, 0
+  index: -1
+IULogo
+  rotate: false
+  xy: 1, 715
+  size: 901, 901
+  orig: 945, 945
+  offset: 22, 22
+  index: -1
+MonoLogo
+  rotate: true
+  xy: 1269, 1
+  size: 960, 462
+  orig: 960, 540
+  offset: 0, 78
+  index: -1
