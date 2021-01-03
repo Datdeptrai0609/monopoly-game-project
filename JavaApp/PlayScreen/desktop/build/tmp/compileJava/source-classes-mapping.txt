@@ -1,0 +1,2 @@
+com/monopoly/game/desktop/DesktopLauncher.java
+ com.monopoly.game.desktop.DesktopLauncher

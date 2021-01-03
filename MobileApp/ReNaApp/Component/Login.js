@@ -1,31 +1,16 @@
 import mqtt from 'mqtt/dist/mqtt';
-import React, { Component, useState } from 'react';
+import React, { Component, useContext } from 'react';
 import {
-    SafeAreaView,
     StyleSheet,
-    ScrollView,
-    View,
     Text,
-    StatusBar,
     ImageBackground,
     Image,
-    Animated,
     TextInput,
     KeyboardAvoidingView,
-    Button,
     Alert,
     TouchableOpacity,
-    Keyboard,
     Dimensions
 } from 'react-native';
-
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 //add animation lib
 import * as Animatable from 'react-native-animatable';
@@ -33,11 +18,32 @@ import { Actions } from 'react-native-router-flux';
 
 export default class Login extends Component {
     state = {
-        placeholder: 'game PIN',
+        placeholder: 'Game PIN',
         roomNumber: 0,
         count: 0,
-        client: mqtt.connect("ws://hcmiuiot.tech:8080")
+        client: mqtt.connect("ws://hcmiuiot.tech:8080"),
+        PIN: ''
     }
+
+    constructor(props) {
+        super(props);
+        this.state.client.on('connect', () => {
+            // Handle PIN!
+          this.state.client.subscribe("onConnect/"+this.state.PIN, function (err) {
+            if (!err) {
+            }
+          });
+    });
+
+    // Handle comming msg:
+    this.state.client.on('message', (topic, message) => {
+        // message is Buffer
+        console.log(`[${topic}] ${message.toString()}`);
+        if (message == "1") {
+            // Turn to next screen ---------------------------------------------------------------------------
+        }
+      });
+};
 
     setRoomNumber = (text) => {
         this.setState({roomNumber: text, count: this.state.count + 1 });

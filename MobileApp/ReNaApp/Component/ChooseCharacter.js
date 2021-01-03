@@ -1,36 +1,17 @@
 import mqtt from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
-    SafeAreaView,
     StyleSheet,
-    ScrollView,
     View,
     Text,
-    StatusBar,
     ImageBackground,
-    Image,
-    Animated,
-    TextInput,
-    KeyboardAvoidingView,
-    Button,
-    Alert,
     TouchableOpacity,
-    Keyboard,
     Dimensions,
-    FlatList
 } from 'react-native';
-
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 import * as Animatable from 'react-native-animatable';
 import Character from './Character';
-import { ActionConst, Actions } from 'react-native-router-flux';
+import {  Actions } from 'react-native-router-flux';
 
 export default class ChooseCharacter extends Component {
         state = {
@@ -39,14 +20,19 @@ export default class ChooseCharacter extends Component {
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
             move:0,
-            client: mqtt.connect("ws://hcmiuiot.tech:8080")
+            client: mqtt.connect("ws://hcmiuiot.tech:8080"),
+            PIN: ''
         }
     
         constructor(props) {
             super(props);
             this.state.client.on('connect', () => {
                 // Handle PIN!
-              this.state.client.subscribe("pin/connect/order", function (err) {
+              this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
+                if (!err) {
+                }
+              });
+              this.state.client.subscribe(this.state.PIN+"/connect/ready", function (err) {
                 if (!err) {
                 }
               });
@@ -56,8 +42,12 @@ export default class ChooseCharacter extends Component {
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
             console.log(`[${topic}] ${message.toString()}`);
-            if (message == "1") {
-                //Hanlde Btn
+            // Handle 6 btn: -------------------------------------------------------------------------------
+            if (topic = this.state.PIN+"/connect/order" && message == "1") {
+                // Handle arrived MSG: To disable button.
+            }
+            if (topic = this.state.PIN+"/connect/ready" && message == "1") {
+                // Handle turn to next screen.
             }
           });
     };
@@ -122,11 +112,16 @@ export default class ChooseCharacter extends Component {
                                     disabled={this.state.btnStatus}
                                     //if disable is true then the button is off 
                                     style={this.state.btnStatus ? styles.buttonOff : styles.buttonOn}
-                                    onPress ={this.setStatusView}>
+                                    onPress ={
+                                        () => {
+                                            this.setStatusView;
+                                            this.state.client.publish(this.state.PIN+'playerId', "id") // Id: 1 -> 6:
+                                        }
+                                    }>
 
                                     <Text style={styles.textReady}>
                                         READY
-                                </Text>
+                                    </Text>
 
                                 </TouchableOpacity>
 

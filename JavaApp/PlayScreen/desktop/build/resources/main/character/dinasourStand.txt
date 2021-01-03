@@ -1,0 +1,75 @@
+dinasourStand.png
+size: 742, 1945
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Idle (1)
+  rotate: false
+  xy: 371, 1549
+  size: 371, 396
+  orig: 680, 472
+  offset: 6, 46
+  index: -1
+Idle (2)
+  rotate: false
+  xy: 0, 1549
+  size: 371, 393
+  orig: 680, 472
+  offset: 6, 46
+  index: -1
+Idle (3)
+  rotate: false
+  xy: 369, 768
+  size: 370, 389
+  orig: 680, 472
+  offset: 7, 46
+  index: -1
+Idle (4)
+  rotate: false
+  xy: 0, 768
+  size: 369, 386
+  orig: 680, 472
+  offset: 8, 46
+  index: -1
+Idle (5)
+  rotate: false
+  xy: 0, 383
+  size: 370, 384
+  orig: 680, 472
+  offset: 9, 46
+  index: -1
+Idle (6)
+  rotate: false
+  xy: 369, 0
+  size: 369, 383
+  orig: 680, 472
+  offset: 11, 46
+  index: -1
+Idle (7)
+  rotate: false
+  xy: 0, 0
+  size: 369, 382
+  orig: 680, 472
+  offset: 13, 46
+  index: -1
+Idle (8)
+  rotate: false
+  xy: 370, 383
+  size: 370, 385
+  orig: 680, 472
+  offset: 11, 46
+  index: -1
+Idle (9)
+  rotate: false
+  xy: 0, 1157
+  size: 370, 389
+  orig: 680, 472
+  offset: 9, 46
+  index: -1
+Idle (10)
+  rotate: false
+  xy: 370, 1157
+  size: 371, 392
+  orig: 680, 472
+  offset: 7, 46
+  index: -1

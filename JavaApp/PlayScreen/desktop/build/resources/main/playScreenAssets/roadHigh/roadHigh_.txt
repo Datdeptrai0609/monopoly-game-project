@@ -1,0 +1,33 @@
+roadHigh_.png
+size: 394, 168
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a_Left
+  rotate: true
+  xy: 313, 1
+  size: 93, 80
+  orig: 93, 80
+  offset: 0, 0
+  index: -1
+b_To
+  rotate: false
+  xy: 218, 84
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: -1
+c_Range
+  rotate: false
+  xy: 1, 1
+  size: 215, 166
+  orig: 215, 166
+  offset: 0, 0
+  index: -1
+d_Right
+  rotate: false
+  xy: 218, 1
+  size: 93, 81
+  orig: 93, 81
+  offset: 0, 0
+  index: -1
