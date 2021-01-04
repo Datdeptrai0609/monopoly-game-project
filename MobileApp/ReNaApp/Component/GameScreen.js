@@ -65,7 +65,8 @@ export default class GameScreen extends Component {
             <ImageBackground
                 style = { styles.container}
                 source ={gameImageBackground}>
-
+                <TurnCard/>
+                
             </ImageBackground>
         )
     }
