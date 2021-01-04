@@ -1,5 +1,5 @@
 import mqtt from 'mqtt/dist/mqtt';
-import React, { Component, useContext } from 'react';
+import React, { Component, useContext} from 'react';
 import {
     StyleSheet,
     Text,
@@ -19,35 +19,52 @@ import { Actions } from 'react-native-router-flux';
 export default class Login extends Component {
     state = {
         placeholder: 'Game PIN',
-        roomNumber: 0,
         count: 0,
         client: mqtt.connect("ws://hcmiuiot.tech:8080"),
         PIN: ''
     }
-
+    
     constructor(props) {
         super(props);
         this.state.client.on('connect', () => {
             // Handle PIN!
-          this.state.client.subscribe("onConnect/"+this.state.PIN, function (err) {
-            if (!err) {
-            }
-          });
+                console.log('connected');
+        //   this.state.client.subscribe("onConnect/"+this.state.roomNumber, function (err) {
+        //     if (!err) {
+        //         console.log('subcribed');
+        //     }
+        //   });
     });
 
     // Handle comming msg:
     this.state.client.on('message', (topic, message) => {
         // message is Buffer
         console.log(`[${topic}] ${message.toString()}`);
-        if (message == "1") {
-            // Turn to next screen ---------------------------------------------------------------------------
+        if (message.toString() == "1") {
+            Actions.chooseCharacter({PIN: this.state.PIN});
+        } else {
+            Alert.alert('wrong PIN');
+            this.setState({ PIN: '', count: 0 });
         }
       });
 };
-
+    //setPIN
     setRoomNumber = (text) => {
-        this.setState({roomNumber: text, count: this.state.count + 1 });
+        this.setState({PIN: text});
     }
+
+    //when press button
+    onPressBtn = () => {
+        this.state.client.subscribe("onConnect/" + this.state.PIN, function (err) {
+            if (!err) {
+                console.log('subcribed');
+            }
+          });
+        this.state.client.publish("onConnect", this.state.PIN);
+        
+        
+    }
+
 
     render() {
         return (
@@ -90,6 +107,7 @@ export default class Login extends Component {
                             style={styles.textInputView}>
                             <TextInput
                                 onChangeText={text => this.setRoomNumber(text)}
+                                value = {this.state.PIN}
                                 keyboardType='number-pad'
                                 maxLength={4}
                                 placeholder={this.state.placeholder}
@@ -97,8 +115,7 @@ export default class Login extends Component {
                                 />
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.state.count == 4 ? Actions.chooseCharacter() : Alert.alert("Wrong Room Number");
-                                    if (this.state.count == 4) {this.state.client.publish("onConnect", "1");}
+                                    if (this.state.PIN.length == 4) this.onPressBtn();
                                 }}
                                 style={styles.btnPress}
                             >
