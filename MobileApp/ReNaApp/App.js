@@ -28,6 +28,7 @@ import ChooseCharater from './Component/ChooseCharacter';
 import * as Animatable from 'react-native-animatable';
 import Welcome from './Component/Welcome';
 import Waiting from './Component/WaitingScreen';
+import GameScreen from './Component/GameScreen';
 
 
 export default class App extends Component {
@@ -73,6 +74,11 @@ export default class App extends Component {
           <Scene
             key="Waiting"
             component={Waiting}
+            hideNavBar
+          />
+          <Scene
+            key="GameScreen"
+            component={GameScreen}
             hideNavBar
           />
         </Scene>

@@ -1,0 +1,68 @@
+PlayerThree.png
+size: 763, 1414
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+f1
+  rotate: true
+  xy: 1, 73
+  size: 1340, 761
+  orig: 1908, 1443
+  offset: 298, 242
+  index: -1
+f2
+  rotate: false
+  xy: 221, 1
+  size: 59, 56
+  orig: 59, 64
+  offset: 0, 4
+  index: -1
+f3
+  rotate: true
+  xy: 1, 1
+  size: 34, 47
+  orig: 40, 61
+  offset: 6, 4
+  index: -1
+f4
+  rotate: false
+  xy: 103, 1
+  size: 59, 48
+  orig: 59, 53
+  offset: 0, 0
+  index: -1
+f5
+  rotate: true
+  xy: 164, 1
+  size: 49, 55
+  orig: 49, 61
+  offset: 0, 5
+  index: -1
+f6
+  rotate: false
+  xy: 50, 1
+  size: 51, 47
+  orig: 52, 47
+  offset: 0, 0
+  index: -1
+f7
+  rotate: true
+  xy: 282, 1
+  size: 66, 146
+  orig: 66, 146
+  offset: 0, 0
+  index: -1
+f8
+  rotate: true
+  xy: 430, 1
+  size: 70, 135
+  orig: 70, 135
+  offset: 0, 0
+  index: -1
+f9
+  rotate: true
+  xy: 567, 1
+  size: 70, 134
+  orig: 70, 135
+  offset: 0, 0
+  index: -1

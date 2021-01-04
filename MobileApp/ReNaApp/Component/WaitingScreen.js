@@ -36,7 +36,7 @@ export default class Waiting extends Component {
         this.intervalMove = setInterval(() => {
             this.setState({move: true}) //set state move to true after 1.5s
             if (this.state.move == true) {
-                Actions.gameScreen(); // move to gameScreen if status of move is true
+                Actions.GameScreen(); // move to gameScreen if status of move is true
             }
         },3500);
     }
