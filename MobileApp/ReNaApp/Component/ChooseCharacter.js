@@ -1,4 +1,4 @@
-import mqtt from 'mqtt/dist/mqtt';
+import mqtt, { log } from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -23,6 +23,7 @@ export default class ChooseCharacter extends Component {
             client: mqtt.connect("ws://hcmiuiot.tech:8080"),
             PIN: '',
             playerId: '',
+            click: 0
         }
     
         constructor(props) {
@@ -66,6 +67,7 @@ export default class ChooseCharacter extends Component {
         //fail here
         this.state.client.publish(`${this.state.PIN}/${this.state.playerId}`, this.state.playerId+"") // Id: 1 -> 6:
         console.log('sent');
+        this.setState({click: 1})
     }
 
     //when onPress "Ready" button to set status for choose view and waiting view
@@ -96,6 +98,7 @@ export default class ChooseCharacter extends Component {
                             props in character.js */}
                             <Character 
                                 sendData={this.setBtnStatus}
+                                 
                                 />{/*receive data from child and set btn state*/}
 
                             {/* btn ready view */}
@@ -103,12 +106,13 @@ export default class ChooseCharacter extends Component {
                                 style={styles.readyContainer}>
 
                                 <TouchableOpacity
-                                    disabled={this.state.btnStatus}
+                                    disabled={this.state.click == 1 ? true : this.state.btnStatus}
                                     //if disable is true then the button is off 
-                                    style={this.state.btnStatus ? styles.buttonOff : styles.buttonOn}
+                                    style={(this.state.btnStatus || this.state.click ==1) ? styles.buttonOff : styles.buttonOn}
                                     onPress ={
                                         () => {
                                             this.sendMqtt();
+                                            console.log(this.state.click);
                                         }
                                     }>
 

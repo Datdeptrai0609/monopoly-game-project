@@ -27,13 +27,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state.client.on('connect', () => {
-            // Handle PIN!
+            // connect to broker
                 console.log('connected');
-        //   this.state.client.subscribe("onConnect/"+this.state.roomNumber, function (err) {
-        //     if (!err) {
-        //         console.log('subcribed');
-        //     }
-        //   });
     });
 
     // Handle comming msg:
@@ -61,7 +56,7 @@ export default class Login extends Component {
             }
           });
         this.state.client.publish("onConnect", this.state.PIN);
-        
+        console.log(typeof(this.state.PIN));
         
     }
 
