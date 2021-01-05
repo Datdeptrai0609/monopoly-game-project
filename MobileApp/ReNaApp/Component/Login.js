@@ -37,6 +37,7 @@ export default class Login extends Component {
         console.log(`[${topic}] ${message.toString()}`);
         if (message.toString() == "1") {
             Actions.chooseCharacter({PIN: this.state.PIN});
+            this.state.client.unsubcribe("onConnect/" +this.state.PIN);
         } else {
             Alert.alert('wrong PIN');
             this.setState({ PIN: '', count: 0 });
