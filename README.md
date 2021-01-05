@@ -56,4 +56,4 @@ or:
 
 ## More Information
 
-You can find diagrams, documents and some information in folder JavaApp/JavaCore. This folder contains our first version which do not support graphical user interface. If you want to understand our code more detailed, you should start here.
+You can find diagrams, documents and some information in folder Report. This folder contains all our documents for this game. If you want to understand our code more detailed, you should go to here.
