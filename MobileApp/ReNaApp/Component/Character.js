@@ -42,13 +42,22 @@ class Character extends Component {
             },
             
         ],
-    }
-    // pass data from child to parent
-    sendBtnStatus = () => {
-        var check = false;
-        this.props.sendData(check);
+        PINNN: '0',
     }
 
+    constructor(props) {
+        super(props);
+        
+    }
+
+    // pass data from child to parent
+    sendBtnStatus = (id) => {
+        var data = {
+            check: false,
+            Id: id
+        };
+        this.props.sendData(data);
+    }
 
     setStatus =(index) => {
         let character = [...this.state.characters];//clone characters
@@ -68,11 +77,11 @@ class Character extends Component {
                 {
                     this.state.characters.map((item, index) => (
                         <TouchableOpacity
-                            
+                         
                             key={item.id}
                             onPress = {() => {
                                 this.setStatus(item.id); 
-                                this.sendBtnStatus()
+                                this.sendBtnStatus(item.id);
                             }}
                             style={item.status == true ? styles.characterBoxChose : styles.characterBox}>
                             <View style={styles.characContainer}><Image source={item.charac} /></View>
