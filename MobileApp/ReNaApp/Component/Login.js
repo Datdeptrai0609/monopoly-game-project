@@ -61,7 +61,7 @@ export default class Login extends Component {
             }
           });
         this.state.client.publish("onConnect", this.state.PIN);
-        
+        console.log(typeof this.state.PIN);
         
     }
 

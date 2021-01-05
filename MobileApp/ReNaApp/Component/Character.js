@@ -1,3 +1,4 @@
+import mqtt from 'mqtt/dist/mqtt';
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet,Image, ScrollView } from 'react-native'
 
@@ -43,11 +44,19 @@ class Character extends Component {
             
         ],
         PINNN: '0',
+        client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
     }
 
     constructor(props) {
         super(props);
-        
+        this.state.client.on("connect", () => {
+            // this.setState({PINNN: this.props.PIN});
+            this.state.client.subscribe(this.state.PINNN+"/connect/order", function (err) {
+                if (!err) {
+                }
+            }
+            );
+        })
     }
 
     // pass data from child to parent
@@ -59,7 +68,7 @@ class Character extends Component {
         this.props.sendData(data);
     }
 
-    setStatus =(index) => {
+    setStatus = (index) => {
         let character = [...this.state.characters];//clone characters
         //set status for each item which chose in clone variable
         character.map((item) => {
@@ -67,6 +76,8 @@ class Character extends Component {
         });
         // update for state
         this.setState({character});
+        this.state.client.publish(this.state.PINNN+"/character", index.toString());
+        console.log(this.state.PINNN);
     }
 
     render() {

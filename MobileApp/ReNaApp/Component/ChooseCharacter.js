@@ -35,10 +35,6 @@ export default class ChooseCharacter extends Component {
                 if (!err) {
                 }
               });
-              this.state.client.subscribe(this.state.PIN+"/connect/ready", function (err) {
-                if (!err) {
-                }
-              });
         });
 
         // Handle comming msg:
