@@ -1,25 +1,42 @@
 package com.monopoly.game.gameCore;
 
-import java.util.Scanner;
+import com.monopoly.game.mqtt.*;
 
-class Input {
-  private final Scanner scanner;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
-  public Input() {
-    scanner = new Scanner(System.in);
+public class Input {
+  //private final Scanner scanner;
+  private Subscribe sub;
+
+  public Input(String topic) {
+    //scanner = new Scanner(System.in);
+    try {
+      sub = new Subscribe();
+      sub.start(topic);
+    } catch (MqttException e) {}
   }
+
+  //public void startSub(String topic) {
+    //try {
+      //sub = new Subscribe();
+      //sub.start(topic);
+    //} catch (MqttException e) {}
+  //}
 
   // Read string input
   public String inputString() {
-    return scanner.nextLine();
+    while (!sub.receivedMsg()) {
+      try {
+        Thread.sleep(0);
+      } catch (Exception e) {}
+    }
+    return sub.getMqttMsg();
   }
 
   // Check input is yes or no return boolean
   public boolean inputBool() {
-    return inputDecision(new String[] {"Yes", "No"}) == 0;
-  }
-
-  // Check input is integer or not then parse to int
+    return inputDecision(new int[] {1, 0}) == 0;
+  } // Check input is integer or not then parse to int
   public int inputInt() {
     while (true) {
       int val;
@@ -34,11 +51,11 @@ class Input {
   }
 
   // Check yes/no for inputBool()
-  public int inputDecision(final String[] choices) {
+  public int inputDecision(final int[] choices) {
     while (true) {
-      String input = inputString();
+      int input = inputInt();
       for (int i = 0; i < choices.length; i++) {
-        if (input.equalsIgnoreCase(choices[i]) || input.equalsIgnoreCase(choices[i].substring(0, 1))) {
+        if (input == choices[i]) {
           return i;
         }
       }
@@ -46,35 +63,7 @@ class Input {
     }
   }
 
-  // Player input their names and check if duplicated at the beginning of game
-  //public Player inputPlayer(Monopoly.State state, int id) throws IOException {
-    //Player player = null;
-    //do {
-      //boolean check = false;
-      //String name = names[id];
-      //for (String nameCheck : names) {
-        //if (name.equals(nameCheck)) {
-          //check = true;
-          //break;
-        //}
-      //}
-      //if (check) {
-        //if (state.players.size() == 0) {
-          //return new Player(name);
-        //}
-        //for (Player p : state.players) {
-          //if (name.equals(p.name())) {
-            //player = null;
-            //break;
-          //}
-          //player = new Player(name);
-        //}
-      //}
-      //if (player == null) {
-        //System.out.println("Invalid player's name, please enter another name.");
-      //}
-    //} while (player == null);
-
-    //return player;
-  //}
+  public Subscribe getSubscribe() {
+    return sub;
+  }
 }

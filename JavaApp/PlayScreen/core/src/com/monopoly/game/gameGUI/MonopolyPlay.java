@@ -10,6 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.monopoly.game.gameCore.*;
+import com.monopoly.game.mqtt.Publish;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import com.monopoly.game.MonopolyGUI;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ import java.util.Queue;
 
 public class MonopolyPlay implements Screen {
   private int[] playerId;
+  private final String pin;
   // Board and background
   private GamePlay boardScreen;
   private Sprite[] boardSprite;
@@ -49,6 +54,7 @@ public class MonopolyPlay implements Screen {
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
     this.playerId = playerId;
+    pin = WaitingRoom.PIN;
   }
 
   @Override
@@ -102,8 +108,13 @@ public class MonopolyPlay implements Screen {
           board2Select.setCardAlong(widthCard);
           board2Select.boardOn(true);
 
+          // Send the length of list property mobile 
+          try {
+            new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/select", Integer.toString(counter));
+          } catch (MqttException e) {}
           while (true) {
-            int propNum = player.inputInt();
+            // Receive number of block player choose to sell
+            int propNum = player.inputInt(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/select");
             int propState = 1;
 
             for (Block bl : props) {
@@ -225,6 +236,11 @@ public class MonopolyPlay implements Screen {
           // Pass the current player who is playing
           currentPlayer = monopoly.getState().current.name();
 
+          // Send playerId to mqtt
+          try {
+            new Publish().pub(pin + "/gameplayP/" + state.current.getId(), "1");
+          } catch (MqttException e) {}
+
           // Swap character animation current to front
           Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -273,15 +289,18 @@ public class MonopolyPlay implements Screen {
             state.players.add(state.players.remove());
             continue;
           } else if (state.current.inJail() && state.current.getMoney() >= 50) {
+            try {
+              new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + state.current.getId() + "/jail", "1");
+            } catch (MqttException e) {}
             System.out.println("Would you like to get out of jail using cash?");
-            if (state.current.inputBool()) {
+            if (state.current.inputBool(WaitingRoom.PIN + "/gameplayM/" + state.current.getId() + "/jail")) {
               state.current.excMoney(-50);
               state.current.leaveJail();
             }
           }
 
           dice.setDiceRoll(true);
-          monopoly.turn();
+          monopoly.turn(pin + "/gameplayM/" + state.current.getId() + "/dice");
           // Pass the current player who is playing
           dice.setDiceVal(monopoly.getDice().getVal());
           if (monopoly.getDouble()) {
