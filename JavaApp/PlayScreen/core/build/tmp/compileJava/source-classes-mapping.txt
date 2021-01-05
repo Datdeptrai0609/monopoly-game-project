@@ -31,6 +31,8 @@ com/monopoly/game/gameCore/Deck.java
  com.monopoly.game.gameCore.Deck
 com/monopoly/game/MonopolyGUI.java
  com.monopoly.game.MonopolyGUI
+com/monopoly/game/gameGUI/package-info.java
+ com.monopoly.game.gameGUI.package-info
 com/monopoly/game/gameCore/Card.java
  com.monopoly.game.gameCore.Card
  com.monopoly.game.gameCore.Card$CardAction

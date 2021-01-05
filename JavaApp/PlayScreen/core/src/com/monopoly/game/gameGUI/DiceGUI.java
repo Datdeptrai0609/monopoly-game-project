@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class DiceGUI {
   private TextureAtlas diceAtlas;
-  private TextureRegion diceRegion;
   private Animation<TextureRegion> dice;
   private SpriteBatch sb;
   private int diceVal;

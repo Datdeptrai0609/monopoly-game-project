@@ -1,7 +1,6 @@
 package com.monopoly.game.gameCore;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 

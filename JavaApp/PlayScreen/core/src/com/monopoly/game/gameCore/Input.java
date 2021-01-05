@@ -1,6 +1,6 @@
 package com.monopoly.game.gameCore;
 
-import com.monopoly.game.mqtt.*;
+import com.monopoly.game.mqtt.Subscribe;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
