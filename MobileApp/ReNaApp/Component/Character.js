@@ -47,17 +47,6 @@ class Character extends Component {
         client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
     }
 
-    constructor(props) {
-        super(props);
-        this.state.client.on("connect", () => {
-            // this.setState({PINNN: this.props.PIN});
-            this.state.client.subscribe(this.state.PINNN+"/connect/order", function (err) {
-                if (!err) {
-                }
-            }
-            );
-        })
-    }
 
     // pass data from child to parent
     sendBtnStatus = (id) => {
@@ -68,16 +57,15 @@ class Character extends Component {
         this.props.sendData(data);
     }
 
-    setStatus = (index) => {
+    setStatus = (index, idChoose) => {
         let character = [...this.state.characters];//clone characters
         //set status for each item which chose in clone variable
         character.map((item) => {
-            (item.id == index) ? item.status = true : item.status = false;
+            (item.id == index || item.id == idChoose) ? item.status = true : item.status = false;
+            
         });
         // update for state
         this.setState({character});
-        this.state.client.publish(this.state.PINNN+"/character", index.toString());
-        console.log(this.state.PINNN);
     }
 
     render() {
@@ -91,7 +79,7 @@ class Character extends Component {
                             
                             key={item.id}
                             onPress = {() => {
-                                this.setStatus(item.id); 
+                                this.setStatus(item.id,this.props.idChoose); 
                                 this.sendBtnStatus(item.id);
                             }}
                             style={item.status == true ? styles.characterBoxChose : styles.characterBox}>

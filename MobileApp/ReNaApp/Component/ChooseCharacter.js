@@ -23,7 +23,6 @@ export default class ChooseCharacter extends Component {
             client: mqtt.connect("ws://hcmiuiot.tech:8080"),
             PIN: '',
             playerId: '',
-            click: 0
         }
     
         constructor(props) {
@@ -43,11 +42,11 @@ export default class ChooseCharacter extends Component {
             // message is Buffer
             console.log(`[${topic}] ${message.toString()}`);
             // Handle 6 btn: -------------------------------------------------------------------------------
-            if (topic = this.state.PIN+"/connect/order" && message == "1") {
-                // Handle arrived MSG: To disable button.
+            if (topic = this.state.PIN+"/character") {
+                this.setState({idChoose: message.toString()})
             }
             if (topic = this.state.PIN+"/connect/ready" && message == "1") {
-                // Handle turn to next screen.
+                Actions.GameScreen({PIN: this.state.PIN});
             }
           });
     };
@@ -94,7 +93,6 @@ export default class ChooseCharacter extends Component {
                             props in character.js */}
                             <Character 
                                 sendData={this.setBtnStatus}
-                                 
                                 />{/*receive data from child and set btn state*/}
 
                             {/* btn ready view */}
