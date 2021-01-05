@@ -77,7 +77,6 @@ class Character extends Component {
                 {
                     this.state.characters.map((item, index) => (
                         <TouchableOpacity
-                         
                             key={item.id}
                             onPress = {() => {
                                 this.setStatus(item.id); 
