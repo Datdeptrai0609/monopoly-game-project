@@ -47,9 +47,9 @@ public class WaitingRoom implements Screen {
   }
 
   // For player Name
-  BitmapFont offPlayer = new BitmapFont(Gdx.files.internal("Font/commicOff.fnt"));
+  private BitmapFont offPlayer = new BitmapFont(Gdx.files.internal("Font/commicOff.fnt"));
   public String[] playerName = { "Player 1", "Player 2", "Player 3", "Player 4" };
-  BitmapFont onPlayer = new BitmapFont(Gdx.files.internal("Font/commicOn.fnt"));
+  private BitmapFont onPlayer = new BitmapFont(Gdx.files.internal("Font/commicOn.fnt"));
   // Player information render speed
   private int SPEED = 0;
 
@@ -59,7 +59,7 @@ public class WaitingRoom implements Screen {
   // HashMap:
   private final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
-  TextureAtlas waitingRoomAtlas, playerImage, playerOnAvatar;
+  private TextureAtlas waitingRoomAtlas, playerImage, playerOnAvatar;
 
   public WaitingRoom(MonopolyGUI gui) {
     this.gui = gui;

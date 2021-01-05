@@ -13,7 +13,7 @@ import java.util.Random;
 public class GamePlay {
   private SpriteBatch sb;
   // Get board Sprites
-  final char[] boardName = "abcdefg".toCharArray();
+  private final char[] boardName = "abcdefg".toCharArray();
   private Sprite[] boardSprite = new Sprite[32];
 
   // Random effects:

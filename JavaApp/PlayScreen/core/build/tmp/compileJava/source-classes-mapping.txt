@@ -8,6 +8,11 @@ com/monopoly/game/gameCore/JailBlock.java
  com.monopoly.game.gameCore.JailBlock
 com/monopoly/game/gameGUI/Word.java
  com.monopoly.game.gameGUI.Word
+com/monopoly/game/mqtt/Publish.java
+ com.monopoly.game.mqtt.Publish
+com/monopoly/game/mqtt/Subscribe.java
+ com.monopoly.game.mqtt.Subscribe
+ com.monopoly.game.mqtt.Subscribe$1
 com/monopoly/game/gameCore/PropertyBlock.java
  com.monopoly.game.gameCore.PropertyBlock
 com/monopoly/game/gameCore/TravelBlock.java
@@ -16,8 +21,12 @@ com/monopoly/game/gameGUI/GamePlay.java
  com.monopoly.game.gameGUI.GamePlay
 com/monopoly/game/gameGUI/DiceGUI.java
  com.monopoly.game.gameGUI.DiceGUI
+com/monopoly/game/mqtt/CreateClient.java
+ com.monopoly.game.mqtt.CreateClient
 com/monopoly/game/gameGUI/WaitingRoom.java
  com.monopoly.game.gameGUI.WaitingRoom
+ com.monopoly.game.gameGUI.WaitingRoom$1
+ com.monopoly.game.gameGUI.WaitingRoom$2
 com/monopoly/game/gameCore/Deck.java
  com.monopoly.game.gameCore.Deck
 com/monopoly/game/MonopolyGUI.java

@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
 public class GreenBoard {
-  Texture boardImg;
-  SpriteBatch sb;
-  BitmapFont word;
+  private Texture boardImg;
+  private SpriteBatch sb;
+  private BitmapFont word;
   private boolean boardOn;
   private float widthCard; // Width of card which board go along with if equal 0 => festival
 

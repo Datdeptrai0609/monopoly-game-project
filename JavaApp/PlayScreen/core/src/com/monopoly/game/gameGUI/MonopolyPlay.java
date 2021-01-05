@@ -387,7 +387,7 @@ public class MonopolyPlay implements Screen {
               PropertyBlock prop = (PropertyBlock) block;
               numHouse = prop.numHouses();
             }
-            character.houseFlag.render(boardSprite, i, numHouse);
+            character.houseFlag().render(boardSprite, i, numHouse);
             break;
           }
         }

@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
 public class ChanceCardGUI implements CardGUI {
-  Texture chanceImg;
-  SpriteBatch sb;
-  BitmapFont word;
+  private Texture chanceImg;
+  private SpriteBatch sb;
+  private BitmapFont word;
   private boolean cardOn;
   private String cardText;
 

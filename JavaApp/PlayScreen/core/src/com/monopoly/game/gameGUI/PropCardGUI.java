@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
 public class PropCardGUI implements CardGUI{
-  Texture bought;
-  SpriteBatch sb;
-  Texture propertyImg;
-  BitmapFont wordName, wordPrice;
+  private Texture bought;
+  private SpriteBatch sb;
+  private Texture propertyImg;
+  private BitmapFont wordName, wordPrice;
   private boolean cardOn;
   private String name, price;
   private boolean isBought;

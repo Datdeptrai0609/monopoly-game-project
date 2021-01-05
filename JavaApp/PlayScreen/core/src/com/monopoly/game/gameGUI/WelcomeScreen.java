@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class WelcomeScreen implements Screen {
 
-  MonopolyGUI gui;
+  private MonopolyGUI gui;
   private SpriteBatch sb;
 
   // HashMap:
