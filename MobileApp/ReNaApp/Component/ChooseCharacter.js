@@ -64,8 +64,7 @@ export default class ChooseCharacter extends Component {
     //send id to mqtt
     sendMqtt = () => {
         //fail here
-        let publishTopic = '4983/1';
-        this.state.client.publish(publishTopic, this.state.playerId) // Id: 1 -> 6:
+        this.state.client.publish(`${this.state.PIN}/${this.state.playerId}`, this.state.playerId+"") // Id: 1 -> 6:
         console.log('sent');
     }
 
