@@ -236,9 +236,9 @@ public class MonopolyPlay implements Screen {
           // Pass the current player who is playing
           currentPlayer = monopoly.getState().current.name();
 
-          // Send playerId to mqtt
+          // Send player who is playing to mqtt
           try {
-            new Publish().pub(pin + "/gameplayP/" + state.current.getId(), "1");
+            new Publish().pub(pin + "/gameplayP/turn", state.current.getId());
           } catch (MqttException e) {}
 
           // Swap character animation current to front
@@ -300,6 +300,11 @@ public class MonopolyPlay implements Screen {
           }
 
           dice.setDiceRoll(true);
+          // Send player who dice to mqtt
+          try {
+            new Publish().pub(pin + "/gameplayP/" + state.current.getId() + "/dice", "1");
+          } catch (MqttException e) {}
+
           monopoly.turn(pin + "/gameplayM/" + state.current.getId() + "/dice");
           // Pass the current player who is playing
           dice.setDiceVal(monopoly.getDice().getVal());
