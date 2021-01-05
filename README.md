@@ -27,10 +27,16 @@ Then, run the game by using gradle:
 
     ./gradlew desktop:run
     
-Troubleshooting, if you don't have permission to run ./gradlew, try this command before run gradlew:
+### Troubleshooting
+
+If you don't have permission to run ./gradlew, try this command before run gradlew:
     
     chmod +x gradlew
     
+In windows, you maybe cannot use the command. Try:
+
+    .\gradle desktop:run
+
 Next step, move to another devices to launch mobile app. Have fun with our Monopoly Plusubtract !!! :smirk_cat:
   
 ### Launch Mobile App
