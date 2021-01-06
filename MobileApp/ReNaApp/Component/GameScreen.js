@@ -8,6 +8,7 @@ import {
 
 import TurnCard from './TurnCard';
 import Roll from './Roll';
+import Buy from './BuyComponent';
 export default class GameScreen extends Component {
 
     state = {
@@ -88,7 +89,7 @@ export default class GameScreen extends Component {
                   playerId= {this.state.playerId}
                 />}
               {this.state.showHide2 &&
-              <Roll
+              <Buy
                 PIN={this.state.PIN}
                 playerId={this.state.playerId}
               />}
