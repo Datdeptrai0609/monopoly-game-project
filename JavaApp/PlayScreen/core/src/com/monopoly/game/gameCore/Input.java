@@ -33,7 +33,7 @@ public class Input {
     return sub.getMqttMsg();
   }
 
-  // Check input is yes or no return boolean
+  // Check input is yes or no return boolean 1-Yes 0-No
   public boolean inputBool() {
     return inputDecision(new int[] {1, 0}) == 0;
   } // Check input is integer or not then parse to int

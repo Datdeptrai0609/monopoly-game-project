@@ -22,10 +22,13 @@ import java.util.Random;
 
 public class WaitingRoom implements Screen {
   public static final String PIN = Integer.toString(new Random().nextInt(9999 - 1000) + 1000);
+  private boolean startBtnPressed = false;
+  private boolean startGame = false;
   private MonopolyGUI gui;
   private SpriteBatch sb;
   private BitmapFont pinDisplay;
   // playerId: 0 -> 5
+  private int[] playerIdSwapped = new int[4];
   private int[] playerId = new int[4];
 
   // Get the name of character
@@ -135,21 +138,38 @@ public class WaitingRoom implements Screen {
         // Shuffle the list of playerId
         java.util.Collections.shuffle(playerIdList);
         // Assign to swapped
-        int[] playerIdSwapped = new int[4];
         int index = 0;
         for (int id : playerIdList) {
           playerIdSwapped[index] = id;
           ++index;
         }
 
-        // Publish id + order to mobile
-        try {
-          for (int k = 0; k < playerIdSwapped.length; k++) {
-            String content = Integer.toString(playerIdSwapped[k] * 10 + (k + 1));
-            new Publish().pub(PIN + "/connect/order", content);
-          }
-        } catch (MqttException e) {
+        while (true) {
+          if (startBtnPressed) {
+            // Publish press button and player order to mqtt
+            try {
+              new Publish().pub(PIN + "/connect/ready", "1");
+              for (int k = 0; k < playerIdSwapped.length; k++) {
+                new Publish().pub(PIN + "/connect/order/" + playerIdSwapped[k], Integer.toString(k + 1));
+              }
+            } catch (MqttException e) {}
+            break;
+          } 
+          try {
+            Thread.sleep(0);
+          } catch (InterruptedException e) {}
         }
+
+        // Waiting for player confirm receive order
+        Input inputConfirm = new Input(PIN + "/turn/confirm");
+        int countConfirm = 0;
+        while (countConfirm < playerIdSwapped.length) {
+          if (inputConfirm.inputBool()) {
+            countConfirm++;
+          }
+        }
+        inputConfirm.getSubscribe().disconnect();
+        startGame = true;
       }
     }).start();
   }
@@ -216,9 +236,7 @@ public class WaitingRoom implements Screen {
           renderWaitingRoom.drawThing(4,
               (float) ((Gdx.graphics.getWidth() / 2 - renderWaitingRoom.getSpritesWidth(3) / 2 * 0.7)), 60, 0.7f, 0.7f);
           if (Gdx.input.isTouched()) {
-            dispose();
-            gui.setScreen(new MonopolyPlay(gui, playerId));
-            return;
+            startBtnPressed = true;
           }
         }
       }
@@ -248,6 +266,12 @@ public class WaitingRoom implements Screen {
 
     // Render Status
     renderStatus();
+    // Change screen to game play
+    if (startBtnPressed && startGame) {
+      dispose();
+      gui.setScreen(new MonopolyPlay(gui, playerIdSwapped));
+      return;
+    }
   }
 
   // Render Status Area
