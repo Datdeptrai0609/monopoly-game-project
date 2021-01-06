@@ -437,6 +437,7 @@ public class MonopolyPlay implements Screen {
 
   @Override
   public void dispose() {
+    dice.dispose();
     playingMusic.dispose();
   }
 }
