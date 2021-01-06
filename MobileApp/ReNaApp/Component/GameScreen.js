@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import TurnCard from './TurnCard';
-
+import Roll from './Roll';
 export default class GameScreen extends Component {
 
     state = {
@@ -67,9 +67,11 @@ export default class GameScreen extends Component {
         if (topic == this.state.PIN+"/gameplayP/turn") {
             if (message.toString() == this.props.playerId) {
               this.setState({showHide1: false, showHide2: true});
-            }else
-            this.setState({showHide1: false});
-            Alert.alert('WAITING TO YOUR TURN');
+              console.log('your turn');
+            }else{
+              this.setState({showHide1: false});
+              Alert.alert('WAITING TO YOUR TURN');
+            }
         }
         // if topic == -> check msg, if msg == -> hanlde alert, publish message
       });
@@ -85,6 +87,11 @@ export default class GameScreen extends Component {
                   PIN={this.state.PIN}
                   playerId= {this.state.playerId}
                 />}
+              {this.state.showHide2 &&
+              <Roll
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
                 
             </ImageBackground>
         )

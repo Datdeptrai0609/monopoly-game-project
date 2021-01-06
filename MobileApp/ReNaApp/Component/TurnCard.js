@@ -23,10 +23,9 @@ export default class TurnCard extends Component {
         }
 
         this.state.client.on('connect', () => {
-            console.log('bug here! --------------------------------')
+            // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
             this.state.client.subscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             console.log(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
-            console.log(this.props.PIN);
         });
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
@@ -57,8 +56,8 @@ export default class TurnCard extends Component {
 
 
     log = () => {
-        console.log("playerId:" + this.state.playerId);
-        console.log("PIN:" +this.state.PIN);
+        console.log("playerId:" + this.props.playerId);
+        console.log("PIN:" +this.props.PIN);
     }
 
     render() {
