@@ -2,6 +2,7 @@ package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,6 +19,7 @@ public class DiceGUI {
 
   // Music
   private Music diceMusic;
+  private Sound diceDoneMusic;
 
   public DiceGUI(SpriteBatch sb) {
     diceAtlas = new TextureAtlas("dice.txt");
@@ -26,12 +28,13 @@ public class DiceGUI {
     diceRoll = true;
     stateTime = 0f;
     diceMusic = Gdx.audio.newMusic(Gdx.files.internal("music/dice.ogg"));
-    diceMusic.setLooping(true);
+    diceDoneMusic = Gdx.audio.newSound(Gdx.files.internal("music/diceDone.ogg"));
   }
 
   public void setDiceVal(int val) {
     diceVal = val;
     diceRoll = false;
+    diceDoneMusic.play();
   }
 
   public void setDiceRoll(boolean roll) {
@@ -55,5 +58,6 @@ public class DiceGUI {
 
   public void dispose() {
     diceMusic.dispose();
+    diceDoneMusic.dispose();
   }
 }
