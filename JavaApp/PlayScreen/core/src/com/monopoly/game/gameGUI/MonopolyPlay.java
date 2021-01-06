@@ -2,6 +2,7 @@ package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -46,6 +47,9 @@ public class MonopolyPlay implements Screen {
 
   private SpriteBatch batch;
 
+  // music
+  private Music playingMusic;
+
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
     this.playerId = playerId;
@@ -53,6 +57,11 @@ public class MonopolyPlay implements Screen {
 
   @Override
   public void show() {
+    // Setup music
+    playingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/PlayingMusic.mp3"));
+    playingMusic.setLooping(true);
+    playingMusic.play();
+
     listOfInfos = new PlayerInfo[4];
     characterAnimation = new ArrayList<CharacterAnimation>();
 
@@ -423,9 +432,11 @@ public class MonopolyPlay implements Screen {
 
   @Override
   public void hide() {
+    dispose();
   }
 
   @Override
   public void dispose() {
+    playingMusic.dispose();
   }
 }
