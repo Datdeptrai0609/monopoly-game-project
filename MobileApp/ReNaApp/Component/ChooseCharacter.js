@@ -19,10 +19,11 @@ export default class ChooseCharacter extends Component {
             logoAnimation: 'zoomIn',// set animation for logo
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
-            move:0,
+            move:false,
             client: mqtt.connect("ws://hcmiuiot.tech:8080"),
             PIN: '',
             playerId: '',
+            click:0,
         }
     
         constructor(props) {
@@ -46,7 +47,7 @@ export default class ChooseCharacter extends Component {
                 this.setState({idChoose: message.toString()})
             }
             if (topic = this.state.PIN+"/connect/ready" && message == "1") {
-                Actions.GameScreen({PIN: this.state.PIN});
+                
             }
           });
     };
@@ -63,6 +64,16 @@ export default class ChooseCharacter extends Component {
         this.state.client.publish(`${this.state.PIN}/playerid`, this.state.playerId+"") // Id: 1 -> 6:
         console.log('sent');
         this.setState({click: 1})
+        this.interval = setInterval(() => {
+            Actions.GameScreen({ PIN: this.state.PIN });
+            this.setState({ move: true })//show GIF after 1.5s
+        }, 1500);   
+    }
+
+    componentDidUpdate() {
+        if (this.state.move == true) {// if set state for show done, clear it
+            clearInterval(this.interval)
+        }
     }
 
     //when onPress "Ready" button to set status for choose view and waiting view
@@ -100,13 +111,13 @@ export default class ChooseCharacter extends Component {
                                 style={styles.readyContainer}>
 
                                 <TouchableOpacity
-                                    disabled={this.state.click == 1 ? true : this.state.btnStatus}
+                                    disabled={this.click == 1 ? true : this.state.btnStatus}
                                     //if disable is true then the button is off 
-                                    style={(this.state.btnStatus || this.state.click ==1) ? styles.buttonOff : styles.buttonOn}
+                                    style={(this.state.btnStatus) ? styles.buttonOff : styles.buttonOn}
                                     onPress ={
                                         () => {
                                             this.sendMqtt();
-                                            console.log(this.state.click);
+                                            
                                         }
                                     }>
 
