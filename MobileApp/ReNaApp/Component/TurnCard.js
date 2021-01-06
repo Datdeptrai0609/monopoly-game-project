@@ -31,7 +31,7 @@ export default class TurnCard extends Component {
             if (message.toString() == '1') {
                 choose = require(`../img/background/TurnCard1Chose.png`)
                 disable = true;
-                this.state.client.publish(this.state.PIN+"/turn/confirm", "1");
+                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
 
             }
             if (message.toString() == '2') {
@@ -47,12 +47,13 @@ export default class TurnCard extends Component {
             if (message.toString() == '4') {
                 choose = require(`../img/background/TurnCard4Chose.png`)
                 disable = true;
-                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
+                    
+
             }
-
-
           });
     }
+
+
 
     log = () => {
         console.log("playerId:" + this.state.playerId);
@@ -96,5 +97,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex: 1,
         justifyContent:'center'
+    },
+    display: {
     }
 })
