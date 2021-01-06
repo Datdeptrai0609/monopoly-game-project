@@ -18,6 +18,8 @@ export default class GameScreen extends Component {
         showHide1: true,
         showHide2: false,
         showHide3: false,
+        showHide4: false,
+        showHide5: false,
         status:""
     }
 
@@ -89,7 +91,7 @@ export default class GameScreen extends Component {
                   playerId= {this.state.playerId}
                 />}
               {this.state.showHide2 &&
-              <Buy
+              <Roll
                 PIN={this.state.PIN}
                 playerId={this.state.playerId}
               />}
