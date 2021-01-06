@@ -22,8 +22,8 @@ export default class TurnCard extends Component {
     constructor(props) {
         super(props);
         this.state.client.on('connect', () => {
-            this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
-            this.state.client.subscribe(this.state.PIN+"/connect/order/"+this.state.playerId);
+            // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
+            this.state.client.subscribe(this.props.PIN+"/connect/order/"+String(this.props.playerId));
         });
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
@@ -47,8 +47,7 @@ export default class TurnCard extends Component {
             if (message.toString() == '4') {
                 choose = require(`../img/background/TurnCard4Chose.png`)
                 disable = true;
-                    
-
+                
             }
           });
     }
@@ -56,8 +55,8 @@ export default class TurnCard extends Component {
 
 
     log = () => {
-        console.log("playerId:" + this.state.playerId);
-        console.log("PIN:" +this.state.PIN);
+        console.log("playerId:" + this.props.playerId);
+        console.log("PIN:" +this.props.PIN);
         // if(playerId == turn)
     }
 
