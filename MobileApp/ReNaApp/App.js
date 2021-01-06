@@ -72,6 +72,12 @@ export default class App extends Component {
             hideNavBar
           />
           <Scene
+            key="waiting"
+            component={Waiting}
+            onback={() => { return false }}
+            hideNavBar
+          />
+          <Scene
             key="GameScreen"
             component={GameScreen}
             hideNavBar

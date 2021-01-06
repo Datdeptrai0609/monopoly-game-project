@@ -65,7 +65,7 @@ export default class ChooseCharacter extends Component {
         console.log('sent');
         this.setState({click: 1})
         this.interval = setInterval(() => {
-            Actions.GameScreen({ PIN: this.state.PIN });
+            Actions.waiting({ PIN: this.state.PIN });
             this.setState({ move: true })//show GIF after 1.5s
         }, 1500);   
     }
@@ -113,7 +113,7 @@ export default class ChooseCharacter extends Component {
                                 <TouchableOpacity
                                     disabled={this.click == 1 ? true : this.state.btnStatus}
                                     //if disable is true then the button is off 
-                                    style={(this.state.btnStatus) ? styles.buttonOff : styles.buttonOn}
+                                    style={(this.state.btnStatus || this.state.move == 1) ? styles.buttonOff : styles.buttonOn}
                                     onPress ={
                                         () => {
                                             this.sendMqtt();
