@@ -27,7 +27,7 @@ public class WelcomeScreen implements Screen {
   private int LOADING_SPEED_GAME_PLAY = 0;
 
   // Music in game
-  private Music waitingMusic;
+  public static final Music waitingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/WaitingMusic.mp3"));;
 
   // Constructor
   public WelcomeScreen(MonopolyGUI gui) {
@@ -86,14 +86,13 @@ public class WelcomeScreen implements Screen {
     // loop
     if (LOADING_SPEED_GAME_PLAY == 50 * 6) {
       dispose();
-      gui.setScreen(new WaitingRoom(gui, waitingMusic));
+      gui.setScreen(new WaitingRoom(gui));
       return;
     }
   }
 
   @Override
   public void show() {
-    waitingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/WaitingMusic.mp3"));
     waitingMusic.setLooping(true);
     waitingMusic.play();
   }

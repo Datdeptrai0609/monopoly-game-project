@@ -2,7 +2,6 @@ package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -18,9 +17,6 @@ public class WaitingRoom implements Screen {
   private SpriteBatch sb;
   // playerId: 0 -> 5
   private int[] playerId = { 1, 3, 2, 5 };
-
-  // music
-  private Music waitingMusic;
 
   // Get the name of character
   public final String playerNameReceive[] = { "Mina", "Eng Veit", "Mei Mei", "Laughing", "Kuerl", "Tei Tei" };
@@ -54,10 +50,9 @@ public class WaitingRoom implements Screen {
 
   TextureAtlas waitingRoomAtlas, playerImage;
 
-  public WaitingRoom(MonopolyGUI gui, Music waitingMusic) {
+  public WaitingRoom(MonopolyGUI gui) {
     this.gui = gui;
     sb = gui.batch;
-    this.waitingMusic = waitingMusic;
 
     waitingRoomAtlas = new TextureAtlas("waitingRoom/items/WaitingRoom.txt");
     playerImage = new TextureAtlas("waitingRoom/WaitingCharOff/charOff.txt");
@@ -225,6 +220,6 @@ public class WaitingRoom implements Screen {
     font.dispose();
     waitingRoomAtlas.dispose(); 
     playerImage.dispose();
-    waitingMusic.dispose();
+    WelcomeScreen.waitingMusic.dispose();
   }
 }
