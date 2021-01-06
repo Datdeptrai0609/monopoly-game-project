@@ -22,12 +22,10 @@ export default class TurnCard extends Component {
             client: mqtt.connect("ws://hcmiuiot.tech:8080")
         }
 
-        this.state.client.on('connect', () => {
             console.log('bug here! --------------------------------')
-            this.setState({PIN: this.props.PIN, playerId: this.props.playerId});
-            this.state.client.subscribe(this.state.PIN+"/connect/order/"+this.state.playerId);
-            console.log(this.state.PIN+"/connect/order/"+this.state.playerId);
-        });
+            this.state.client.subscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
+            console.log(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
+            console.log(this.props.PIN);
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
             console.log(`[${topic}] ${message.toString()}`); 
