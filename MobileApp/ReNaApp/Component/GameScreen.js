@@ -5,6 +5,8 @@ import {
     ImageBackground,
 } from 'react-native';
 
+import TurnCard from './TurnCard';
+
 export default class GameScreen extends Component {
 
     state = {
@@ -65,7 +67,7 @@ export default class GameScreen extends Component {
             <ImageBackground
                 style = { styles.container}
                 source ={gameImageBackground}>
-                {/* <TurnCard/> */}
+                <TurnCard/>
                 
             </ImageBackground>
         )

@@ -1,3 +1,4 @@
+import mqtt, { log } from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
     SafeAreaView,
@@ -27,18 +28,37 @@ export default class Waiting extends Component {
     state= {
         show: false,// status show or hide waiting GIF
         move:false,//status for rout to next screen
+        client: mqtt.connect("ws://hcmiuiot.tech:8080"),
+        PIN:'',
+    }
+
+    constructor(props) {
+        super(props);
+        this.state.client.on('connect', () => {
+            // Handle PIN!
+            console.log('character connected');
+            this.setState({ PIN: this.props.PIN });
+            console.log(this.state.PIN);
+            this.state.client.subscribe(this.state.PIN + "/connect/ready", (err) => {
+                if(!err) {
+                }
+            })
+        })
     }
 
     UNSAFE_componentWillMount() {
         this.interval = setInterval(() => {
             this.setState({show : true})//show GIF after 1.5s
         },1500);
-        this.intervalMove = setInterval(() => {
-            this.setState({move: true}) //set state move to true after 1.5s
-            if (this.state.move == true) {
-                Actions.GameScreen(); // move to gameScreen if status of move is true
+        this.state.client.on('message', (topic, message) => {
+            // message is Buffer
+            console.log(`[${topic}] ${message.toString()}`);
+            // Handle 6 btn: -------------------------------------------------------------------------------
+            if (message.toString() == "1") {
+                Actions.GameScreen();
             }
-        },3500);
+        });
+                 // move to gameScreen if status of move is true
     }
 
     componentDidUpdate() {
