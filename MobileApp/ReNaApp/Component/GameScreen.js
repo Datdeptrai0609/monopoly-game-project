@@ -23,6 +23,7 @@ export default class GameScreen extends Component {
             // Handle PIN!
             console.log('connected');
           this.setState({ PIN: this.props.PIN, playerId: this.props.playerId })
+          
           this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId, function (err) {
             if (!err) {
             }

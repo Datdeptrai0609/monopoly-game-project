@@ -30,17 +30,26 @@ export default class TurnCard extends Component {
             console.log(`[${topic}] ${message.toString()}`); 
             if (message.toString() == '1') {
                 choose = require(`../img/background/TurnCard1Chose.png`)
+                disable = true;
+                this.state.client.publish(this.state.PIN+"/turn/confirm", "1");
+
             }
             if (message.toString() == '2') {
                 choose = require(`../img/background/TurnCard2Chose.png`)
+                disable = true;
+                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
             }
             if (message.toString() == '3') {
                 choose = require(`../img/background/TurnCard3Chose.png`)
+                disable = true;
+                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
             }
             if (message.toString() == '4') {
                 choose = require(`../img/background/TurnCard4Chose.png`)
+                disable = true;
+                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
             }
-            disable =true;
+
 
           });
     }
