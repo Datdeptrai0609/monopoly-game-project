@@ -23,7 +23,7 @@ export default class TurnCard extends Component {
         super(props);
         this.state.client.on('connect', () => {
             this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
-            this.state.client.subscribe(this.state.PIN+"/connect/order");
+            this.state.client.subscribe(this.state.PIN+"/connect/order/"+this.state.playerId);
         });
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
