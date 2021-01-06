@@ -65,7 +65,7 @@ export default class ChooseCharacter extends Component {
         console.log('sent');
         this.setState({click: 1})
         this.interval = setInterval(() => {
-            Actions.waiting({ PIN: this.state.PIN });
+            Actions.waiting({ PIN: this.state.PIN, playerId: this.state.playerId });
             this.setState({ move: true })//show GIF after 1.5s
         }, 1500);   
     }

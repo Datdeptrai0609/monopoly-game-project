@@ -21,6 +21,8 @@ export default class GameScreen extends Component {
         super(props);
         this.state.client.on('connect', () => {
             // Handle PIN!
+            console.log('connected');
+          this.setState({ PIN: this.props.PIN, playerId: this.props.playerId })
           this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId, function (err) {
             if (!err) {
             }
@@ -67,7 +69,10 @@ export default class GameScreen extends Component {
             <ImageBackground
                 style = { styles.container}
                 source ={gameImageBackground}>
-                <TurnCard/>
+                <TurnCard
+                  PIN={this.state.PIN}
+                  playerId= {this.state.playerId}
+                />
                 
             </ImageBackground>
         )
