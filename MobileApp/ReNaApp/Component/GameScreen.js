@@ -13,17 +13,21 @@ export default class GameScreen extends Component {
         client: mqtt.connect("ws://hcmiuiot.tech:8080"),
         PIN: "",
         playerId: "",
+        showHide1: true,
+        showHide2: false,
+        showHide3: false,
     }
 
     //////////////////////////////// TOPIC SUBCRIBE AREA //////////////////////////////////////
 
     constructor(props) {
         super(props);
+
         this.state.client.on('connect', () => {
             // Handle PIN!
             console.log('connected');
           this.setState({ PIN: this.props.PIN, playerId: this.props.playerId })
-          
+
           this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId, function (err) {
             if (!err) {
             }
@@ -70,10 +74,11 @@ export default class GameScreen extends Component {
             <ImageBackground
                 style = { styles.container}
                 source ={gameImageBackground}>
+                {this.state.showHide1 &&
                 <TurnCard
                   PIN={this.state.PIN}
                   playerId= {this.state.playerId}
-                />
+                />}
                 
             </ImageBackground>
         )
@@ -87,5 +92,5 @@ const styles = StyleSheet.create ({
         resizeMode:'cover',
         justifyContent:'center',
         alignItems:'center',
-    }
+    },
 })

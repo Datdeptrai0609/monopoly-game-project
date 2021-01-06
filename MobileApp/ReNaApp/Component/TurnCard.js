@@ -65,6 +65,10 @@ export default class TurnCard extends Component {
         return (
         <View
             style ={styles.container}>
+                <Text
+                    style={styles.text}>
+                   L E T   S E E     Y O U R    T U R N !
+                </Text>
         <TouchableOpacity
             disabled = {disable}
             onPress = {() => {
@@ -84,7 +88,7 @@ export default class TurnCard extends Component {
 }
 
 const animaIn = 'fadeIn';
-var disable = false;
+var disable = false; 
 const notChoose = require('../img/background/TurnCard.png');
 var choose = require(`../img/background/TurnCardChose.png`);
 const styles = StyleSheet.create({
@@ -98,6 +102,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent:'center'
     },
-    display: {
-    }
+    text: {
+        fontStyle: 'italic',
+        fontSize: 20,
+        textAlign:'center',
+        paddingLeft:10,
+        paddingBottom:20,
+        color: 'black',
+        fontWeight: 'bold'
+    },
 })
