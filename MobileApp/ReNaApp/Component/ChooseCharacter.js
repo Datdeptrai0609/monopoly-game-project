@@ -113,7 +113,7 @@ export default class ChooseCharacter extends Component {
                                 <TouchableOpacity
                                     disabled={this.click == 1 ? true : this.state.btnStatus}
                                     //if disable is true then the button is off 
-                                    style={(this.state.btnStatus || this.state.move == 1) ? styles.buttonOff : styles.buttonOn}
+                                    style={(this.state.btnStatus || this.state.click == 1) ? styles.buttonOff : styles.buttonOn}
                                     onPress ={
                                         () => {
                                             this.sendMqtt();
