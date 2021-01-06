@@ -32,7 +32,7 @@ export default class ChooseCharacter extends Component {
                 // Handle PIN!
                 console.log('character connected');
                 this.setState({PIN: this.props.PIN});
-              this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
+                this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
                 if (!err) {
                 }
               });

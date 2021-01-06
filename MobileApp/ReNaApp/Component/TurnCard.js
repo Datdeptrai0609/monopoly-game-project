@@ -11,18 +11,20 @@ import {
 import * as Animatable from 'react-native-animatable';
 
 export default class TurnCard extends Component {
-    state ={ 
-    choose: false,
-    client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
-    PIN:'',
-    playerId:'',
-    turn:''
-    }
-
     constructor(props) {
         super(props);
+
+        this.state ={ 
+            choose: false,
+            PIN: '',
+            playerId: '',
+            turn: '',
+            client: mqtt.connect("ws://hcmiuiot.tech:8080")
+        }
+
         this.state.client.on('connect', () => {
-            this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
+            console.log('bug here! --------------------------------')
+            this.setState({PIN: this.props.PIN, playerId: this.props.playerId});
             this.state.client.subscribe(this.state.PIN+"/connect/order/"+this.state.playerId);
             console.log(this.state.PIN+"/connect/order/"+this.state.playerId);
         });
@@ -57,7 +59,6 @@ export default class TurnCard extends Component {
     log = () => {
         console.log("playerId:" + this.state.playerId);
         console.log("PIN:" +this.state.PIN);
-        // if(playerId == turn)
     }
 
     render() {
