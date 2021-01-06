@@ -2,6 +2,7 @@ package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,6 +16,10 @@ import java.util.HashMap;
 public class WaitingRoom implements Screen {
   private MonopolyGUI gui;
   private SpriteBatch sb;
+
+  // Music
+  private Sound clickSound;
+
   // playerId: 0 -> 5
   private int[] playerId = { 1, 3, 2, 5 };
 
@@ -63,6 +68,7 @@ public class WaitingRoom implements Screen {
 
   @Override
   public void show() {
+    clickSound = Gdx.audio.newSound(Gdx.files.internal("music/click.ogg"));
     //// TODO: initialize mqtt
 
   }
@@ -122,6 +128,7 @@ public class WaitingRoom implements Screen {
           renderWaitingRoom.drawThing(4,
               (float) ((Gdx.graphics.getWidth() / 2 - renderWaitingRoom.getSpritesWidth(3) / 2 * 0.7)), 60, 0.7f, 0.7f);
           if (Gdx.input.isTouched()) {
+            clickSound.play();
             dispose();
             gui.setScreen(new MonopolyPlay(gui, playerId));
             return;
@@ -221,5 +228,6 @@ public class WaitingRoom implements Screen {
     waitingRoomAtlas.dispose(); 
     playerImage.dispose();
     WelcomeScreen.waitingMusic.dispose();
+    clickSound.dispose();
   }
 }
