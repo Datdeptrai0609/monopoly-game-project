@@ -3,6 +3,7 @@ package com.monopoly.game.gameGUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -49,6 +50,7 @@ public class MonopolyPlay implements Screen {
 
   // music
   private Music playingMusic;
+  private Sound congratulations, loseSound;
 
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
@@ -61,6 +63,8 @@ public class MonopolyPlay implements Screen {
     playingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/PlayingMusic.mp3"));
     playingMusic.setLooping(true);
     playingMusic.play();
+    congratulations = Gdx.audio.newSound(Gdx.files.internal("music/congratulations.ogg"));
+    loseSound = Gdx.audio.newSound(Gdx.files.internal("music/you_lose.ogg"));
 
     listOfInfos = new PlayerInfo[4];
     characterAnimation = new ArrayList<CharacterAnimation>();
@@ -273,6 +277,7 @@ public class MonopolyPlay implements Screen {
               Player loser = state.players.remove();
               for (CharacterAnimation character : characterAnimation) {
                 if (character.name().equals(loser.name())) {
+                  loseSound.play();
                   character.lost();
                   break;
                 }
@@ -328,6 +333,7 @@ public class MonopolyPlay implements Screen {
             Player loser = state.players.remove();
             for (CharacterAnimation character : characterAnimation) {
               if (character.name().equals(loser.name())) {
+                loseSound.play();
                 character.lost();
                 break;
               }
@@ -338,6 +344,7 @@ public class MonopolyPlay implements Screen {
         }
         Player winner = monopoly.getState().players.remove();
         currentPlayer = winner.name();
+        congratulations.play();
         for (CharacterAnimation character : characterAnimation) {
           if (character.name().equals(winner.name())) {
             character.win();
