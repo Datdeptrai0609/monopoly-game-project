@@ -57,6 +57,7 @@ export default class Waiting extends Component {
             if (message.toString() == "1") {
                 Actions.GameScreen();
             }
+            this.state.client.unsubscribe(this.state.PIN + "/connect/ready");
         });
                  // move to gameScreen if status of move is true
     }

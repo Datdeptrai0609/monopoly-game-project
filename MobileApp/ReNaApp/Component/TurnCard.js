@@ -67,6 +67,7 @@ export default class TurnCard extends Component {
             style ={styles.container}>
 
            <Animatable.View
+           
                 animation ={animaIn}
                 style = {styles.cardContainer}>
                 {this.state.card.map((item,index) => (
