@@ -439,5 +439,6 @@ public class MonopolyPlay implements Screen {
   public void dispose() {
     dice.dispose();
     playingMusic.dispose();
+    chanceGUI.dispose();
   }
 }

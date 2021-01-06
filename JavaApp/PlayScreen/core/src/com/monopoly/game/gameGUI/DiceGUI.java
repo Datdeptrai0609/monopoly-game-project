@@ -34,6 +34,7 @@ public class DiceGUI {
   public void setDiceVal(int val) {
     diceVal = val;
     diceRoll = false;
+    diceMusic.stop();
     diceDoneMusic.play();
   }
 
