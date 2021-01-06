@@ -1,4 +1,4 @@
-import mqtt from 'mqtt/dist/mqtt';
+import mqtt, { log } from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -19,22 +19,20 @@ export default class ChooseCharacter extends Component {
             logoAnimation: 'zoomIn',// set animation for logo
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
-            move:0,
+            move:false,
             client: mqtt.connect("ws://hcmiuiot.tech:8080"),
-            PIN: ''
+            PIN: '',
+            playerId: '',
+            click:0,
         }
     
         constructor(props) {
             super(props);
             this.state.client.on('connect', () => {
                 // Handle PIN!
-                console.log('connected');
+                console.log('character connected');
                 this.setState({PIN: this.props.PIN});
               this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
-                if (!err) {
-                }
-              });
-              this.state.client.subscribe(this.state.PIN+"/connect/ready", function (err) {
                 if (!err) {
                 }
               });
@@ -45,40 +43,40 @@ export default class ChooseCharacter extends Component {
             // message is Buffer
             console.log(`[${topic}] ${message.toString()}`);
             // Handle 6 btn: -------------------------------------------------------------------------------
-            if (topic = this.state.PIN+"/connect/order" && message == "1") {
-                // Handle arrived MSG: To disable button.
+            if (topic = this.state.PIN+"/character") {
+                this.setState({idChoose: message.toString()})
             }
             if (topic = this.state.PIN+"/connect/ready" && message == "1") {
-                // Handle turn to next screen.
+                
             }
           });
     };
 
     // using props to set status for btn from child class
     setBtnStatus = (child) => {
-        this.setState({ btnStatus: child })
+        this.setState({ btnStatus: child.check,playerId:child.Id });
+        console.log(child);
     }
 
-    //when onPress "Ready" button to set status for choose view and waiting view
-    setStatusView = () => {
-        this.setState({
-            logoAnimation: 'zoomOut', // use this state set and change animation for logo
-            characterChooseAnimation:'fadeOut',// this state set and change animation for character
-        });
+    //send id to mqtt
+    sendMqtt = () => {
+        //fail here
+        this.state.client.publish(`${this.state.PIN}/playerid`, this.state.playerId+"") // Id: 1 -> 6:
+        console.log('sent');
+        this.setState({click: 1})
         this.interval = setInterval(() => {
-            Actions.Waiting();// rout to waiting screen
-            this.setState({move: 1})// move = 1 when rout done
-        },2200);
+            Actions.waiting({ PIN: this.state.PIN });
+            this.setState({ move: true })//show GIF after 1.5s
+        }, 1500);   
     }
 
     componentDidUpdate() {
-            if(this.state.move === 1){// if moved to waiting screen this state =1
-                // clear interval because if don't clear interval the component will forever
-                clearInterval(this.interval);
-            }
+        if (this.state.move == true) {// if set state for show done, clear it
+            clearInterval(this.interval)
+        }
     }
 
-
+    //when onPress "Ready" button to set status for choose view and waiting view
     render() {
         return (
             // add background img view
@@ -104,20 +102,22 @@ export default class ChooseCharacter extends Component {
 
                             {/* render each of character to choose and set status for btn by using 
                             props in character.js */}
-                            <Character sendData={this.setBtnStatus} />{/*receive data from child and set btn state*/}
+                            <Character 
+                                sendData={this.setBtnStatus}
+                                />{/*receive data from child and set btn state*/}
 
                             {/* btn ready view */}
                             <View
                                 style={styles.readyContainer}>
 
                                 <TouchableOpacity
-                                    disabled={this.state.btnStatus}
+                                    disabled={this.click == 1 ? true : this.state.btnStatus}
                                     //if disable is true then the button is off 
-                                    style={this.state.btnStatus ? styles.buttonOff : styles.buttonOn}
+                                    style={(this.state.btnStatus || this.state.click == 1) ? styles.buttonOff : styles.buttonOn}
                                     onPress ={
                                         () => {
-                                            this.setStatusView;
-                                            this.state.client.publish(this.state.PIN+'playerId', "id") // Id: 1 -> 6:
+                                            this.sendMqtt();
+                                            
                                         }
                                     }>
 
