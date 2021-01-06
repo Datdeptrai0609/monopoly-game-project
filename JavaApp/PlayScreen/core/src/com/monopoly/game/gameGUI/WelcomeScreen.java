@@ -4,6 +4,7 @@ import com.monopoly.game.MonopolyGUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,9 @@ public class WelcomeScreen implements Screen {
 
   // Variable for Loading Animation
   private int LOADING_SPEED_GAME_PLAY = 0;
+
+  // Music in game
+  private Music waitingMusic;
 
   // Constructor
   public WelcomeScreen(MonopolyGUI gui) {
@@ -82,14 +86,16 @@ public class WelcomeScreen implements Screen {
     // loop
     if (LOADING_SPEED_GAME_PLAY == 50 * 6) {
       dispose();
-      gui.setScreen(new WaitingRoom(gui));
+      gui.setScreen(new WaitingRoom(gui, waitingMusic));
       return;
     }
   }
 
   @Override
   public void show() {
-
+    waitingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/WaitingMusic.mp3"));
+    waitingMusic.setLooping(true);
+    waitingMusic.play();
   }
 
   @Override
@@ -123,6 +129,7 @@ public class WelcomeScreen implements Screen {
 
   @Override
   public void dispose() {
-
+    welcomeScreenAtlas.dispose(); 
+    loadingBar.dispose();
   }
 }
