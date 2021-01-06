@@ -1,26 +1,10 @@
+import mqtt from 'mqtt/dist/mqtt';
 import React, { Component } from 'react';
 import {
-    SafeAreaView,
     StyleSheet,
-    ScrollView,
     View,
-    Text,
-    StatusBar,
-    ImageBackground,
-    Image,
-    Dimensions,
-    BackHandler,
-    Alert,
     TouchableOpacity
 } from 'react-native';
-
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 import * as Animatable from 'react-native-animatable';
 
@@ -59,8 +43,23 @@ export default class TurnCard extends Component {
             animation: '',
             status: false,
         },
-    ]
+    ],
+    client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
+    PIN: ""
     }
+
+    constructor(props) {
+        super(props);
+        this.state.client.on('connect', () => {
+            this.state.client.subscribe(this.state.PIN+"connect/order");
+        });
+        this.state.client.on('message', (topic, message) => {
+            // message is Buffer
+            console.log(`[${topic}] ${message.toString()}`);
+            // Handle turnCard?
+          });
+    }
+
     render() {
         return (
         <View
