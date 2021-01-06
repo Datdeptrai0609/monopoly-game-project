@@ -1,6 +1,7 @@
 package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,8 @@ public class CharacterAnimation {
   // Animation for arrow on the head
   Animation<TextureRegion> arrow;  
 
+  private Music footMusic;
+
   // Attribute to handle animation
   private String name;
   private int position, destination;
@@ -37,6 +40,7 @@ public class CharacterAnimation {
     this.jump = jumpAnimation;
     this.die = dieAnimation;
     this.name = name;
+    footMusic = Gdx.audio.newMusic(Gdx.files.internal("music/footstep.ogg"));
     houseFlag = new HouseFlag(sb, house, flag);
     //this.flag = flag;
     //this.house = house;
@@ -126,6 +130,9 @@ public class CharacterAnimation {
       // While player don't come to the next block continue walkAnimation and
       // increase x and y
       else if (Math.abs(x - xPositionNext) > 4 && Math.abs(y - yPositionNext) > 4) {
+        if (!footMusic.isPlaying()) {
+          footMusic.play();
+        }
         angle = (float) Math.atan2(yPositionNext - yPosition, xPositionNext - xPosition);
         animationFrame = walk.getKeyFrame(stateTime, true);
         // Flip the animation by X
@@ -156,5 +163,9 @@ public class CharacterAnimation {
       sb.draw(arrowFrame, x + animationFrame.getRegionWidth()/6 - arrowFrame.getRegionWidth()/4, y + animationFrame.getRegionHeight()/3, arrowFrame.getRegionWidth()/2, arrowFrame.getRegionHeight()/2);
     }
     stateTime += Gdx.graphics.getDeltaTime();
+  }
+
+  public void dispose() {
+    footMusic.dispose();
   }
 }
