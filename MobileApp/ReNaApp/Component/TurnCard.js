@@ -11,24 +11,26 @@ import {
 import * as Animatable from 'react-native-animatable';
 
 export default class TurnCard extends Component {
-    state ={ 
-    choose: false,
-    client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
-    PIN:'',
-    playerId:'',
-    turn:''
-    }
-
     constructor(props) {
         super(props);
+
+        this.state ={ 
+            choose: false,
+            PIN: '',
+            playerId: '',
+            turn: '',
+            client: mqtt.connect("ws://hcmiuiot.tech:8080")
+        }
+
         this.state.client.on('connect', () => {
-            // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
-            this.state.client.subscribe(String(this.props.PIN)+"/connect/order/"+String(this.props.playerId));
-            console.log(String(this.props.PIN)+"/connect/order/"+String(this.props.playerId));
+            console.log('bug here! --------------------------------')
+            this.state.client.subscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
+            console.log(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
+            console.log(this.props.PIN);
         });
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
-            console.log(`Comming turn card: [${topic}] ${message.toString()}`); 
+            console.log(`[${topic}] ${message.toString()}`); 
             if (message.toString() == '1') {
                 choose = require(`../img/background/TurnCard1Chose.png`)
                 disable = true;
@@ -47,7 +49,7 @@ export default class TurnCard extends Component {
             if (message.toString() == '4') {
                 choose = require(`../img/background/TurnCard4Chose.png`)
                 disable = true;
-                
+                this.state.client.publish(this.state.PIN + "/turn/confirm", "1");
             }
           });
     }
@@ -55,9 +57,8 @@ export default class TurnCard extends Component {
 
 
     log = () => {
-        console.log("playerId:" + this.props.playerId);
-        console.log("PIN:" +this.props.PIN);
-        // if(playerId == turn)
+        console.log("playerId:" + this.state.playerId);
+        console.log("PIN:" +this.state.PIN);
     }
 
     render() {
@@ -72,7 +73,7 @@ export default class TurnCard extends Component {
             disabled = {disable}
             onPress = {() => {
                 this.setState({choose: true});
-            this.log();
+                this.log();
             }}>  
            <Animatable.Image
                 source={this.state.choose? choose: notChoose}
