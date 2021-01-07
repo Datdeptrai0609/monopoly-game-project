@@ -19,7 +19,7 @@ export default class TurnCard extends Component {
             PIN: '',
             playerId: '',
             turn: '',
-            client: mqtt.connect("ws://broker.hivemq:8000")
+            client: mqtt.connect("ws://broker.hivemq.com:8000")
         }
 
         this.state.client.on('connect', () => {
