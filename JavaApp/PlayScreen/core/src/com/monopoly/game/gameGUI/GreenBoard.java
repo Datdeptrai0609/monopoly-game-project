@@ -43,7 +43,10 @@ public class GreenBoard {
       float x = Gdx.graphics.getWidth()/2 - boardImg.getWidth()/2 + widthCard/2;
       float y = Gdx.graphics.getHeight()/2 - boardImg.getHeight()/2;
       if (widthCard == 0) {
-        description = "Organize festival in?";
+        if (text.equals("Would you like to get out of jail using cash?"))
+          description = "You are in jail!";
+        else
+          description = "Organize festival in?";
       }
       sb.draw(boardImg, x, y);
       word.draw(sb, description, x + boardImg.getWidth()*0.05f, y + boardImg.getHeight()*0.9f, boardImg.getWidth()*0.9f, Align.left, true);

@@ -3,6 +3,7 @@ package com.monopoly.game.gameCore;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import com.monopoly.game.gameGUI.WaitingRoom;
 import com.monopoly.game.mqtt.Publish;
@@ -368,7 +369,7 @@ public class Monopoly {
 
   // Select the destination when in BusBlock
   public int busSelect(Player player) {
-    int busNum;
+    int busNum = new Random().nextInt(32);;
     try {
       new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/bus", "1");
     } catch (MqttException e) {}
@@ -380,13 +381,14 @@ public class Monopoly {
       System.out.println(bl.position() + ") " + bl.name());
     }
 
-    while (true) {
-      busNum = player.inputInt(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/bus");
-      if (busNum >= 0 && busNum < state.board.size() && busNum != state.board.busPos()) {
-        break;
-      } else {
-        System.out.println("Please select valid block");
-      }
+    if (player.inputBool(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/bus")) {
+      
+      System.out.println("You destination is " + state.board.getBoard()[busNum].name());
+      //if (busNum >= 0 && busNum < state.board.size() && busNum != state.board.busPos()) {
+        //break;
+      //} else {
+        //System.out.println("Please select valid block");
+      //}
     }
     return busNum;
   }

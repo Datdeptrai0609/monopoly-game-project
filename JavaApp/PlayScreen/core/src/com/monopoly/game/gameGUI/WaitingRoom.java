@@ -52,8 +52,7 @@ public class WaitingRoom implements Screen {
   // For player Name
   private BitmapFont offPlayer = new BitmapFont(Gdx.files.internal("Font/commicOff.fnt"));
   public String[] playerName = { "Player 1", "Player 2", "Player 3", "Player 4" };
-  private BitmapFont onPlayer = new BitmapFont(Gdx.files.internal("Font/commicOn.fnt"));
-  // Player information render speed
+  private BitmapFont onPlayer = new BitmapFont(Gdx.files.internal("Font/commicOn.fnt")); // Player information render speed
   private int SPEED = 0;
 
   private BitmapFont font = new BitmapFont(Gdx.files.internal("Font/commicSanFont.fnt"));
@@ -83,6 +82,7 @@ public class WaitingRoom implements Screen {
     renderAvatar = new RenderCore(sprites, playerOnAvatar, sb);
 
     // TODO: initialize mqtt
+    // onConnect thread
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -102,6 +102,7 @@ public class WaitingRoom implements Screen {
       }
     }).start();
 
+    // playerid thread
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -150,6 +151,9 @@ public class WaitingRoom implements Screen {
             try {
               new Publish().pub(PIN + "/connect/ready", "1");
               for (int k = 0; k < playerIdSwapped.length; k++) {
+                try {
+                  Thread.sleep(1500);
+                } catch (InterruptedException e) {}
                 new Publish().pub(PIN + "/connect/order/" + playerIdSwapped[k], Integer.toString(k + 1));
               }
             } catch (MqttException e) {}
@@ -159,7 +163,13 @@ public class WaitingRoom implements Screen {
             Thread.sleep(0);
           } catch (InterruptedException e) {}
         }
+      }
+    }).start();
 
+    // Confirm to play game thread
+    new Thread(new Runnable(){
+      @Override
+      public void run() {
         // Waiting for player confirm receive order
         Input inputConfirm = new Input(PIN + "/turn/confirm");
         int countConfirm = 0;
