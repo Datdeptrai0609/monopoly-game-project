@@ -28,8 +28,8 @@ export default class GameScreen extends Component {
 
         this.state.client.on('connect', () => {
             // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
-            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"buy");
-            console.log(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"buy");
+            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/buy");
+            console.log(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/buy");
         });
         this.state.client.on('message', (topic, message) => {
             // message is Buffer
@@ -49,12 +49,12 @@ export default class GameScreen extends Component {
                 <View
                 style = {styles.choose}>
                     <TouchableOpacity
-                    style={styles.yes} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"buy"(), "1")}>
+                    style={styles.yes} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy"(), "1")}>
                         <Text
                         style={styles.roll}>YES</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.no} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"buy"(), "0")}>
+                        style={styles.no} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy"(), "0")}>
                         <Text
                         style={styles.roll}>NO</Text>
                     </TouchableOpacity>
