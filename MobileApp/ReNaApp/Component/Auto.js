@@ -14,6 +14,32 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class GameScreen extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state ={ 
+            choose: false,
+            PIN: '',
+            playerId: '',
+            turn: '',
+            client: mqtt.connect("ws://hcmiuiot.tech:8080")
+        }
+
+        this.state.client.on('connect', () => {
+            // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
+            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/bus");
+            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/festival");
+            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/jail");
+            this.state.client.subscribe(String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/sell");
+        });
+        this.state.client.on('message', (topic, message) => {
+            // message is Buffer
+            console.log(`[${topic}] ${message.toString()}`); 
+            //
+          });
+    }
+
     render() {
         return (
             <View
