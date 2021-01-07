@@ -44,6 +44,10 @@ export default class GameScreen extends Component {
             if (!err) {
             }
           });
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/chance", function (err) {
+            if (!err) {
+            }
+          });
           this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/sell", function (err) {
             if (!err) {
             }
@@ -53,10 +57,6 @@ export default class GameScreen extends Component {
             }
           });
           this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/bus", function (err) {
-            if (!err) {
-            }
-          });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "bus", function (err) {
             if (!err) {
             }
           });
