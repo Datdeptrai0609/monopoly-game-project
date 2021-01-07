@@ -37,7 +37,7 @@ export default class GameScreen extends Component {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "buy", function (err) {
+          this.state.client.subscribe(this.state.PIN + "gameplayP/" + this.state.playerId + "buy", function (err) {
             if (!err) {
             }
           });
@@ -72,9 +72,24 @@ export default class GameScreen extends Component {
               this.setState({showHide1: false, showHide2: true});
               console.log('your turn');
             }else{
-              this.setState({showHide1: false});
+              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false});
               Alert.alert('WAITING TO YOUR TURN');
             }
+        }
+        if ((topic == this.state.PIN + "gameplayP/" + this.state.playerId + "/buy")){
+            if(message.toString() == "0") {
+              this.setState({showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false})
+            }
+            if(message.toString() == "1") {
+              this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: true, showHide5: false })
+            }
+          if (message.toString() == "2") {
+            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true })
+          }
+          if(message.toString() == "3") {
+            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: false, showHide6: true })
+          }
+
         }
         // if topic == -> check msg, if msg == -> hanlde alert, publish message
       });
@@ -92,6 +107,16 @@ export default class GameScreen extends Component {
                 />}
               {this.state.showHide2 &&
               <Roll
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
+            {this.state.showHide3 &&
+              <Buy
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
+            {this.state.showHide4 &&
+              <Buy
                 PIN={this.state.PIN}
                 playerId={this.state.playerId}
               />}

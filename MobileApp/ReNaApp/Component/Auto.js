@@ -9,9 +9,9 @@ import {
     StatusBar,
     ImageBackground,
     BackHandler,
-    Alert
+    Alert,
+    TouchableOpacity
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class GameScreen extends Component {
 

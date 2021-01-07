@@ -6,12 +6,12 @@ import {
     ScrollView,
     View,
     Text,
+    TouchableOpacity,
     StatusBar,
     ImageBackground,
     BackHandler,
     Alert
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class GameScreen extends Component {
 
@@ -20,7 +20,6 @@ export default class GameScreen extends Component {
         super(props);
 
         this.state ={ 
-            choose: false,
             PIN: '',
             playerId: '',
             turn: '',
@@ -41,23 +40,33 @@ export default class GameScreen extends Component {
 
     send = () => {
         this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/dice","1");
+        console.log(this.props.PIN);
+        console.log(this.props.playerId);
+
         //handle
     }
     render() {
         return (
-            <View>
-                <Text
-                style = {styles.text}>PRESS TO ROLL A DICE</Text>
-                <View
-                style = {styles.btn}>
+
+            <View
+                // {/* <Text
+                // style = {styles.text}>PRESS TO ROLL A DICE</Text> */}
+                // {/* <View> */}
+                style = {styles.container}>
+                    
                     <TouchableOpacity
+                        style={styles.btn}
                         onPress = {() => this.send()}>
+                        <View>
+
                         <Text
                         style = {styles.roll}>ROLL</Text>
+                        </View>
                     </TouchableOpacity>
-
+                {/* </View> */}
                 </View>
-            </View>
+
+                
         )
     }
 }

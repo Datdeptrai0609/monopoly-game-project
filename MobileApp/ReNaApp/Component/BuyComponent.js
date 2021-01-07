@@ -9,9 +9,9 @@ import {
     StatusBar,
     ImageBackground,
     BackHandler,
+    TouchableOpacity,
     Alert
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class GameScreen extends Component {
 
@@ -45,16 +45,16 @@ export default class GameScreen extends Component {
             <View
             style = {styles.box}>
                 <Text
-                style = {styles.text}>BUY THIS LAND?</Text>
+                style = {styles.text}>BUY THIS ?</Text>
                 <View
                 style = {styles.choose}>
                     <TouchableOpacity
-                    style={styles.yes} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy"(), "1")}>
+                    style={styles.yes} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy", "1")}>
                         <Text
                         style={styles.roll}>YES</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.no} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy"(), "0")}>
+                        style={styles.no} onPress={() => this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy", "0")}>
                         <Text
                         style={styles.roll}>NO</Text>
                     </TouchableOpacity>
