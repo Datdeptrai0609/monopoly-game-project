@@ -85,7 +85,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems:'center',
         backgroundColor: 'red',
-        marginLeft:30
+        marginLeft:30,
+        borderWidth: 4,
+        borderColor: 'yellow'
     },
     roll: {
         color:'white',
