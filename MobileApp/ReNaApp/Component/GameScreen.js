@@ -64,6 +64,10 @@ export default class GameScreen extends Component {
             if (!err) {
             }
           });
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/select", function (err) {
+            if (!err) {
+            }
+          });
     });
 
     // Handle comming msg:
