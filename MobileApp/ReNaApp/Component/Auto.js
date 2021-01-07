@@ -45,7 +45,11 @@ export default class GameScreen extends Component {
             <View
                 style = {styles.container}>
                 <TouchableOpacity
-                style = {styles.yes}>
+                style = {styles.yes} onPress = {() => {
+                    this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy", "1");
+                    this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/chance", "1")
+                }
+                }>
                     <Text
                     style = {styles.text}>OK</Text>
                 </TouchableOpacity>
