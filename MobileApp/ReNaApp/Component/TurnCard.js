@@ -62,11 +62,8 @@ export default class TurnCard extends Component {
     log = () => {
         console.log("playerId:" + this.props.playerId);
         console.log("PIN:" +this.props.PIN);
-        this.state.client.on('connect', () => {
-            // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
             this.state.client.subscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             console.log(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
-        });
     }
 
     render() {
