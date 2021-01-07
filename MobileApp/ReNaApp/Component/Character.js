@@ -1,3 +1,4 @@
+import mqtt from 'mqtt/dist/mqtt';
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet,Image, ScrollView } from 'react-native'
 
@@ -42,19 +43,26 @@ class Character extends Component {
             },
             
         ],
+        PINNN: '0',
+        client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
     }
+
+
     // pass data from child to parent
-    sendBtnStatus = () => {
-        var check = false;
-        this.props.sendData(check);
+    sendBtnStatus = (id) => {
+        var data = {
+            check: false,
+            Id: id
+        };
+        this.props.sendData(data);
     }
 
-
-    setStatus =(index) => {
+    setStatus = (index, idChoose) => {
         let character = [...this.state.characters];//clone characters
         //set status for each item which chose in clone variable
         character.map((item) => {
-            (item.id == index) ? item.status = true : item.status = false;
+            (item.id == index || item.id == idChoose) ? item.status = true : item.status = false;
+            
         });
         // update for state
         this.setState({character});
@@ -71,8 +79,8 @@ class Character extends Component {
                             
                             key={item.id}
                             onPress = {() => {
-                                this.setStatus(item.id); 
-                                this.sendBtnStatus()
+                                this.setStatus(item.id,this.props.idChoose); 
+                                this.sendBtnStatus(item.id);
                             }}
                             style={item.status == true ? styles.characterBoxChose : styles.characterBox}>
                             <View style={styles.characContainer}><Image source={item.charac} /></View>

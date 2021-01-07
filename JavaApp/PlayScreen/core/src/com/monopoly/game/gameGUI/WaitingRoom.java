@@ -3,6 +3,7 @@ package com.monopoly.game.gameGUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -27,6 +28,10 @@ public class WaitingRoom implements Screen {
   private MonopolyGUI gui;
   private SpriteBatch sb;
   private BitmapFont pinDisplay;
+
+  // Music
+  private Sound clickSound;
+
   // playerId: 0 -> 5
   private int[] playerIdSwapped = new int[4];
   private int[] playerId = new int[4];
@@ -74,6 +79,7 @@ public class WaitingRoom implements Screen {
 
   @Override
   public void show() {
+    clickSound = Gdx.audio.newSound(Gdx.files.internal("music/click.ogg"));
     pinDisplay = new Word().word(150, Color.valueOf("#ac5288"), "NerkoOne-Regular.ttf");
 
     waitingRoomAtlas = new TextureAtlas("waitingRoom/items/WaitingRoom.txt");
@@ -203,7 +209,6 @@ public class WaitingRoom implements Screen {
         }
       }
     }).start();
-
   }
 
   // Function for render player character image
@@ -269,6 +274,7 @@ public class WaitingRoom implements Screen {
               (float) ((Gdx.graphics.getWidth() / 2 - renderWaitingRoom.getSpritesWidth(3) / 2 * 0.7)), 60, 0.7f, 0.7f);
           if (Gdx.input.isTouched()) {
             startBtnPressed = true;
+            clickSound.play();
           }
         }
       }
@@ -373,5 +379,7 @@ public class WaitingRoom implements Screen {
     font.dispose();
     waitingRoomAtlas.dispose();
     playerImage.dispose();
+    WelcomeScreen.waitingMusic.dispose();
+    clickSound.dispose();
   }
 }

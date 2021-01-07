@@ -1,6 +1,7 @@
 package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,8 @@ public class PropCardGUI implements CardGUI{
   private boolean isBought;
   private int position;
 
+  private Sound cardSound;
+
   public PropCardGUI(SpriteBatch sb) {
     this.sb = sb;
     bought = new Texture("card/bought.png");
@@ -24,6 +27,7 @@ public class PropCardGUI implements CardGUI{
     isBought = false;
     wordName = new Word().word(40, Color.BLACK, "NerkoOne-Regular.ttf");
     wordPrice = new Word().word(30, Color.BLACK, "NerkoOne-Regular.ttf");
+    cardSound = Gdx.audio.newSound(Gdx.files.internal("music/card.ogg"));
   }
 
   public void setContent(int pos, boolean bought, String name, String price) {
@@ -34,6 +38,9 @@ public class PropCardGUI implements CardGUI{
   }
 
   public void cardOn(boolean on) {
+    if (on) {
+      cardSound.play();
+    }
     cardOn = on;
   }
 
@@ -61,5 +68,9 @@ public class PropCardGUI implements CardGUI{
       wordName.draw(sb, name, x, y + propertyImg.getHeight()*6/7, propertyImg.getWidth(), Align.center, false);
       wordPrice.draw(sb, price, x + propertyImg.getWidth() * 0.65f, y + propertyImg.getHeight()*0.72f);
     }
+  }
+
+  public void dispose() {
+    cardSound.dispose();
   }
 }

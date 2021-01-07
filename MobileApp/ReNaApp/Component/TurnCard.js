@@ -70,7 +70,8 @@ export default class TurnCard extends Component {
                 animation ={animaIn}
                 style = {styles.cardContainer}>
                 {this.state.card.map((item,index) => (
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        key={item.id}>
                         <Animatable.Image
                             animation = {item.animation}
                             source ={item.status? item.chose:item.notChoose}

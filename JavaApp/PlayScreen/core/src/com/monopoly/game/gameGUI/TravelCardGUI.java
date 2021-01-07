@@ -1,6 +1,7 @@
 package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +16,7 @@ public class TravelCardGUI implements CardGUI {
   private boolean cardOn;
   private boolean isBought;
   private String name, price;
+  private Sound cardSound;
 
   public TravelCardGUI(SpriteBatch sb) {
     this.sb = sb;
@@ -24,6 +26,7 @@ public class TravelCardGUI implements CardGUI {
     isBought = false;
     wordName = new Word().word(40, Color.BLACK, "NerkoOne-Regular.ttf");
     wordPrice = new Word().word(30, Color.BLACK, "NerkoOne-Regular.ttf");
+    cardSound = Gdx.audio.newSound(Gdx.files.internal("music/card.ogg"));
   }
 
   public void setContent(boolean bought, String name, String price) {
@@ -33,6 +36,9 @@ public class TravelCardGUI implements CardGUI {
   }
 
   public void cardOn(boolean on) {
+    if (on) {
+      cardSound.play();
+    }
     cardOn = on;
   }
 
@@ -57,5 +63,9 @@ public class TravelCardGUI implements CardGUI {
       } wordName.draw(sb, name, x, y + travelImg.getHeight() * 2/3, travelImg.getWidth(), Align.center, false);
       wordPrice.draw(sb, price, x + travelImg.getWidth() * 0.7f, y + travelImg.getHeight() * 0.55f);
     }
+  }
+
+  public void dispose() {
+    cardSound.dispose();
   }
 }

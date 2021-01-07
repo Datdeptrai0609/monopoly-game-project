@@ -5,6 +5,8 @@ import {
     ImageBackground,
 } from 'react-native';
 
+import TurnCard from './TurnCard';
+
 export default class GameScreen extends Component {
 
     state = {
