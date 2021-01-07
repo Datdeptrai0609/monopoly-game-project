@@ -28,7 +28,7 @@ export default class Waiting extends Component {
     state= {
         show: false,// status show or hide waiting GIF
         move:false,//status for rout to next screen
-        client: mqtt.connect("ws://broker.hivemq.com:8000"),
+        client: mqtt.connect("ws://broker.hivemq:8000"),
         PIN:'',
     }
 
