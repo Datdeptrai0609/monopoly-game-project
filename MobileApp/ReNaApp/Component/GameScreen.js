@@ -4,6 +4,7 @@ import {
     StyleSheet,
     ImageBackground,
     Alert,
+    Vibration
 } from 'react-native';
 
 import TurnCard from './TurnCard';
@@ -33,6 +34,7 @@ export default class GameScreen extends Component {
 
         this.state.client.on('connect', () => {
             // Handle PIN!
+          
             console.log('connected');
           this.setState({ PIN: this.props.PIN, playerId: this.props.playerId })
 
@@ -76,8 +78,11 @@ export default class GameScreen extends Component {
         console.log(`[${topic}] ${message.toString()}`);
         if (topic == this.state.PIN+"/gameplayP/turn") {
             if (message.toString() == this.props.playerId) {
+              Vibration.vibrate(10);
+
               this.setState({ showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: true, showHide6: false});
               console.log('your turn');
+              Vibration.vibrate(10);
             }else{
               Alert.alert('WAITING TO YOUR TURN');
               this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false});

@@ -10,7 +10,8 @@ import {
     StatusBar,
     ImageBackground,
     BackHandler,
-    Alert
+    Alert,
+    Vibration
 } from 'react-native';
 
 export default class GameScreen extends Component {

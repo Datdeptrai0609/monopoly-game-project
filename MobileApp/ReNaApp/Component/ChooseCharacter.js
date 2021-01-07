@@ -7,6 +7,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Dimensions,
+    Vibration,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -31,6 +32,8 @@ export default class ChooseCharacter extends Component {
             this.state.client.on('connect', () => {
                 // Handle PIN!
                 console.log('character connected');
+                // Vibration.vibrate();
+                // Vibration.cancel();
                 this.setState({PIN: this.props.PIN});
                 this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
                 if (!err) {

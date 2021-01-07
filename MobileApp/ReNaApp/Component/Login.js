@@ -9,7 +9,8 @@ import {
     KeyboardAvoidingView,
     Alert,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Vibration
 } from 'react-native';
 
 //add animation lib
@@ -37,6 +38,7 @@ export default class Login extends Component {
         console.log(`[${topic}] ${message.toString()}`);
             if (message.toString() == "1") {
                 Actions.chooseCharacter({PIN: this.state.PIN});
+                // Vibration.vibrate();
                 this.state.client.unsubscribe("onConnect/" +this.state.PIN);
             } else {
                 Alert.alert('wrong PIN');
