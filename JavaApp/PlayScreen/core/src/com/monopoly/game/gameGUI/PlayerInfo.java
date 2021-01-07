@@ -1,6 +1,7 @@
 package com.monopoly.game.gameGUI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,6 +19,8 @@ public class PlayerInfo {
   private float xBackGround, yBackGround, xPlayer, yPlayer;
   private float scale;
 
+  private Sound moneyChargeSound;
+
   public PlayerInfo(int id, String name, int money, SpriteBatch sb) {
     this.id = id;
     this.name = name;
@@ -27,9 +30,14 @@ public class PlayerInfo {
     word = new Word().word(60, Color.WHITE, "NerkoOne-Regular.ttf");
     this.sb = sb;
     scale = 0.7f;
+
+    moneyChargeSound = Gdx.audio.newSound(Gdx.files.internal("music/moneySound.ogg"));
   }
 
   public void updateMoney(int money) {
+    if (money != this.money) {
+      moneyChargeSound.play(); 
+    }
     this.money = money;
   }
 
@@ -62,5 +70,9 @@ public class PlayerInfo {
     sb.draw(backGround, xBackGround, yBackGround, backGround.getWidth() * scale, backGround.getHeight() * scale);
     sb.draw(playerImg, xPlayer, yPlayer, playerImg.getWidth() * scale, playerImg.getHeight() * scale);
     word.draw(sb, String.format("$ %d", money), xBackGround, yBackGround + backGround.getWidth()*0.2f, backGround.getWidth()*scale, Align.center, false);
+  }
+
+  public void dispose() {
+    moneyChargeSound.dispose();
   }
 }
