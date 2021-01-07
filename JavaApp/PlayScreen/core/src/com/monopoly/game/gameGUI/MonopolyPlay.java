@@ -131,6 +131,9 @@ public class MonopolyPlay implements Screen {
       // Handle render and action at chance block
       private void handleChance(Monopoly.State state) {
         ChanceBlock chance = (ChanceBlock) state.board.getBoard()[state.current.position()];
+        try {
+          new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + state.current.getId() + "/chance", "1");
+        } catch (MqttException e) {}
         // Draw a card
         Card card = null;
         if (state.current.inputBool(WaitingRoom.PIN + "/gameplayM/" + state.current.getId() + "/chance")) {

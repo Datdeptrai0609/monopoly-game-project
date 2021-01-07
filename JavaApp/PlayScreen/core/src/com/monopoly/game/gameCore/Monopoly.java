@@ -214,9 +214,9 @@ public class Monopoly {
       }
     } else {
       // send to mqtt that don't have enough money to pay for rent
-      try {
-        new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "3");
-      } catch (MqttException e) {}
+      //try {
+        //new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "3");
+      //} catch (MqttException e) {}
       // receive and handle
       int remainCost = cost;
       while (true) {
