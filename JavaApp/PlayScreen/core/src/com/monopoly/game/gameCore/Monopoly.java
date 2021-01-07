@@ -1,9 +1,14 @@
 package com.monopoly.game.gameCore;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
+
+import com.monopoly.game.gameGUI.WaitingRoom;
+import com.monopoly.game.mqtt.Publish;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class Monopoly {
   private final Dice dice;
@@ -22,10 +27,10 @@ public class Monopoly {
   }
 
   // Handle each turn of each player
-  public void turn() {
+  public void turn(String topic) {
     System.out.println("It's " + state.current.name() + "'s turn");
     System.out.println("Are you ready to dice?");
-    if (state.current.inputBool()) {
+    if (state.current.inputBool(topic)) {
       // Start dice
       dice.roll();
       if (dice.getDouble()) {
@@ -115,9 +120,14 @@ public class Monopoly {
   }
 
   public void buyBlock(Player player, Block block) {
+    // Publish buy house to mqtt
+    try {
+      new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "0");
+    } catch (MqttException e) {}
+    // Receive and handle
     int cost = block.cost();
     System.out.println("Would you like to purchase " + block.name() + " for " + cost + " (Yes/No)?");
-    if (player.inputBool()) {
+    if (player.inputBool(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/buy")) {
       if (player.getMoney() >= cost) {
         player.excMoney(cost * -1);
         purchase(player, block);
@@ -140,8 +150,13 @@ public class Monopoly {
           System.out.println("You don't have enough money to build house in this property!");
           return;
         }
+        // Pulish to mqtt that player can build house here
+        try {
+          new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "1"); 
+        } catch (MqttException e) {}
+        // Receive and handle build house
         System.out.println("Would you like to build houses here?");
-        if (player.inputBool()) {
+        if (player.inputBool(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/buy")) {
           if (player.getMoney() < propsBlock.houseCost()) {
             System.out.println("You don't have enough money!");
           } else {
@@ -188,9 +203,21 @@ public class Monopoly {
     // Land on different player's property
     System.out.println("You have landed on " + block.name() + " and must pay " + cost + " in rent.");
     if (player.getMoney() >= cost) {
-      player.excMoney(cost * -1);
-      owner.excMoney(cost);
+      // send to mqtt that enough money to pay for rent
+      try {
+        new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "2");
+      } catch (MqttException e) {}
+      // receive and handle
+      if (player.inputBool(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/buy")) {
+        player.excMoney(cost * -1);
+        owner.excMoney(cost);
+      }
     } else {
+      // send to mqtt that don't have enough money to pay for rent
+      //try {
+        //new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/buy", "3");
+      //} catch (MqttException e) {}
+      // receive and handle
       int remainCost = cost;
       while (true) {
         remainCost = additionMoney(player, owner, remainCost, propsSelect);
@@ -297,8 +324,13 @@ public class Monopoly {
   // When a player lose game, change their money and property to owner if not
   // reset all property
   public void lose(Player player, Player owner) {
+    // Send lose to mqtt
+    try {
+      new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/lose", "1");
+    } catch (MqttException e) {}
     if (owner != null) {
       owner.excMoney(player.getMoney());
+      player.excMoney(-1 * player.getMoney());
       for (Block bl : player.properties()) {
         owner.addProperty(bl);
         bl.purchase(owner);
@@ -337,7 +369,10 @@ public class Monopoly {
 
   // Select the destination when in BusBlock
   public int busSelect(Player player) {
-    int busNum;
+    int busNum = new Random().nextInt(32);;
+    try {
+      new Publish().pub(WaitingRoom.PIN + "/gameplayP/" + player.getId() + "/bus", "1");
+    } catch (MqttException e) {}
     System.out.println("You can choose one block in this list:");
     for (Block bl : state.board.getBoard()) {
       if (bl instanceof BusBlock) {
@@ -346,13 +381,14 @@ public class Monopoly {
       System.out.println(bl.position() + ") " + bl.name());
     }
 
-    while (true) {
-      busNum = player.inputInt();
-      if (busNum >= 0 && busNum < state.board.size() && busNum != state.board.busPos()) {
-        break;
-      } else {
-        System.out.println("Please select valid block");
-      }
+    if (player.inputBool(WaitingRoom.PIN + "/gameplayM/" + player.getId() + "/bus")) {
+      
+      System.out.println("You destination is " + state.board.getBoard()[busNum].name());
+      //if (busNum >= 0 && busNum < state.board.size() && busNum != state.board.busPos()) {
+        //break;
+      //} else {
+        //System.out.println("Please select valid block");
+      //}
     }
     return busNum;
   }
@@ -366,24 +402,23 @@ public class Monopoly {
   // initialize player and random at the beginning of the game
   public void initialize(int[] playerId) throws IOException {
     // Convert array playerId to ArrayList to shuffle
-    ArrayList<Integer> playerIdList = new ArrayList<Integer>();
-    for (int id : playerId) {
-      playerIdList.add(id);
-    }
-    // Shuffle the list of playerId
-    java.util.Collections.shuffle(playerIdList);
-    int[] playerIdSwapped = new int[4];
-    int index = 0;
-    for (int id : playerIdList) {
-      playerIdSwapped[index] = id;
-      ++index;
-    }
-    for (int i = 0; i < playerIdSwapped.length; ++i) {
-      state.players.add(new Player(names[playerIdSwapped[i]]));
+    //ArrayList<Integer> playerIdList = new ArrayList<Integer>();
+    //for (int id : playerId) {
+      //playerIdList.add(id);
+    //}
+    //// Shuffle the list of playerId
+    //java.util.Collections.shuffle(playerIdList);
+    //int[] playerIdSwapped = new int[4];
+    //int index = 0;
+    //for (int id : playerIdList) {
+      //playerIdSwapped[index] = id;
+      //++index;
+    //}
+    for (int i = 0; i < playerId.length; ++i) {
+      state.players.add(new Player(names[playerId[i] - 1], playerId[i]));
     }
 
     printState();
-    //return playerIdSwapped;
   }
 
   // Method to print information each turn

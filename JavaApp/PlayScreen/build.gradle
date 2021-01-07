@@ -60,5 +60,6 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile fileTree(dir: "libs", include: "*.jar")
+        implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
     }
 }

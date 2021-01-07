@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HouseFlag {
-  SpriteBatch sb;
-  Texture house, flag;
+  private SpriteBatch sb;
+  private Texture house, flag;
 
   public HouseFlag(SpriteBatch sb, Texture house, Texture flag) {
     this.sb = sb;

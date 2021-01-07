@@ -22,5 +22,6 @@ public class MonopolyGUI extends Game {
   @Override
   public void dispose() {
     super.dispose();
+    System.exit(0);
   }
 }

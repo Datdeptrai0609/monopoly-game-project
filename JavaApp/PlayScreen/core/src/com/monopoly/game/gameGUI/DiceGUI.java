@@ -9,10 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class DiceGUI {
-  TextureAtlas diceAtlas;
-  TextureRegion diceRegion;
-  Animation<TextureRegion> dice;
-  SpriteBatch sb;
+  private TextureAtlas diceAtlas;
+  private Animation<TextureRegion> dice;
+  private SpriteBatch sb;
   private int diceVal;
   private boolean diceRoll;
   private float stateTime;

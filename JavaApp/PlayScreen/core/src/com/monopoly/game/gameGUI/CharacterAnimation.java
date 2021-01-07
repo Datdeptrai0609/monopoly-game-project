@@ -10,19 +10,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class CharacterAnimation {
-  SpriteBatch sb;
+  private SpriteBatch sb;
   // Animation for player animation
-  Animation<TextureRegion> walk;
-  Animation<TextureRegion> stand;
-  Animation<TextureRegion> jump;
-  Animation<TextureRegion> die;
-  TextureRegion animationFrame;
+  private Animation<TextureRegion> walk;
+  private Animation<TextureRegion> stand;
+  private Animation<TextureRegion> jump;
+  private Animation<TextureRegion> die;
+  private TextureRegion animationFrame;
   // Img for flag and house
-  HouseFlag houseFlag;
+  private HouseFlag houseFlag;
   //Texture flag, house;
 
   // Animation for arrow on the head
-  Animation<TextureRegion> arrow;  
+  private Animation<TextureRegion> arrow;  
 
   private Music footMusic;
 
@@ -48,6 +48,10 @@ public class CharacterAnimation {
     position = destination = 0;
     resetTime = true;
     arrow = new Animation<TextureRegion> (0.5f, new TextureAtlas("arrow.txt").getRegions());
+  }
+
+  public HouseFlag houseFlag() {
+    return houseFlag;
   }
 
   public float getWidth() {

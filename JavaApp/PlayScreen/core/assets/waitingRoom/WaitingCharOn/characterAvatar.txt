@@ -1,0 +1,47 @@
+characterAvatar.png
+size: 747, 1410
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+player1
+  rotate: false
+  xy: 412, 422
+  size: 321, 437
+  orig: 321, 437
+  offset: 0, 0
+  index: -1
+player2
+  rotate: false
+  xy: 1, 422
+  size: 409, 426
+  orig: 409, 426
+  offset: 0, 0
+  index: -1
+player3
+  rotate: false
+  xy: 1, 861
+  size: 290, 437
+  orig: 290, 437
+  offset: 0, 0
+  index: -1
+player4
+  rotate: false
+  xy: 293, 861
+  size: 368, 548
+  orig: 368, 548
+  offset: 0, 0
+  index: -1
+player5
+  rotate: false
+  xy: 416, 1
+  size: 330, 419
+  orig: 330, 419
+  offset: 0, 0
+  index: -1
+player6
+  rotate: false
+  xy: 1, 1
+  size: 413, 401
+  orig: 413, 401
+  offset: 0, 0
+  index: -1
