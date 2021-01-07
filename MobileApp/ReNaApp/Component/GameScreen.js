@@ -14,7 +14,7 @@ import Input from './Input'
 export default class GameScreen extends Component {
 
     state = {
-        client: mqtt.connect("ws://broker.hivemq:8000"),
+      client: mqtt.connect("ws://hcmiuiot.tech:8080"),
         PIN: "",
         playerId: "",
         showHide1: true,

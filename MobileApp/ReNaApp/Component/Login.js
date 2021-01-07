@@ -20,7 +20,7 @@ export default class Login extends Component {
     state = {
         placeholder: 'Game PIN',
         count: 0,
-        client: mqtt.connect("ws://broker.hivemq:8000"),
+        client: mqtt.connect("ws://hcmiuiot.tech:8080"),
         PIN: ''
     }
     
