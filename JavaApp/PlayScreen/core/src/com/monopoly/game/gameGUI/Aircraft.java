@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Aircraft {
-  private Texture rocketImg, planeImg;
+  private Texture rocketImg, planeImg, planeComebackImg;
   private Texture effect;
   private SpriteBatch sb;
   // private long launchTime, landTime;
   private long rocketTime, planeTime;
-  private boolean isLaunching, isLanding, planeStart;
+  private boolean isLaunching, isLanding, planeStart, planeComeback;
   private long rocketDuration, planeDuration;
   private float x, y;
   private float xPlane, yPlane;
@@ -19,12 +19,17 @@ public class Aircraft {
   private enum Status {
     LAUNCH, LAND
   };
+  private enum Plane {
+    START, COMEBACK;
+  }
 
+  private Plane planeStatus;
   private Status aircraftStatus;
 
   public Aircraft(SpriteBatch sb) {
     rocketImg = new Texture("aircraft/rocket.png");
     planeImg = new Texture("playScreenAssets/PlayerTwo/f52.png");
+    planeComebackImg = new Texture("playScreenAssets/PlayerTwo/f62.png");
     effect = new Texture("aircraft/effect.png");
     this.sb = sb;
     rocketDuration = Long.valueOf(10) * 1000000000;
@@ -33,7 +38,8 @@ public class Aircraft {
     y = Gdx.graphics.getHeight() * 0.4f;
     xPlane = yPlane = 0;
     rocketTime = planeTime = TimeUtils.nanoTime();
-    isLaunching = isLanding = planeStart = false;
+    isLaunching = isLanding = planeStart = planeComeback = false;
+    planeStatus = Plane.START;
     aircraftStatus = Status.LAUNCH;
   }
 
@@ -66,8 +72,17 @@ public class Aircraft {
       yPlane = (float) (0.55555 * xPlane);
       if (xPlane > Gdx.graphics.getWidth()) {
         planeStart = false;
+        planeStatus = Plane.COMEBACK;
         planeTime = TimeUtils.nanoTime();
-        xPlane = yPlane = 0;
+      }
+    } else if (planeComeback) {
+      sb.draw(planeComebackImg, xPlane, yPlane);
+      xPlane -= 600 * Gdx.graphics.getDeltaTime();
+      yPlane = (float) (0.55555 * xPlane);
+      if (xPlane < 0) {
+        planeComeback = false;
+        planeStatus = Plane.START;
+        planeTime = TimeUtils.nanoTime();
       }
     }
 
@@ -83,7 +98,14 @@ public class Aircraft {
       }
     }
     if (TimeUtils.nanoTime() - planeTime > planeDuration) {
-      planeStart = true;
+      switch (planeStatus) {
+        case START:
+          planeStart = true;
+          break;
+        case COMEBACK:
+          planeComeback = true;
+          break;
+      }
     }
   }
 }
