@@ -90,7 +90,7 @@ export default class GameScreen extends Component {
             this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
           }
         }
-        if(topic = this.state.PIN + "/gameplayP/"+this.state.playerId+"/select") {
+      if(topic = this.state.PIN + "/gameplayP/"+this.state.playerId+"/select" && message.toString() == "1") {
             this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: false, showHide6: true })
           }
         if((topic == this.state.PIN+"/gameplayP/"+this.state.playerId+"/change")) {
