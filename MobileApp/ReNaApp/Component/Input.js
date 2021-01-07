@@ -9,7 +9,8 @@ import {
     KeyboardAvoidingView,
     Alert,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    View
 } from 'react-native';
 
 //add animation lib
@@ -54,11 +55,8 @@ export default class Login extends Component {
     render() {
         return (
             //  {/* create containner  */}
-            
-                    <Animatable.View
-                        animation='fadeIn'
-                        delay={3000}
-                        style={styles.textInputView}>
+            <View
+            style = {styles.textInputView}>
                         <TextInput
                             onChangeText={text => this.setRoomNumber(text)}
                             value={this.state.PIN}
@@ -76,7 +74,8 @@ export default class Login extends Component {
                             <Text
                                 style={styles.TextStyle}>PRESS ME</Text>
                         </TouchableOpacity>
-                    </Animatable.View>
+
+            </View>
         )
     }
 }
@@ -118,9 +117,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textInputView: {
-        flex: 1.6,
+        flex: 1,
         // backgroundColor:'green',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     textInput: {
         backgroundColor: 'white',

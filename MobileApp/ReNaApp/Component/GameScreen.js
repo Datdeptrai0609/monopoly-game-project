@@ -9,6 +9,8 @@ import {
 import TurnCard from './TurnCard';
 import Roll from './Roll';
 import Buy from './BuyComponent';
+import Auto from './Auto';
+import Input from './Input'
 export default class GameScreen extends Component {
 
     state = {
@@ -20,6 +22,7 @@ export default class GameScreen extends Component {
         showHide3: false,
         showHide4: false,
         showHide5: false,
+        showHide6: false,
         status:""
     }
 
@@ -37,27 +40,27 @@ export default class GameScreen extends Component {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayP/" + this.state.playerId + "buy", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/buy", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "sell", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/sell", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "festival", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/festival", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "bus", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/bus", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "bus", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "bus", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "gameplayM/" + this.state.playerId + "lose", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/lose", function (err) {
             if (!err) {
             }
           });
@@ -76,21 +79,27 @@ export default class GameScreen extends Component {
               Alert.alert('WAITING TO YOUR TURN');
             }
         }
-        if ((topic == this.state.PIN + "gameplayP/" + this.state.playerId + "/buy")){
+        if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/buy")){
             if(message.toString() == "0") {
-              this.setState({showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false})
+              this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false})
             }
             if(message.toString() == "1") {
-              this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: true, showHide5: false })
+              this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: true, showHide5: false, showHide6: false })
             }
           if (message.toString() == "2") {
-            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true })
+            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
           }
-          if(message.toString() == "3") {
+        }
+        if(topic = this.state.PIN + "/gameplayP/"+this.state.playerId+"/select") {
             this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: false, showHide6: true })
           }
-
+        if((topic == this.state.PIN+"/gameplayP/"+this.state.playerId+"/change")) {
+          this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
         }
+      if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/jail")) {
+        this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false })
+      }
+
         // if topic == -> check msg, if msg == -> hanlde alert, publish message
       });
     };
@@ -120,6 +129,17 @@ export default class GameScreen extends Component {
                 PIN={this.state.PIN}
                 playerId={this.state.playerId}
               />}
+            {this.state.showHide5 &&
+              <Auto
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
+            {this.state.showHide6 &&
+              <Input
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
+
                 
             </ImageBackground>
         )
