@@ -32,7 +32,7 @@ export default class ChooseCharacter extends Component {
                 // Handle PIN!
                 console.log('character connected');
                 this.setState({PIN: this.props.PIN});
-              this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
+                this.state.client.subscribe(this.state.PIN+"/connect/order", function (err) {
                 if (!err) {
                 }
               });
@@ -65,7 +65,7 @@ export default class ChooseCharacter extends Component {
         console.log('sent');
         this.setState({click: 1})
         this.interval = setInterval(() => {
-            Actions.waiting({ PIN: this.state.PIN });
+            Actions.waiting({ PIN: this.state.PIN, playerId: this.state.playerId });
             this.setState({ move: true })//show GIF after 1.5s
         }, 1500);   
     }

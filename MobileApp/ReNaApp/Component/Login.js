@@ -29,21 +29,21 @@ export default class Login extends Component {
         this.state.client.on('connect', () => {
             // connect to broker
                 console.log('connected');
-    });
+        });
 
     // Handle comming msg:
     this.state.client.on('message', (topic, message) => {
         // message is Buffer
         console.log(`[${topic}] ${message.toString()}`);
-        if (message.toString() == "1") {
-            Actions.chooseCharacter({PIN: this.state.PIN});
-            this.state.client.unsubscribe("onConnect/" +this.state.PIN);
-        } else {
-            Alert.alert('wrong PIN');
-            this.setState({ PIN: '', count: 0 });
-        }
-      });
-};
+            if (message.toString() == "1") {
+                Actions.chooseCharacter({PIN: this.state.PIN});
+                this.state.client.unsubscribe("onConnect/" +this.state.PIN);
+            } else {
+                Alert.alert('wrong PIN');
+                this.setState({ PIN: '', count: 0 });
+            }
+        });
+    };
     //setPIN
     setRoomNumber = (text) => {
         this.setState({PIN: text});

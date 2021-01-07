@@ -55,8 +55,9 @@ export default class Waiting extends Component {
             console.log(`[${topic}] ${message.toString()}`);
             // Handle 6 btn: -------------------------------------------------------------------------------
             if (message.toString() == "1") {
-                Actions.GameScreen();
+                Actions.GameScreen({PIN: this.props.PIN, playerId: this.props.playerId});
             }
+            this.state.client.unsubscribe(this.state.PIN + "/connect/ready");
         });
                  // move to gameScreen if status of move is true
     }
