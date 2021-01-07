@@ -57,6 +57,9 @@ public class MonopolyPlay implements Screen {
   private Music playingMusic;
   private Sound congratulations, loseSound;
 
+  // Aircraft in background
+  //private Aircraft aircraft;
+
   public MonopolyPlay(MonopolyGUI gui, int[] playerId) {
     batch = gui.batch;
     this.playerId = playerId;
@@ -77,6 +80,9 @@ public class MonopolyPlay implements Screen {
 
     // Create boardScreen
     boardScreen = new GamePlay(batch);
+
+    //aircraft = new Aircraft(batch);
+
     // Create dice Animation
     dice = new DiceGUI(batch);
     // Create word object to draw word in game
@@ -453,6 +459,7 @@ public class MonopolyPlay implements Screen {
       renderHouse();
       // Render Player and dice
       renderPlayer();
+      //aircraft.render();
       dice.render();
       renderCard();
     }
