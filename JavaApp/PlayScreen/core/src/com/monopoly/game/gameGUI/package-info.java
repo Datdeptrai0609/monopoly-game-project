@@ -4,4 +4,4 @@
  *          Tran Tan Tai
  *          Nguyen Duc Anh Tai
 */
-package com.monopoly.game.GameGui;
+package com.monopoly.game.gameGUI;
