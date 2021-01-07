@@ -44,7 +44,7 @@ class Character extends Component {
             
         ],
         PINNN: '0',
-        client:  mqtt.connect("ws://hcmiuiot.tech:8080"),
+        client: mqtt.connect("ws://broker.hivemq:8000"),
     }
 
 

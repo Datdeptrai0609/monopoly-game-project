@@ -14,7 +14,7 @@ import Input from './Input'
 export default class GameScreen extends Component {
 
     state = {
-        client: mqtt.connect("ws://hcmiuiot.tech:8080"),
+        client: mqtt.connect("ws://broker.hivemq:8000"),
         PIN: "",
         playerId: "",
         showHide1: true,
@@ -75,8 +75,8 @@ export default class GameScreen extends Component {
               this.setState({ showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: true, showHide6: false});
               console.log('your turn');
             }else{
-              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false});
               Alert.alert('WAITING TO YOUR TURN');
+              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false});
             }
         }
         if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/buy")){

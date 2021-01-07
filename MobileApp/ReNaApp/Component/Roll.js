@@ -23,7 +23,7 @@ export default class GameScreen extends Component {
             PIN: '',
             playerId: '',
             turn: '',
-            client: mqtt.connect("ws://hcmiuiot.tech:8080")
+            client: mqtt.connect("ws://broker.hivemq:8000")
         }
 
         this.state.client.on('connect', () => {

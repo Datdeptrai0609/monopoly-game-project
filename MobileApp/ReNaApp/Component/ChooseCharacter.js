@@ -20,7 +20,7 @@ export default class ChooseCharacter extends Component {
             characterChooseAnimation: 'fadeIn', // set animation for choose character
             waitingAnimation: 'zoomIn',//animation for waiting image GIF
             move:false,
-            client: mqtt.connect("ws://hcmiuiot.tech:8080"),
+            client: mqtt.connect("ws://broker.hivemq:8000"),
             PIN: '',
             playerId: '',
             click:0,
