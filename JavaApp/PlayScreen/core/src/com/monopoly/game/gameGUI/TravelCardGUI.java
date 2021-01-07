@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
 public class TravelCardGUI implements CardGUI {
-  Texture bought; 
-  Texture travelImg;
-  SpriteBatch sb;
-  BitmapFont wordName, wordPrice;
+  private Texture bought; 
+  private Texture travelImg;
+  private SpriteBatch sb;
+  private BitmapFont wordName, wordPrice;
   private boolean cardOn;
   private boolean isBought;
   private String name, price;

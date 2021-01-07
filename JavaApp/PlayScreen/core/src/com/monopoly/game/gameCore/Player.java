@@ -6,16 +6,17 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Player {
-  private final Input input;
+  //private final Input input;
   private final Queue<Block> properties;
   private final String playerName;
+  private final int id;
   private int money;
   private int position;
   private boolean inJail;
   private ArrayList<TravelBlock> travelList;
 
-  public Player(String playerName) throws IOException {
-    input = new Input();
+  public Player(String playerName, int id) throws IOException {
+    //input = new Input();
     // Read config.ini file and get player's money
     ReadIni ini = new ReadIni();
     money = ini.getNumValue("player", "money");
@@ -24,6 +25,7 @@ public class Player {
     position = 0;
     this.playerName = playerName;
     inJail = false;
+    this.id = id;
   }
 
   // Add property when have new property
@@ -126,15 +128,25 @@ public class Player {
   }
 
   // Handle input in game
-  public boolean inputBool() {
-    return input.inputBool();
+  public boolean inputBool(String topic) {
+    Input input = new Input(topic);
+    boolean result = input.inputBool();
+    input.getSubscribe().disconnect();
+    return result;
   }
 
-  public int inputInt() {
-    return input.inputInt();
+  public int inputInt(String topic) {
+    Input input = new Input(topic);
+    int result = input.inputInt();
+    input.getSubscribe().disconnect();
+    return result;
   }
 
   public String toString() {
     return playerName;
+  }
+
+  public String getId() {
+    return Integer.toString(id);
   }
 }
