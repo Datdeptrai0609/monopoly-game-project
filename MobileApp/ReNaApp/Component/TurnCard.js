@@ -33,25 +33,25 @@ export default class TurnCard extends Component {
             if (message.toString() == '1') {
                 choose = require(`../img/background/TurnCard1Chose.png`)
                 disable = true;
-                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", "1");
+                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", String(this.props.playerId));
                 this.state.client.unsubscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             }
             if (message.toString() == '2') {
                 choose = require(`../img/background/TurnCard2Chose.png`)
                 disable = true;
-                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", "1");
+                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", String(this.props.playerId));
                 this.state.client.unsubscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             }
             if (message.toString() == '3') {
                 choose = require(`../img/background/TurnCard3Chose.png`)
                 disable = true;
-                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", "1");
+                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", String(this.props.playerId));
                 this.state.client.unsubscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             }
             if (message.toString() == '4') {
                 choose = require(`../img/background/TurnCard4Chose.png`)
                 disable = true;
-                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", "1");
+                this.state.client.publish(String(this.props.PIN) + "/turn/confirm", String(this.props.playerId));
                 this.state.client.unsubscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             }
           });
