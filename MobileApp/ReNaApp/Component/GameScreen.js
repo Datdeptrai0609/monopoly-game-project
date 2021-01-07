@@ -72,10 +72,10 @@ export default class GameScreen extends Component {
         console.log(`[${topic}] ${message.toString()}`);
         if (topic == this.state.PIN+"/gameplayP/turn") {
             if (message.toString() == this.props.playerId) {
-              this.setState({showHide1: false, showHide2: true});
+              this.setState({ showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: true, showHide6: false});
               console.log('your turn');
             }else{
-              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false});
+              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false});
               Alert.alert('WAITING TO YOUR TURN');
             }
         }
