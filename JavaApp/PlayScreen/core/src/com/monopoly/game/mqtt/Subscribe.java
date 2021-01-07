@@ -14,9 +14,10 @@ public class Subscribe extends CreateClient {
   }
 
   CreateClient onConnect = new CreateClient();
-public void start(String topic) throws MqttException {
-    //callBack.CallBack(onConnect.client);
-    onConnect.client.setCallback(new MqttCallback(){
+
+  public void start(String topic) throws MqttException {
+    // callBack.CallBack(onConnect.client);
+    onConnect.client.setCallback(new MqttCallback() {
 
       @Override
       public void connectionLost(Throwable cause) { // Called when the client lost the connection to the broker
@@ -51,6 +52,7 @@ public void start(String topic) throws MqttException {
   public void disconnect() {
     try {
       onConnect.client.disconnect();
-    } catch (MqttException e) {}
+    } catch (MqttException e) {
+    }
   }
 }

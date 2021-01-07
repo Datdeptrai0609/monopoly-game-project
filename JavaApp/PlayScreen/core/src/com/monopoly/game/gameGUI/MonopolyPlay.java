@@ -236,8 +236,8 @@ public class MonopolyPlay implements Screen {
         Monopoly.State state = monopoly.getState();
         board = state.board.getBoard();
         boardSprite = boardScreen.boardSprite();
+        listOfPlayers = state.players;
         while (state.players.size() > 1) {
-          listOfPlayers = state.players;
           state.current = state.players.peek();
           // Pass the current player who is playing
           currentPlayer = monopoly.getState().current.name();

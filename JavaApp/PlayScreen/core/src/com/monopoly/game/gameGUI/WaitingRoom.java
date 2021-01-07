@@ -146,17 +146,55 @@ public class WaitingRoom implements Screen {
         }
 
         while (true) {
+          boolean startNewThread = true;
+          if (startBtnPressed && startNewThread) {
+            try {
+              new Publish().pub(PIN + "/connect/ready", "1");
+            } catch (MqttException e) {}
+            startNewThread = false;
+            // Confirm to play game thread -----------------------------
+            new Thread(new Runnable(){
+              @Override
+              public void run() {
+                // Waiting for player confirm receive order
+                Input inputConfirm = new Input(PIN + "/turn/confirm");
+                int[] tmpIdList = new int[playerIdSwapped.length];
+                int countConfirm = 0;
+                boolean check = false;
+                while (countConfirm < playerIdSwapped.length) {
+                  int inputInt = inputConfirm.inputInt();
+                  for (int id : tmpIdList) {
+                    if (id == inputInt) {
+                      check = false;
+                      break;
+                    } else {
+                      check = true;
+                    }
+                  }
+                  if (check) {
+                    tmpIdList[countConfirm] = inputInt;
+                    countConfirm++;
+                  }
+                }
+                inputConfirm.getSubscribe().disconnect();
+                startGame = true;
+              }
+            }).start();
+          }
+          // ----------------------------------------------------------
+
           if (startBtnPressed) {
             // Publish press button and player order to mqtt
             try {
-              new Publish().pub(PIN + "/connect/ready", "1");
+              Thread.sleep(1500);
+            } catch (InterruptedException e) {}
+            while (!startGame) {
               for (int k = 0; k < playerIdSwapped.length; k++) {
                 try {
-                  Thread.sleep(1500);
-                } catch (InterruptedException e) {}
-                new Publish().pub(PIN + "/connect/order/" + playerIdSwapped[k], Integer.toString(k + 1));
+                  new Publish().pub(PIN + "/connect/order/" + playerIdSwapped[k], Integer.toString(k + 1));
+                } catch (MqttException e) {}
               }
-            } catch (MqttException e) {}
+            }
             break;
           } 
           try {
@@ -166,22 +204,6 @@ public class WaitingRoom implements Screen {
       }
     }).start();
 
-    // Confirm to play game thread
-    new Thread(new Runnable(){
-      @Override
-      public void run() {
-        // Waiting for player confirm receive order
-        Input inputConfirm = new Input(PIN + "/turn/confirm");
-        int countConfirm = 0;
-        while (countConfirm < playerIdSwapped.length) {
-          if (inputConfirm.inputBool()) {
-            countConfirm++;
-          }
-        }
-        inputConfirm.getSubscribe().disconnect();
-        startGame = true;
-      }
-    }).start();
   }
 
   // Function for render player character image
