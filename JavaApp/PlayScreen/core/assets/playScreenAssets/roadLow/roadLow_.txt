@@ -1,0 +1,12 @@
+roadLow_.png
+size: 662, 404
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+road_Low
+  rotate: false
+  xy: 1, 1
+  size: 660, 402
+  orig: 670, 571
+  offset: 5, 84
+  index: -1
