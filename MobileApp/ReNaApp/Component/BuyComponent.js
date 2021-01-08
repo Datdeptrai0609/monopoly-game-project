@@ -45,7 +45,7 @@ export default class GameScreen extends Component {
             <View
             style = {styles.box}>
                 <Text
-                style = {styles.text}>BUY THIS ?</Text>
+                style = {styles.text}>YES or NO ?</Text>
                 <View
                 style = {styles.choose}>
                     <TouchableOpacity

@@ -50,31 +50,31 @@ export default class GameScreen extends Component {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/sell", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/sell", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/festival", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/festival", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/bus", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/bus", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/lose", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/lose", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/select", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/select", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/tax", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/tax", function (err) {
             if (!err) {
             }
           });
-          this.state.client.subscribe(this.state.PIN + "/gameplayM/" + this.state.playerId + "/jail", function (err) {
+          this.state.client.subscribe(this.state.PIN + "/gameplayP/" + this.state.playerId + "/jail", function (err) {
             if (!err) {
             }
           });
