@@ -19,7 +19,7 @@ import { Actions } from 'react-native-router-flux';
 
 export default class Login extends Component {
     state = {
-        placeholder: 'Game PIN',
+        placeholder: 'Enter Number',
         count: 0,
         client: mqtt.connect("ws://hcmiuiot.tech:8080"),
         input: ''
@@ -44,11 +44,7 @@ export default class Login extends Component {
     }
     //when press button
     onPressBtn = () => {
-        this.state.client.on('message', (topic, message) => {
-            if (topic == String(this.props.PIN) + "/gameplayP/" + String(this.props.playerId)+"/select") {
                 this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/select", this.state.input)
-            }
-        });
     }
 
 
