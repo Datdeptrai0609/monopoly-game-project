@@ -5,7 +5,8 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ImageBackground
+    ImageBackground,
+    Vibration
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -23,6 +24,8 @@ export default class TurnCard extends Component {
         }
 
         this.state.client.on('connect', () => {
+            Vibration.vibrate(10);
+
             // this.setState({ PIN: this.props.PIN, playerId: this.props.playerId });
             this.state.client.subscribe(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));
             console.log(String(this.props.PIN) + "/connect/order/" + String(this.props.playerId));

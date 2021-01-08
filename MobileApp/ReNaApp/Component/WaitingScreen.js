@@ -11,7 +11,7 @@ import {
     Image,
     Dimensions,
     BackHandler,
-    Alert
+    Alert,
 } from 'react-native';
 
 import {

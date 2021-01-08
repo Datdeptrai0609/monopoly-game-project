@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontSize: 30,
         textAlign: 'center',
-        paddingLeft: 10,
         paddingBottom: 20,
         color: 'white',
         fontWeight: 'bold'
