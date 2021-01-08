@@ -50,7 +50,7 @@ public class GamePlay {
   private int SPEED = 0;
 
   // Aircraft in background
-  private Aircraft aircraft;
+  //private Aircraft aircraft;
 
   // Constructor:
   public GamePlay(SpriteBatch sb) {
@@ -74,7 +74,7 @@ public class GamePlay {
     characterAtlas = new TextureAtlas("playScreenAssets/Character/Character.txt");
     kAtlas = new TextureAtlas("playScreenAssets/Character/K.txt");
 
-    aircraft = new Aircraft(sb);
+    //aircraft = new Aircraft(sb);
   }
 
   // Render game play
@@ -341,7 +341,7 @@ public class GamePlay {
     renderPlayerTwoArea();
     renderPlayerFourArea();
     renderThings();
-    aircraft.render();
+    //aircraft.render();
     //renderCharacterArea();
     SPEED++;
   }
