@@ -434,12 +434,17 @@ public class MonopolyPlay implements Screen {
 
   private void renderInfo() {
     for (PlayerInfo info : listOfInfos) {
+      boolean checkLose = true;
       if (info != null) {
         for (Player player : listOfPlayers) {
           if (player.name().equals(info.getName())) {
             info.updateMoney(player.getMoney());
+            checkLose = false;
             break;
           }
+        }
+        if (checkLose) {
+          info.updateMoney(0);
         }
         info.render();
       }
