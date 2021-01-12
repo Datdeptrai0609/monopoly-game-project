@@ -60,7 +60,8 @@ export default class GameScreen extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.no} onPress={() => {this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/buy", "0");
-                        this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/jail", "0")
+                        this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/jail", "0");
+                        this.state.client.publish(String(this.props.PIN) + "/gameplayM/" + String(this.props.playerId)+"/dice", "1");
                         }}>
                         <Text
                         style={styles.roll}>NO</Text>
