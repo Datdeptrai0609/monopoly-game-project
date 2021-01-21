@@ -45,7 +45,7 @@ export default class GameScreen extends Component {
             <View
             style = {styles.box}>
                 <Text
-                style = {styles.text}>YES or NO ?</Text>
+                style = {styles.text}>Your Choice?</Text>
                 <View
                 style = {styles.choose}>
                     <TouchableOpacity
@@ -86,24 +86,24 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     yes:{
-        backgroundColor: 'green',
+        backgroundColor: '#0AB689',
         padding: 10,
-        paddingLeft: 30,
-        paddingRight:30,
-        borderRadius:10
+        paddingLeft: 26,
+        paddingRight: 26,
+        borderRadius:22
     },
     no: {
-        backgroundColor: 'red',
+        backgroundColor: '#CD3B3E',
         padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        borderRadius: 10
+        paddingLeft: 33,
+        paddingRight: 33,
+        borderRadius: 23
     },
     box: {
         borderColor: 'white',
         backgroundColor:'white',
-        padding:30,
-        borderRadius:20
+        padding:55,
+        borderRadius:25,
     },
      text: {
         fontStyle: 'italic',

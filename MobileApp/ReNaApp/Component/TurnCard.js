@@ -75,7 +75,7 @@ export default class TurnCard extends Component {
             style ={styles.container}>
                 <Text
                     style={styles.text}>
-                   L E T   S E E     Y O U R    T U R N !
+                   YOUR TURN!
                 </Text>
         <TouchableOpacity
             disabled = {disable}
@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     text: {
-        fontStyle: 'italic',
-        fontSize: 20,
+        // fontStyle: 'italic',
+        fontSize: 30,
         textAlign:'center',
         paddingLeft:10,
         paddingBottom:20,
-        color: 'black',
-        fontWeight: 'bold'
+        color: 'white',
+        fontWeight: 'bold',
     },
 })

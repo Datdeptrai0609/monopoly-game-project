@@ -61,7 +61,7 @@ export default class GameScreen extends Component {
                         <View>
 
                         <Text
-                        style = {styles.roll}>ROLL</Text>
+                        style = {styles.roll}>ROLL THE DICE</Text>
                         </View>
                     </TouchableOpacity>
                 {/* </View> */}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }, text: {
         fontStyle: 'italic',
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'center',
         paddingLeft: 10,
         paddingBottom: 20,
@@ -88,21 +88,21 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     btn: {
-        width: 180,
-        height:180,
-        borderRadius: 100,
+        width: 255,
+        height:255,
+        borderRadius: 150,
         alignContent: 'center',
         justifyContent: 'center',
         alignItems:'center',
-        backgroundColor: 'red',
+        backgroundColor: '#1AA1EC',
         marginLeft:30,
-        borderWidth: 4,
-        borderColor: 'yellow'
+        borderWidth: 2,
+        borderColor: '#1163BA'
     },
     roll: {
         color:'white',
         fontWeight:'bold',
-        fontSize: 20
+        fontSize: 25
     }
 },
 )

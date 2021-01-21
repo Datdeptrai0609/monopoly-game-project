@@ -51,7 +51,7 @@ export default class GameScreen extends Component {
                 }
                 }>
                     <Text
-                    style = {styles.text}>OK</Text>
+                    style = {styles.text}>I Got It!</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -72,16 +72,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     yes: {
-        backgroundColor: 'green',
+        backgroundColor: '#1C8ECE',
         padding: 30,
-        paddingLeft: 50,
-        paddingRight: 50,
-        borderRadius: 20
+        paddingTop: 42,
+        paddingLeft: 70,
+        paddingRight: 70,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#1673A6',
     },
     
     text: {
         fontStyle: 'italic',
-        fontSize: 30,
+        fontSize: 37,
         textAlign: 'center',
         paddingBottom: 20,
         color: 'white',

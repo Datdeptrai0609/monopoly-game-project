@@ -11,7 +11,8 @@ import TurnCard from './TurnCard';
 import Roll from './Roll';
 import Buy from './BuyComponent';
 import Auto from './Auto';
-import Input from './Input'
+import Input from './Input';
+import NotTurn from './NotTurn';
 export default class GameScreen extends Component {
 
     state = {
@@ -24,6 +25,7 @@ export default class GameScreen extends Component {
         showHide4: false,
         showHide5: false,
         showHide6: false,
+        showHide7: false,
         status:""
     }
 
@@ -88,36 +90,37 @@ export default class GameScreen extends Component {
             if (message.toString() == this.props.playerId) {
               Vibration.vibrate(10);
 
-              this.setState({ showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: true, showHide6: false});
+              this.setState({ showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: true, showHide6: false, showHide7: false});
               console.log('your turn');
               Vibration.vibrate(10);
             }else{
-              Alert.alert('WAITING TO YOUR TURN');
-              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false});
+              // change here: alert to screen
+              // Alert.alert('WAITING TO YOUR TURN');
+              this.setState({showHide1: false, showHide3: false, showHide4: false, showHide5: false, showHide2: false, showHide6: false, showHide7: true});
             }
         }
         if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/buy")){
             if(message.toString() == "0") {
-              this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false})
+              this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false, showHide7: false})
             }
             if(message.toString() == "1") {
-              this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: true, showHide5: false, showHide6: false })
+              this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: true, showHide5: false, showHide6: false, showHide7: false})
             }
           if (message.toString() == "2") {
-            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
+            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false, showHide7: false})
           }
         } else 
       if(topic == this.state.PIN + "/gameplayP/"+this.state.playerId+"/select" && message.toString() == "1") {
-            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: false, showHide6: true })
+            this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: false, showHide6: true, showHide7: false})
           }
         if((topic == this.state.PIN+"/gameplayP/"+this.state.playerId+"/chance")) {
-          this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
+          this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false, showHide7: false})
         }
         if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/jail")) {
-          this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false })
+          this.setState({ showHide1: false, showHide2: false, showHide3: true, showHide4: false, showHide5: false, showHide6: false, showHide7: false})
         }
         if ((topic == this.state.PIN + "/gameplayP/" + this.state.playerId + "/tax")) {
-          this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false })
+          this.setState({ showHide1: false, showHide2: false, showHide3: false, showHide4: false, showHide5: true, showHide6: false, showHide7: false})
         }
 
         // if topic == -> check msg, if msg == -> hanlde alert, publish message
@@ -156,6 +159,11 @@ export default class GameScreen extends Component {
               />}
             {this.state.showHide6 &&
               <Input
+                PIN={this.state.PIN}
+                playerId={this.state.playerId}
+              />}
+            {this.state.showHide7 && 
+              <NotTurn
                 PIN={this.state.PIN}
                 playerId={this.state.playerId}
               />}
