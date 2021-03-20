@@ -45,7 +45,7 @@ To connect and handling the game, you must launch Mobile application in Mobile A
 
     cd MobileApp
 
-Then you see two folder ReNaApp and monopoly design
+Then you see two folder ReNaApp and monopoly design.
 
 
 After that:
