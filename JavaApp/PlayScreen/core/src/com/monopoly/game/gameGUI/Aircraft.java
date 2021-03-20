@@ -32,8 +32,8 @@ public class Aircraft {
     planeComebackImg = new Texture("playScreenAssets/PlayerTwo/f62.png");
     effect = new Texture("aircraft/effect.png");
     this.sb = sb;
-    rocketDuration = Long.valueOf(25) * 1000000000;
-    planeDuration = Long.valueOf(30) * 1000000000;
+    rocketDuration = Long.valueOf(20) * 1000000000;
+    planeDuration = Long.valueOf(25) * 1000000000;
     x = Gdx.graphics.getWidth() * 0.4f;
     y = Gdx.graphics.getHeight() * 0.4f;
     xPlane = yPlane = 0;

@@ -465,8 +465,8 @@ public class MonopolyPlay implements Screen {
       renderHouse();
       // Render Player and dice
       renderPlayer();
-      aircraft.render();
       dice.render();
+      aircraft.render();
       renderCard();
     }
     batch.end();
