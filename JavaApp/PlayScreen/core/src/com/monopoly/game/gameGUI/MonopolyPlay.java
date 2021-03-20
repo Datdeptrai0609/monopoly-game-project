@@ -70,6 +70,7 @@ public class MonopolyPlay implements Screen {
   public void show() {
     // Setup music
     playingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/PlayingMusic.mp3"));
+    playingMusic.setVolume(0.3f);
     playingMusic.setLooping(true);
     playingMusic.play();
     congratulations = Gdx.audio.newSound(Gdx.files.internal("music/congratulations.ogg"));
@@ -464,9 +465,9 @@ public class MonopolyPlay implements Screen {
       renderHouse();
       // Render Player and dice
       renderPlayer();
-      aircraft.render();
       dice.render();
       renderCard();
+      aircraft.render();
     }
     batch.end();
   }

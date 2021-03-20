@@ -5,7 +5,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class CreateClient {
 
-  private final String BROKER = "ws://hcmiuiot.tech:8080";
+  private final String BROKER = "ws://68.183.181.67:8080";
 
   // Creating a client object
   public MqttClient client = new MqttClient(BROKER, // URI
